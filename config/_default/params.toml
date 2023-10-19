@@ -6,7 +6,7 @@ favicon = "/favicon.png"
 
 [footer]
 since = 2023
-customText = '<a href="https://beian.miit.gov.cn/">京ICP备2023026735号-1</a>'
+customText = '<a href="https://beian.miit.gov.cn/">京ICP备2023026735号-1</a><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502053732">  <img src="https://beian.mps.gov.cn/web/assets/logo01.6189a29f.png" style="height:1em;">京公网安备11010502053732号</a>'
 
 
 [dateFormat]

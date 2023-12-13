@@ -8,7 +8,6 @@ math:
 license:
 hidden: false
 comments: true
-draft: true
 ---
 
 Hexo 很好,但是我不太懂它的模板语法,而且我懒,所以经过五分钟的调研我选择了 [Gridea](https://github.com/getgridea/gridea) 作为博客的框架,然后从里面找了个顺眼的主题

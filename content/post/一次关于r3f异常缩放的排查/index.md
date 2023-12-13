@@ -69,3 +69,4 @@ if (state.current.element instanceof HTMLElement && offsetSize) {
 - [react-use-measure](https://github.com/pmndrs/react-use-measure/blob/8639e5a93d60930159dc83743780ce4787fe90bb/src/web/index.ts#L81-L109)
 - [MDN - Element.getBoundingClientRect()](https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect)
 - [MDN - HTMLElement.offsetHeight](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/offsetHeight)
+- [Pixiv - ガケの国の隠れ家](https://www.pixiv.net/artworks/112687098)

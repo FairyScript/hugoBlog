@@ -1,14 +1,12 @@
 ---
 title: 'Valtio 笔记其一：正交的状态管理'
 date: 2022-02-25 03:01:35
-tags: []
-published: true
-hideInList: false
-feature: https://s6.jpg.cm/2022/02/25/LgeuwS.jpg
-isTop: false
+image: cover.webp
+tags:
+  - Valtio
+  - React
+  - 状态管理
 ---
-
-![https://twitter.com/cbaohltred/status/1469072112270802944](https://s6.jpg.cm/2022/02/25/LgeuwS.jpg)
 
 研究了两天，尝试用 Valtio 重构之前的一个项目，有了一些收获
 

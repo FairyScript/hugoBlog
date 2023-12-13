@@ -1,14 +1,18 @@
 ---
-title: "React生态观察 2023年12月篇"
-description: 
+title: 'React生态观察 2023年12月篇'
+description:
 date: 2023-12-13T17:15:52+08:00
 slug: a2d31c0e
-image: 
-math: 
-license: 
+image:
+math:
+license:
+categories:
+  - 技术笔记
+tags:
+  - React
+  - Typescript
 hidden: false
 comments: true
-draft: true
 ---
 
 ## zod
@@ -17,5 +21,5 @@ draft: true
 
 ## Biome
 
-[Biome](https://github.com/biomejs/biome) 一个集成了类型检查 + 格式化的代码审查工具. 特色是用 rust 写的所以速度飞快. 但目前对规则的支持还不足以满足我项目的需求. 
+[Biome](https://github.com/biomejs/biome) 一个集成了类型检查 + 格式化的代码审查工具. 特色是用 rust 写的所以速度飞快. 但目前对规则的支持还不足以满足我项目的需求.
 观望中.

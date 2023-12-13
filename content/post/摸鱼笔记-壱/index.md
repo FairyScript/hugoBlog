@@ -8,7 +8,6 @@ math:
 license:
 hidden: false
 comments: true
-draft: true
 categories:
   - 杂谈
 tag:
@@ -24,4 +23,3 @@ tag:
 `zod` 是一个蛮有意思的类型检查库, 但对于 func type 的检查还是不够令人满意,目前还在研究中.
 
 冬天到了,最近睡觉很难睡醒,感觉比夏天时候更加嗜睡了.
-

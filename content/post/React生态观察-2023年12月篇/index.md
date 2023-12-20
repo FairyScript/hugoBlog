@@ -23,3 +23,7 @@ comments: true
 
 [Biome](https://github.com/biomejs/biome) 一个集成了类型检查 + 格式化的代码审查工具. 特色是用 rust 写的所以速度飞快. 但目前对规则的支持还不足以满足我项目的需求.
 观望中.
+
+### 2023-12-18 更新
+
+最近发现了一个类似的工具 [oxc](https://github.com/oxc-project/oxc). 同样加入关注列表.

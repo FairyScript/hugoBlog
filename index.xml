@@ -1,0 +1,1918 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>千木岛</title><link>https://queb.fun/</link><description>Recent content on 千木岛</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Mon, 18 Dec 2023 14:17:01 +0800</lastBuildDate><atom:link href="https://queb.fun/index.xml" rel="self" type="application/rss+xml"/><item><title>谨慎使用react属性注入</title><link>https://queb.fun/p/86d911df/</link><pubDate>Mon, 18 Dec 2023 14:17:01 +0800</pubDate><guid>https://queb.fun/p/86d911df/</guid><description>&lt;img src="https://queb.fun/p/86d911df/cover.webp" alt="Featured image of post 谨慎使用react属性注入" />&lt;h3 id="跑题预警">跑题预警&lt;/h3>
+&lt;p>虽然这是一篇关于 &lt;code>react cloneChildren&lt;/code> 的文章,但我会插入&lt;strong>大量&lt;/strong>上下文来说明为什么我选择使用了这个功能, 又写了篇文章说明需要谨慎使用的原因. 实际上该主题占用全文篇幅约 &lt;strong>10%&lt;/strong>. 请酌情阅读~&lt;/p>
+&lt;hr>
+&lt;h3 id="起因">起因&lt;/h3>
+&lt;p>最近在公司的项目中遇到了一个这样的场景: 需求编写一个无头的 tab 组件,其中作为 &lt;code>tabItem&lt;/code> 可以接受任意的 &lt;code>Component&lt;/code> 作为子项,参数又外部控制&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-jsx" data-lang="jsx">&lt;span class="line">&lt;span class="cl">&lt;span class="kr">const&lt;/span> &lt;span class="nx">SomeTab&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">()&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kr">const&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="nx">active&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">setActive&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">useState&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">0&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">TabList&lt;/span> &lt;span class="na">active&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="nx">active&lt;/span>&lt;span class="p">}&lt;/span> &lt;span class="na">setActive&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="nx">setActive&lt;/span>&lt;span class="p">}&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">TabItem&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">CustomComp&lt;/span> &lt;span class="p">/&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">TabItem&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">TabItem&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">CustomComp&lt;/span> &lt;span class="p">/&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">TabItem&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">TabItem&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">CustomComp&lt;/span> &lt;span class="p">/&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">TabItem&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">TabList&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>然后在我的用例当中,实际上我不需要 item 组件有过高的业务复杂度,仅需要能根据状态切换显示就可以了. 于是我进行约定: 自定义组件可以接受某个 &amp;lsquo;active&amp;rsquo; 的我的第一版代码如下&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-tsx" data-lang="tsx">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">//定义组件props类型 active 与 setActive 作为 context 传递, 剩余props 透传给内部 div 容器
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kr">interface&lt;/span> &lt;span class="nx">ITabContext&lt;/span>&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">T&lt;/span> &lt;span class="na">extends&lt;/span> &lt;span class="na">string&lt;/span>&lt;span class="p">&amp;gt;&lt;/span> &lt;span class="kr">extends&lt;/span> &lt;span class="nx">HTMLAttributes&lt;/span>&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">HTMLDivElement&lt;/span>&lt;span class="p">&amp;gt;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">active&lt;/span>: &lt;span class="kt">T&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">setActive&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">active&lt;/span>: &lt;span class="kt">T&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="k">void&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kr">const&lt;/span> &lt;span class="nx">TabContext&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">createContext&lt;/span>&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">ITabContext&lt;/span>&lt;span class="err">&amp;lt;&lt;/span>&lt;span class="na">any&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>&lt;span class="o">&amp;gt;&lt;/span>&lt;span class="p">({&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">active&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="s1">&amp;#39;&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">setActive&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="p">()&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="p">{},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kr">export&lt;/span> &lt;span class="kd">function&lt;/span> &lt;span class="nx">TabList&lt;/span>&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">T&lt;/span> &lt;span class="na">extends&lt;/span> &lt;span class="na">string&lt;/span>&lt;span class="p">&amp;gt;(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">props&lt;/span>: &lt;span class="kt">PropsWithChildren&lt;/span>&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">ITabContext&lt;/span>&lt;span class="err">&amp;lt;&lt;/span>&lt;span class="na">T&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>&lt;span class="o">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kr">const&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="nx">children&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">active&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">setActive&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="p">...&lt;/span>&lt;span class="nx">rest&lt;/span> &lt;span class="p">}&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">props&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kr">const&lt;/span> &lt;span class="nx">value&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">useMemo&lt;/span>&lt;span class="p">(()&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="p">({&lt;/span> &lt;span class="nx">active&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">setActive&lt;/span> &lt;span class="p">}),&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="nx">active&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">setActive&lt;/span>&lt;span class="p">])&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">TabContext.Provider&lt;/span> &lt;span class="na">value&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="nx">value&lt;/span>&lt;span class="p">}&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">div&lt;/span> &lt;span class="p">{&lt;/span>&lt;span class="na">...rest&lt;/span>&lt;span class="p">}&amp;gt;{&lt;/span>&lt;span class="nx">children&lt;/span>&lt;span class="p">}&amp;lt;/&lt;/span>&lt;span class="nt">div&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">TabContext.Provider&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>这样容器组件就完成了, 接下来只需要在孩子组件当中响应选择事件就可以&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-tsx" data-lang="tsx">&lt;span class="line">&lt;span class="cl">&lt;span class="kr">interface&lt;/span> &lt;span class="nx">ITabItemProps&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">value&lt;/span>: &lt;span class="kt">string&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kr">export&lt;/span> &lt;span class="kr">const&lt;/span> &lt;span class="nx">TabItem&lt;/span>: &lt;span class="kt">React.FC&lt;/span>&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">PropsWithChildren&lt;/span>&lt;span class="err">&amp;lt;&lt;/span>&lt;span class="na">ITabItemProps&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>&lt;span class="o">&amp;gt;&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">({&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">children&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">value&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">})&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kr">const&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="nx">active&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">setActive&lt;/span> &lt;span class="p">}&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">useContext&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">TabContext&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kr">const&lt;/span> &lt;span class="nx">id&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">useId&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kr">const&lt;/span> &lt;span class="nx">fid&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="sb">`tabItem-&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nx">id&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="sb">`&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kr">const&lt;/span> &lt;span class="nx">isActive&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">active&lt;/span> &lt;span class="o">===&lt;/span> &lt;span class="nx">value&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">div&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">input&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">type&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;radio&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">id&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="nx">fid&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">hidden&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">onChange&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="p">{()&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">setActive&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">value&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">checked&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="nx">isActive&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">/&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">label&lt;/span> &lt;span class="na">htmlFor&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="nx">fid&lt;/span>&lt;span class="p">}&lt;/span> &lt;span class="na">data&lt;/span>&lt;span class="err">-&lt;/span>&lt;span class="na">active&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="nx">active&lt;/span>&lt;span class="p">}&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>&lt;span class="nx">children&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">label&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">div&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>一切都是那么的完美,现在只需要在 css 当中获取 &lt;code>data-active&lt;/code> 状态就可以了&amp;hellip;吗?&lt;/p>
+&lt;p>当时写下这段代码的我对于自己的 css 水平还是过于乐观了,在写完这段代码 3 分钟 之后才逐渐意识到问题所在.&lt;/p>
+&lt;p>首先我们需要知道, css 3 标准提供了一个名为 &lt;code>属性选择器 (Attribute selectors)&lt;/code> 的功能, 它让你可以以形如&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-css" data-lang="css">&lt;span class="line">&lt;span class="cl">&lt;span class="o">&amp;amp;[&lt;/span>&lt;span class="nt">data-active&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;true&amp;#39;&lt;/span>&lt;span class="o">]&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">color&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">red&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>的方式进行样式选择,这大大加强了在使用静态 css 进行样式控制的能力. 我们可以使用类似 &lt;code>&amp;lt;div data-active={true}&amp;gt;Content!&amp;lt;/div&amp;gt;&lt;/code> 的方式控制 css 样式而不需要使用 &lt;code>css-in-js&lt;/code> 的方式.&lt;/p>
+&lt;p>但这有一个问题, 这个选择器选择的是 &lt;code>html 属性&lt;/code>. 这意味着该属性实际上无法传递给子元素. 加之 css 本身并不支持父级选择器, 所以在动态传入孩子的用例中便无法使用这种方法. 那么有没有什么东西是可以传递给孩子(当然,还需要有作用域控制. 我可不想为起名字绞尽脑汁!)呢? 答案当然是有的&amp;ndash; 那就是 &lt;code>css 变量 (css variables)&lt;/code>. 再加上 &lt;code>@container&lt;/code> 查询, 一顿 Google 之后代码变成了这样&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-jsx" data-lang="jsx">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">//...
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">label&lt;/span> &lt;span class="na">htmlFor&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="nx">fid&lt;/span>&lt;span class="p">}&lt;/span> &lt;span class="na">style&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="p">{{&lt;/span> &lt;span class="s1">&amp;#39;--active&amp;#39;&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="mi">1&lt;/span> &lt;span class="p">}}&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>&lt;span class="nx">children&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">label&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-css" data-lang="css">&lt;span class="line">&lt;span class="cl">&lt;span class="c">/* children.css*/&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">@&lt;/span>&lt;span class="k">container&lt;/span> &lt;span class="nt">style&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="nt">--active&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="nd">1&lt;/span>&lt;span class="o">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c">/*activeCss*/&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;strong>芜湖完美&lt;/strong> &lt;del>不过这个 &lt;code>@container&lt;/code> 怎么没听说过&lt;/del>&lt;/p>
+&lt;p>以防万一还是确认一下兼容性&amp;hellip;&lt;/p>
+&lt;p>&lt;img src="https://queb.fun/p/86d911df/caniuse.webp"
+width="594"
+height="458"
+srcset="https://queb.fun/p/86d911df/caniuse_hu120c4f1522e5b1b72056d10e0d33e08f_40724_480x0_resize_q75_h2_box_2.webp 480w, https://queb.fun/p/86d911df/caniuse_hu120c4f1522e5b1b72056d10e0d33e08f_40724_1024x0_resize_q75_h2_box_2.webp 1024w"
+loading="lazy"
+alt="蛤?!"
+class="gallery-image"
+data-flex-grow="129"
+data-flex-basis="311px"
+>&lt;/p>
+&lt;p>彳亍, 105 开始, 120 正式支持. 那这个指定用不上了. 那还想要达到这种效果只能考虑最传统的 &lt;code>props inject&lt;/code> 了. 简单搓一个&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-ts" data-lang="ts">&lt;span class="line">&lt;span class="cl">&lt;span class="kr">import&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="nx">Children&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">ReactNode&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">cloneElement&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">ReactElement&lt;/span> &lt;span class="p">}&lt;/span> &lt;span class="kr">from&lt;/span> &lt;span class="s1">&amp;#39;react&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kr">export&lt;/span> &lt;span class="kd">function&lt;/span> &lt;span class="nx">injectChildrenProp&lt;/span>&lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">children&lt;/span>: &lt;span class="kt">ReactNode&lt;/span> &lt;span class="o">|&lt;/span> &lt;span class="nx">ReactNode&lt;/span>&lt;span class="p">[],&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">props&lt;/span>: &lt;span class="kt">object&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="nx">Children&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">map&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">children&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">child&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="k">typeof&lt;/span> &lt;span class="nx">child&lt;/span> &lt;span class="o">!==&lt;/span> &lt;span class="s1">&amp;#39;object&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="k">return&lt;/span> &lt;span class="nx">child&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="nx">cloneElement&lt;/span>&lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">child&lt;/span> &lt;span class="kr">as&lt;/span> &lt;span class="nx">React&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">ReactElement&lt;/span>&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">object&lt;/span>&lt;span class="p">&amp;gt;,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">Object&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">assign&lt;/span>&lt;span class="p">({},&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">child&lt;/span> &lt;span class="kr">as&lt;/span> &lt;span class="nx">ReactElement&lt;/span>&lt;span class="p">).&lt;/span>&lt;span class="nx">props&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">props&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="正文-总结">&lt;del>正文&lt;/del> 总结&lt;/h3>
+&lt;p>纯粹的代码开发到这里就结束惹, 时候总结的时候我的想法是, 尽管这种写法省略了为孩子传参,看起来会优雅一些.但是隐藏 &lt;code>prop&lt;/code> 从长远来看是增加了后续维护的难度的.后续的改进思路是给 &lt;code>TabItem&lt;/code> 的 children 加上类型限定, 如果再次设计我也可能会选择闭包的形式 like:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-jsx" data-lang="jsx">&lt;span class="line">&lt;span class="cl">&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">TabList&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">TabItem&lt;/span>&lt;span class="p">&amp;gt;{(&lt;/span>&lt;span class="nx">active&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">CustomElement&lt;/span> &lt;span class="p">/&amp;gt;}&amp;lt;/&lt;/span>&lt;span class="nt">TabItem&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">TabList&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>但是这样就有点丑不是&amp;hellip;所以还是一个取舍问题.&lt;/p></description></item><item><title>React生态观察 2023年12月篇</title><link>https://queb.fun/p/a2d31c0e/</link><pubDate>Wed, 13 Dec 2023 17:15:52 +0800</pubDate><guid>https://queb.fun/p/a2d31c0e/</guid><description>&lt;h2 id="zod">zod&lt;/h2>
+&lt;p>&lt;a class="link" href="https://github.com/colinhacks/zod" target="_blank" rel="noopener"
+>zod&lt;/a> 是一个蛮有意思的类型检查库, 补全了 typescript 无法运行时检查的一些不足, 同时还提供了一些转换功能. 但目前来说对于 function 类型存在一些 args 推导方面的问题.&lt;/p>
+&lt;h2 id="biome">Biome&lt;/h2>
+&lt;p>&lt;a class="link" href="https://github.com/biomejs/biome" target="_blank" rel="noopener"
+>Biome&lt;/a> 一个集成了类型检查 + 格式化的代码审查工具. 特色是用 rust 写的所以速度飞快. 但目前对规则的支持还不足以满足我项目的需求.
+观望中.&lt;/p>
+&lt;h3 id="2023-12-18-更新">2023-12-18 更新&lt;/h3>
+&lt;p>最近发现了一个类似的工具 &lt;a class="link" href="https://github.com/oxc-project/oxc" target="_blank" rel="noopener"
+>oxc&lt;/a>. 同样加入关注列表.&lt;/p></description></item><item><title>摸鱼笔记 壱</title><link>https://queb.fun/p/e5d42f4f/</link><pubDate>Wed, 13 Dec 2023 16:50:51 +0800</pubDate><guid>https://queb.fun/p/e5d42f4f/</guid><description>&lt;img src="https://queb.fun/p/e5d42f4f/cover.webp" alt="Featured image of post 摸鱼笔记 壱" />&lt;p>&lt;a class="link" href="https://www.pixiv.net/artworks/113301209" target="_blank" rel="noopener"
+>沈める街&lt;/a>&lt;/p>
+&lt;p>兴趣的丧失比想象中更快, 在尚未发现的某个时间.&lt;/p>
+&lt;p>最近谈不上在学习什么东西, 每天下班之后回到家也只是看一些视频.&lt;/p>
+&lt;p>&lt;code>zod&lt;/code> 是一个蛮有意思的类型检查库, 但对于 func type 的检查还是不够令人满意,目前还在研究中.&lt;/p>
+&lt;p>冬天到了,最近睡觉很难睡醒,感觉比夏天时候更加嗜睡了.&lt;/p></description></item><item><title>一次关于r3f异常缩放的排查</title><link>https://queb.fun/p/6c28e634/</link><pubDate>Tue, 12 Dec 2023 10:00:00 +0800</pubDate><guid>https://queb.fun/p/6c28e634/</guid><description>&lt;img src="https://queb.fun/p/6c28e634/cover.webp" alt="Featured image of post 一次关于r3f异常缩放的排查" />&lt;h2 id="前情提要">前情提要&lt;/h2>
+&lt;p>在开发某个 3d 相关的微服务项目的时候,我使用了&lt;code>@react-three/fiber&lt;/code>作为渲染引擎.在开发过程中,我发现了一个很奇怪的问题,就是在外层 dom 元素应用了 &lt;code>CSS transform scale&lt;/code> 之后,&lt;code>f3c&lt;/code>的渲染会再次应用一次缩放.&lt;/p>
+&lt;h2 id="问题排查--解决">问题排查 &amp;amp; 解决&lt;/h2>
+&lt;p>通过查看 &lt;code>f3c&lt;/code> 文档可知,&lt;code>f3c&lt;/code> 会在渲染的时候,将 &lt;code>canvas&lt;/code> 的 &lt;code>width&lt;/code> 和 &lt;code>height&lt;/code> 设置为 &lt;code>100%&lt;/code>,然后通过读取外部容器的大小来确定 &lt;code>canvas&lt;/code> 的大小.这样做的目的是为了自适应外部容器的大小.&lt;/p>
+&lt;p>具体而言,&lt;code>f3c&lt;/code> 使用了 &lt;code>react-use-measure&lt;/code> 作为获取 dom 元素大小的库. 而问题则出在这里.&lt;/p>
+&lt;p>通过查看 &lt;code>react-use-measure&lt;/code> 的源码可以发现.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-ts" data-lang="ts">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// ...
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kr">const&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="nx">left&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">top&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">width&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">height&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">bottom&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">right&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">x&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">y&lt;/span> &lt;span class="p">}&lt;/span> &lt;span class="o">=&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">state&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">current&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">element&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">getBoundingClientRect&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="kr">as&lt;/span> &lt;span class="kt">unknown&lt;/span> &lt;span class="kr">as&lt;/span> &lt;span class="nx">RectReadOnly&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kr">const&lt;/span> &lt;span class="nx">size&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">left&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">top&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">width&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">height&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">bottom&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">right&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">x&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">y&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">state&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">current&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">element&lt;/span> &lt;span class="k">instanceof&lt;/span> &lt;span class="nx">HTMLElement&lt;/span> &lt;span class="o">&amp;amp;&amp;amp;&lt;/span> &lt;span class="nx">offsetSize&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">size&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">height&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">state&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">current&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">element&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">offsetHeight&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">size&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">width&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">state&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">current&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">element&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">offsetWidth&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// ...
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>在默认行为当中, &lt;code>react-use-measure&lt;/code> 会默认使用 &lt;code>getBoundingClientRect&lt;/code> 来获取 dom 元素的大小.而 &lt;code>getBoundingClientRect&lt;/code> 获取到的大小是&lt;strong>经过&lt;/strong> &lt;code>transform&lt;/code> 之后的大小.这就导致了 &lt;code>f3c&lt;/code> 在渲染的时候,会再次应用一次缩放.&lt;/p>
+&lt;p>而解决这个问题也很简单,只需要传递一个 &lt;code>offsetSize&lt;/code> 参数,就可以让 &lt;code>react-use-measure&lt;/code> 使用 &lt;code>offsetWidth&lt;/code> 和 &lt;code>offsetHeight&lt;/code> 来获取 dom 元素的大小. &lt;code>offsetWidth&lt;/code> 本身并不会受 &lt;code>transform&lt;/code> 影响.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-tsx" data-lang="tsx">&lt;span class="line">&lt;span class="cl">&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">Canvas&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">resize&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="p">{{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 解决css csale 造成的canvas大小不一致问题
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">offsetSize&lt;/span>: &lt;span class="kt">true&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">&amp;gt;&amp;lt;/&lt;/span>&lt;span class="nt">Canvas&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="碎碎念">碎碎念&lt;/h2>
+&lt;p>天知道这个问题到底掉了我多少头发&amp;hellip; 之前没有用过 &lt;code>getBoundingClientRect&lt;/code>, 完全不知道还有这种坑. css 中绝大部分属性都是不响应 &lt;code>transform&lt;/code> 的,但是 &lt;code>getBoundingClientRect&lt;/code> 却是响应的.这个真的是太难了.&lt;/p>
+&lt;h2 id="参考链接">参考链接&lt;/h2>
+&lt;ul>
+&lt;li>&lt;a class="link" href="https://github.com/pmndrs/react-use-measure/blob/8639e5a93d60930159dc83743780ce4787fe90bb/src/web/index.ts#L81-L109" target="_blank" rel="noopener"
+>react-use-measure&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect" target="_blank" rel="noopener"
+>MDN - Element.getBoundingClientRect()&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/offsetHeight" target="_blank" rel="noopener"
+>MDN - HTMLElement.offsetHeight&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://www.pixiv.net/artworks/112687098" target="_blank" rel="noopener"
+>Pixiv - ガケの国の隠れ家&lt;/a>&lt;/li>
+&lt;/ul></description></item><item><title>Hello World</title><link>https://queb.fun/p/hello-world/</link><pubDate>Thu, 19 Oct 2023 00:00:00 +0000</pubDate><guid>https://queb.fun/p/hello-world/</guid><description>&lt;img src="https://queb.fun/p/hello-world/cover.jpg" alt="Featured image of post Hello World" />&lt;p>啊&lt;/p>
+&lt;p>尽管是打算说明一下来着,但是真的很累&lt;/p>
+&lt;p>最近又阳了,身体不好.还用掉了宝贵的年假,真的是太难了&lt;/p>
+&lt;p>说起来已经是第三次了吧,这次的强度感觉和第一次差不多.直接高烧放倒&lt;/p>
+&lt;hr>
+&lt;p>正在慢慢把之前博客的文章迁移过来,部分图片可能会失效,这个就没办法了.&lt;/p>
+&lt;p>希望大家都身体健康!&lt;/p>
+&lt;p>FS, 19 Oct 2023&lt;/p>
+&lt;blockquote>
+&lt;p>Photo by &lt;a class="link" href="https://unsplash.com/@pawel_czerwinski" target="_blank" rel="noopener"
+>Pawel Czerwinski&lt;/a> on &lt;a class="link" href="https://unsplash.com/" target="_blank" rel="noopener"
+>Unsplash&lt;/a>&lt;/p>
+&lt;/blockquote></description></item><item><title>记录一下让自己显得很愚蠢的东西</title><link>https://queb.fun/p/3lweya3t/</link><pubDate>Mon, 11 Apr 2022 22:16:47 +0000</pubDate><guid>https://queb.fun/p/3lweya3t/</guid><description>&lt;p>如果有朝一日我用上了,那我可真是个铁憨憨&lt;/p>
+&lt;!-- more -->
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">-----BEGIN PGP MESSAGE-----
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">hQEMAxStlBvpAgJMAQf9FWiGY9Ak8TRDnbQ31zasR4Ttc+CDy5fxieNbWrt18UjV
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">A4ib3Sj7QjyD4xFmoiuv7YzeoehpFoonCndrWqEduoefenZoF/agMzy9gtUf/uxZ
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">RPvbV6KTxUMy6tj2pWv9Hv+MdwF/VpqzTPxMFM3HQ5LQ3rdOxSzsrCOiV2IKa9yU
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">T2auig0fDhnwFOLuNlqs8WlJebLjtnD3Uszm8IDJiOs6s1DG1PlcTUGrflMfeCa2
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">1JvikLZKhIbTPIxjfF/Q2v5vEsvFBDj6s/cVTKRS02N1bRNePaTeez2z7qgt6z73
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Ft7ugqA2rRBi7wphhz0K3m1hKDanSwJ1XNL/hsqiK9TA8gEJAhBW4SDHsvbciJmv
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">RCCtYGO1/uCqBQO1otKCIsu3n3kWjRNkdxV3a07KXwDT7PhsLsj2Egmx6JurVUoc
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">he6M26Ke3ngbQDlYAwtc8hOSpQg5Ddgn1hNMtC/f3uWwShznl9HiAUe+X41h9AAg
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">lNIlXXSXvE7aik32+xewFVlNTENDbCezN48PQyI+z5I4s5RR/us+g2OTLQvGiGY9
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DIrvokAi3SC4U6nc4+5FWlt1B9KzrWlIz5w6tk3+xqRnXh74sgmJR9hQv9h6vgVE
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Fs7Mn3tq51aY+oBINy01Tyq4Yybyby+dhtzqcpfrjwFaGx1kBjDgTb+NSUjdbRLg
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">OIIFVrcazjn12lBt+o+9I/+/NXb8BilmG4uDU+OnFA+pYi4kpIOd6uCAG02JFylE
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">mxk1l4+8WbL6xXmtUr5DTyIn/KGVlN+C1mO8wBwER1yEsqMeyufu6xs5CF1YQo+I
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Pn0hKVaDB4X7OIDopbdJYxKotBymPlTRtbBJ0NQMmPydg94j64R7NnJZj+P6bVQq
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">PN09grWXnqZy7C5TpIQYIyE7wrS3xj0oc9CWX5EGe0hXdOku
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">=Zgro
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">-----END PGP MESSAGE-----
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item><item><title>记重新安装windows下GPG踩到的坑</title><link>https://queb.fun/p/windows-gpg/</link><pubDate>Wed, 30 Mar 2022 23:19:45 +0000</pubDate><guid>https://queb.fun/p/windows-gpg/</guid><description>&lt;p>前段时间在新环境上配置 gpg 时,下意识安装了 win4gpg.然后在从 Canokey 导入私钥的时候遇到了 gpg 行为十分怪异的情况.&lt;/p>
+&lt;p>检查之后发现是因为 windows git ,如果选择使用 git 捆绑的 openSSH 的话,他会自己带一个 gpg.导致和 win4gpg 互相干扰&lt;/p>
+&lt;p>卸载掉 win4gpg 之后,重新 fetch 卡片就解决了&lt;/p></description></item><item><title>Archives</title><link>https://queb.fun/archives/</link><pubDate>Sun, 06 Mar 2022 00:00:00 +0000</pubDate><guid>https://queb.fun/archives/</guid><description/></item><item><title>Valtio 笔记其一：正交的状态管理</title><link>https://queb.fun/p/valtio-%E7%AC%94%E8%AE%B0%E5%85%B6%E4%B8%80%E6%AD%A3%E4%BA%A4%E7%9A%84%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/</link><pubDate>Fri, 25 Feb 2022 03:01:35 +0000</pubDate><guid>https://queb.fun/p/valtio-%E7%AC%94%E8%AE%B0%E5%85%B6%E4%B8%80%E6%AD%A3%E4%BA%A4%E7%9A%84%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/</guid><description>&lt;img src="https://queb.fun/p/valtio-%E7%AC%94%E8%AE%B0%E5%85%B6%E4%B8%80%E6%AD%A3%E4%BA%A4%E7%9A%84%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/cover.webp" alt="Featured image of post Valtio 笔记其一：正交的状态管理" />&lt;p>研究了两天，尝试用 Valtio 重构之前的一个项目，有了一些收获&lt;/p>
+&lt;!-- more -->
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-ts" data-lang="ts">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">//a.ts
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kr">const&lt;/span> &lt;span class="nx">stateA&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">proxy&lt;/span>&lt;span class="p">({&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">id&lt;/span>: &lt;span class="kt">0&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kr">get&lt;/span> &lt;span class="nx">activeID() {&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="nx">state&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">id&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">active&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">id&lt;/span>: &lt;span class="kt">number&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">state&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">id&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">id&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">//b.ts
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kr">const&lt;/span> &lt;span class="nx">stateB&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">proxy&lt;/span>&lt;span class="p">({&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">fState&lt;/span>: &lt;span class="kt">ref&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">stateA&lt;/span>&lt;span class="p">),&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">testChange&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="p">()&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">console&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">log&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;其他的state可以互相引用修改&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">state&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">fState&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">active&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">4&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Valtio 好就好在可以用一个非常简单的模式完成 state 和 UI 的解耦，因为 state
+本身是可变的，所以可以尽情的利用原生 js 的特性操作。不会有 react 额外的噪音。对于 react 的使用，我选择把所有可能的操作都封装为 hooks ，这样就尽可能的保证了 UI 的逻辑无关&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-ts" data-lang="ts">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">//a.ts
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kr">const&lt;/span> &lt;span class="nx">stateA&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">proxy&lt;/span>&lt;span class="p">({&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">id&lt;/span>: &lt;span class="kt">0&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kr">get&lt;/span> &lt;span class="nx">activeID() {&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="nx">state&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">id&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">active&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">id&lt;/span>: &lt;span class="kt">number&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">state&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">id&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">id&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kr">export&lt;/span> &lt;span class="kd">function&lt;/span> &lt;span class="nx">useStateA() {&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kr">const&lt;/span> &lt;span class="nx">_state&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">useSnapshot&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">stateA&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="nx">_state&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">//需要的生命周期 Hooks 和state封装在一起
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kr">export&lt;/span> &lt;span class="kd">function&lt;/span> &lt;span class="nx">useIDUpdate() {&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kr">const&lt;/span> &lt;span class="nx">_state&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">useSnapshot&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">stateA&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">useEffect&lt;/span>&lt;span class="p">(()&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">foo&lt;/span>&lt;span class="p">().&lt;/span>&lt;span class="nx">then&lt;/span>&lt;span class="p">((&lt;/span>&lt;span class="nx">res&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">state&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">active&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">res&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span> &lt;span class="p">[])&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="nx">state&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">activeID&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>非常干净，非常清爽，非常强大。&lt;/p></description></item><item><title>我中意的React解决方案</title><link>https://queb.fun/p/%E6%88%91%E4%B8%AD%E6%84%8F%E7%9A%84react%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/</link><pubDate>Mon, 21 Feb 2022 16:33:51 +0000</pubDate><guid>https://queb.fun/p/%E6%88%91%E4%B8%AD%E6%84%8F%E7%9A%84react%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/</guid><description>&lt;p>&lt;img src="https://s6.jpg.cm/2022/02/21/LflaxW.md.jpg"
+loading="lazy"
+alt="LflaxW.md.jpg"
+>&lt;/p>
+&lt;p>一些在我调查和实际生产中比较喜欢的解决方案&lt;/p>
+&lt;!-- more -->
+&lt;h2 id="状态管理">状态管理&lt;/h2>
+&lt;h3 id="valtiohttpsgithubcompmndrsvaltio">&lt;a class="link" href="https://github.com/pmndrs/valtio" target="_blank" rel="noopener"
+>Valtio&lt;/a>&lt;/h3>
+&lt;p>目前用的最多的解决方案. 用起来有些坑(主要是 &lt;code>this&lt;/code> 相关的部分)但整体来说很好.&lt;/p>
+&lt;h3 id="mobxhttpsmobxjsorg">&lt;a class="link" href="https://mobx.js.org/" target="_blank" rel="noopener"
+>Mobx&lt;/a>&lt;/h3>
+&lt;p>备用方案,和 valtio 差不太多。问题在于必须使用 observer 包裹组件，而且兼容性不强&lt;/p>
+&lt;h3 id="immerhttpsimmerjsgithubioimmer">&lt;a class="link" href="https://immerjs.github.io/immer/" target="_blank" rel="noopener"
+>Immer&lt;/a>&lt;/h3>
+&lt;p>Mobx 作者新搞的小玩具，实用性一般，因为要修改必须从顶级 state 的 draft 开始访问，否则不能正确响应。但是思路还是很好的，工程量不大的小项目小组件可以试试看&lt;/p>
+&lt;h2 id="路由">路由&lt;/h2>
+&lt;h3 id="react-router">react-router&lt;/h3>
+&lt;p>不用多说，官方推荐。不是非常易用但是足够好用，也懒得折腾更多了，之前有段时间（大概是 5.0 左右？）对 hooks 的支持很差所以尝试了其他的解决方案，现在支持还不错就换回来了。&lt;/p>
+&lt;h3 id="react-hook-routerhttpsgithubcomparatronhookrouter">&lt;a class="link" href="https://github.com/Paratron/hookrouter" target="_blank" rel="noopener"
+>React Hook Router&lt;/a>&lt;/h3>
+&lt;p>这就是当初用过的方案，现在不再推荐了因为 react-router 已经很好了，而且这个作者不喜欢 TS 所以这方面的支持也不太好，而且很久没更新了。但作为一个小型 router 的实现代码是值得学习的。&lt;/p>
+&lt;h2 id="css">CSS&lt;/h2>
+&lt;h3 id="emotionjs">emotionJS&lt;/h3>
+&lt;p>目前在用的，除了 &lt;code>css props&lt;/code> 我颇有微词以外，其他的部分都算完美，&lt;code>css-in-js&lt;/code>保证了样式的可控性（我知道大部分时候用不到，但是用得到的时候还是很爽的），使用完整的 CSS/SCSS 语法而不是什么&lt;code>Tailwind&lt;/code>黑科技。库很小而且泛用性很高。本质上这东西和&lt;code>styled&lt;/code>是一家子所以代码也很容易迁移。平台支持广：虽然理论上这东西支持 RN 但属实没必要。&lt;/p>
+&lt;h3 id="styled-jsx">styled-jsx&lt;/h3>
+&lt;p>呃，这东西就比较微妙了。首先他是需要 babel 支持的，这意味着在某些你不想用，或者不能用 babel 的场合这东西就跪了。与 emotion 相比实际上我更喜欢 styled 的写法，即把 style 单独写在一个标签里面然后用&lt;code>scoped css&lt;/code>限制他的作用域，但是 styled-jsx 是不建议注入子组件的样式的，我不赞同这个设计。所以权衡之后放弃了这东西。btw &lt;code>next.js&lt;/code> 默认用的这个。说明还是有相当一部分人喜欢 &lt;code>shadow-css&lt;/code> 设计的。看个人喜好和具体业务场景了。&lt;/p>
+&lt;h3 id="material-uistyle">@material-ui/style&lt;/h3>
+&lt;p>这东西入土了，新的 mui 用的是 emotion，然后保留了之前的 api 而已。&lt;/p>
+&lt;h3 id="react-spring">react-spring&lt;/h3>
+&lt;p>这东西我本来想单独分个动效来说的，但是讲道理好像和 CSS 重叠的部分还是很广的，也就一并讲了。&lt;/p>
+&lt;p>很好用，虽然新的 api 有点反直觉但是能 get 到他们的设计思路所以我保留意见。实际上这个弹性库并不一定是用来给 css 的，你可以给任何你想加上可控曲线效果的地方用上。同样支持 RN，但没研究过。&lt;/p>
+&lt;h2 id="2d">2D&lt;/h2>
+&lt;h3 id="pixi">Pixi&lt;/h3>
+&lt;p>新发现的玩具, 不同的地方在于使用了 &lt;code>WebGL&lt;/code> 渲染所以性能非常的彳亍. 还没怎么用过回头再研究一下&lt;/p>
+&lt;h3 id="konva">Konva&lt;/h3>
+&lt;p>比较复杂，这东西其实是新建了一个 react 实例然后挂载在你的组件树上，所以会有一些奇妙的小问题。但总的来说还是足够好用。暂时找不到比它更方便的 canvas 库了，或者说更进一步的需求建议用 flutter。&lt;/p>
+&lt;p>先写这么多，想起来什么再补充。&lt;/p>
+&lt;hr>
+&lt;p>题图 &lt;a class="link" href="https://twitter.com/kirizieeel/status/1495523468657397762" target="_blank" rel="noopener"
+>https://twitter.com/kirizieeel/status/1495523468657397762&lt;/a>&lt;/p></description></item><item><title>为什么用了Gridea更新的更少了</title><link>https://queb.fun/p/%E4%B8%BA%E4%BB%80%E4%B9%88%E7%94%A8%E4%BA%86gridea%E6%9B%B4%E6%96%B0%E7%9A%84%E6%9B%B4%E5%B0%91%E4%BA%86/</link><pubDate>Wed, 16 Feb 2022 05:01:03 +0000</pubDate><guid>https://queb.fun/p/%E4%B8%BA%E4%BB%80%E4%B9%88%E7%94%A8%E4%BA%86gridea%E6%9B%B4%E6%96%B0%E7%9A%84%E6%9B%B4%E5%B0%91%E4%BA%86/</guid><description>&lt;!-- more -->
+&lt;p>为啥啊，&lt;del>当然是因为我懒&lt;/del> 因为 Gridea 这种静态博客工具一个难以解决的问题就是怎么备份自己的post。尤其是之前用了hexo更换之后大量的元数据出现了问题，进一步恶化了这件事情。&lt;/p>
+&lt;p>现在把整个post搬到了坚果云上，如果下次还记得这回事的话应该会稍微，好那么一点吧？&lt;/p></description></item><item><title>料理包评测记录</title><link>https://queb.fun/p/d87d3df2/</link><pubDate>Wed, 16 Feb 2022 04:51:45 +0000</pubDate><guid>https://queb.fun/p/d87d3df2/</guid><description>&lt;img src="https://s6.jpg.cm/2022/02/16/LBquTR.jpg" alt="Featured image of post 料理包评测记录" />&lt;p>主要记一下自己吃过的口味还不错的料理包。煮饭什么的最麻烦了&lt;/p>
+&lt;!-- more -->
+&lt;h2 id="王小余">王小余&lt;/h2>
+&lt;p>总的来说这家料理包，油和调味用的不错。量比较少，盐中等&lt;/p>
+&lt;h3 id="肉末外婆菜">肉末外婆菜&lt;/h3>
+&lt;p>垃圾，别吃。肉末显微镜下可能能看见吧，我视力不好别搞&lt;/p>
+&lt;h3 id="香菇鸡丁">香菇鸡丁&lt;/h3>
+&lt;p>这个不错，口感和味道都不错&lt;/p>
+&lt;h3 id="啤酒鸭">啤酒鸭&lt;/h3>
+&lt;p>究极垃圾，一股怪味。骨头还多。禽肉还是别料理包了，尤其是带骨头的&lt;/p>
+&lt;h3 id="武冈香干炒肉">武冈香干炒肉&lt;/h3>
+&lt;p>实际上就是豆干炒豆干，肉不能说没有吧，但是别指望&lt;/p>
+&lt;h3 id="巴西烤肉">巴西烤肉&lt;/h3>
+&lt;p>心中的 MVP，好吃就完事了。说起来都是调味料的味道但是都吃料理包了还要什么自行车&lt;/p>
+&lt;h3 id="青豆炒肉">青豆炒肉&lt;/h3>
+&lt;p>还可以，炒肉=炒肉末，但好歹也是肉。青豆挺软的味道 ok&lt;/p>
+&lt;p>这家的调味都挺相似的，油分比较大，不过不是油腻的那种。3.5/5&lt;/p>
+&lt;h3 id="卤肉">卤肉&lt;/h3>
+&lt;p>其实是卤肉馅，配图如下
+&lt;img src="https://imgs.aixifan.com/FqRusdCLr6hVXtGy1UT0PEPoYXrt"
+loading="lazy"
+alt="好多油.jpg"
+>&lt;/p>
+&lt;h3 id="梅菜扣肉">梅菜扣肉&lt;/h3>
+&lt;p>好吃，量大肉多。差点没吃完。秒了！&lt;/p>
+&lt;h3 id="香辣土匪鸭">香辣土匪鸭&lt;/h3>
+&lt;blockquote>
+&lt;p>禽肉还是别料理包了，尤其是带骨头的&lt;/p>
+&lt;/blockquote>
+&lt;p>虽然这个调味更重口了所以勉强压住了那种恶心的味道，但不行就是不行，别买&lt;/p>
+&lt;h3 id="五香脆骨">五香脆骨&lt;/h3>
+&lt;p>脆骨口感不是很好，但是调味尚可。差强人意。&lt;/p>
+&lt;p>&lt;img src="https://s6.jpg.cm/2022/02/22/LfFVdD.jpg"
+loading="lazy"
+>&lt;/p>
+&lt;h2 id="新美香">新美香&lt;/h2>
+&lt;p>在买上面那个王小余之前我买了挺久这家的。对比之后发现这家的口感很奇怪，像是加了不少增稠剂。但是用料上还是可以的，可能是我没有 get 到他的好。吃的挺多但是我记不大住了，就随便写几个&lt;/p>
+&lt;h3 id="台式卤肉--香菇卤肉">台式卤肉 &amp;amp; 香菇卤肉&lt;/h3>
+&lt;p>&lt;strong>咸！&lt;/strong> 这个卤肉某种意义上可以算作是浇头。当菜绝对是大材小用了。肉都是小丁丁而且偏肥。如果住了面之类的可以配一下，还不错&lt;/p>
+&lt;h3 id="咖喱鸡肉">咖喱鸡肉&lt;/h3>
+&lt;p>除了那个奇怪的勾芡问题以外还可以，鸡肉的口感很松弛但是量还是够的。&lt;/p>
+&lt;h3 id="鱼香肉丝">鱼香肉丝&lt;/h3>
+&lt;p>同上，味道还行勾芡怪怪的。&lt;/p>
+&lt;h3 id="一些带骨肉的菜">一些带骨肉的菜&lt;/h3>
+&lt;p>统统不推荐，料理包不要买带骨头的，很蠢。&lt;/p>
+&lt;h3 id="肉末茄子">肉末茄子&lt;/h3>
+&lt;p>还可以，茄子倒是很适合他这个勾芡。我喜欢。&lt;/p>
+&lt;hr>
+&lt;p>未完待续&lt;/p></description></item><item><title>博客迁移到Gridea</title><link>https://queb.fun/p/%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB%E5%88%B0gridea/</link><pubDate>Mon, 13 Jul 2020 14:35:29 +0000</pubDate><guid>https://queb.fun/p/%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB%E5%88%B0gridea/</guid><description>&lt;p>Hexo很好,但是我不太懂它的模板语法,而且我懒,所以经过五分钟的调研我选择了 &lt;a class="link" href="https://github.com/getgridea/gridea" target="_blank" rel="noopener"
+>Gridea&lt;/a> 作为博客的框架,然后从里面找了个顺眼的主题&lt;/p>
+&lt;p>Gridea的快捷键还不是很到位,也不支持&lt;code>Hot Reload&lt;/code>,总的来说是能用,但是不算好用的,编辑器本身性能一般,不过我也不太介意,好看还是很好看的,重点是它的自动部署功能,不过我暂时没看到支持ssh,希望支持,否则就不太行了&lt;/p>
+&lt;p>自定义主题还是算了,有心无力,这一年仍然是饱尝无力感的一年,希望大家平安.&lt;/p></description></item><item><title>博客迁移到Gridea</title><link>https://queb.fun/p/44e94e99/</link><pubDate>Mon, 13 Jul 2020 14:35:29 +0000</pubDate><guid>https://queb.fun/p/44e94e99/</guid><description>&lt;p>Hexo 很好,但是我不太懂它的模板语法,而且我懒,所以经过五分钟的调研我选择了 &lt;a class="link" href="https://github.com/getgridea/gridea" target="_blank" rel="noopener"
+>Gridea&lt;/a> 作为博客的框架,然后从里面找了个顺眼的主题&lt;/p>
+&lt;p>Gridea 的快捷键还不是很到位,也不支持&lt;code>Hot Reload&lt;/code>,总的来说是能用,但是不算好用的,编辑器本身性能一般,不过我也不太介意,好看还是很好看的,重点是它的自动部署功能,不过我暂时没看到支持 ssh,希望支持,否则就不太行了&lt;/p>
+&lt;p>自定义主题还是算了,有心无力,这一年仍然是饱尝无力感的一年,希望大家平安.&lt;/p></description></item><item><title>API文档</title><link>https://queb.fun/p/api%E6%96%87%E6%A1%A3/</link><pubDate>Sat, 15 Jun 2019 15:39:54 +0000</pubDate><guid>https://queb.fun/p/api%E6%96%87%E6%A1%A3/</guid><description>&lt;h2 id="写在前面">写在前面&lt;/h2>
+&lt;p>这篇文章主要转载自&lt;a class="link" href="https://www.zybuluo.com/ovear/note/151481" target="_blank" rel="noopener"
+>https://www.zybuluo.com/ovear/note/151481&lt;/a>， 但是API细节已经有所变动， 所以进行了修订， 添加了一些我自己的标注&lt;/p>
+&lt;h3 id="一句话总结">一句话总结&lt;/h3>
+&lt;ul>
+&lt;li>因为API变动,返回值格式不一致， 建议所有的&lt;strong>数字&lt;/strong>项全部强制类型转换&lt;/li>
+&lt;/ul>
+&lt;h2 id="一些提示">一些提示&lt;/h2>
+&lt;p>以下所有的API都有两种方式可调用
+&lt;a class="link" href="http://api/?key=value&amp;amp;key2=value2" target="_blank" rel="noopener"
+>http://api?key=value&amp;amp;key2=value2&lt;/a>
+以及
+&lt;a class="link" href="http://api/key/value/key2/value" target="_blank" rel="noopener"
+>http://api/key/value/key2/value&lt;/a>&lt;/p>
+&lt;p>同时所有的API调用都应该有一个appid跟在最后
+User-Agent必须为HavfunClient-平台&lt;/p>
+&lt;h2 id="获取饼干">获取饼干&lt;/h2>
+&lt;p>/Api/getCookie&lt;/p>
+&lt;p>返回&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align:left">key&lt;/th>
+&lt;th style="text-align:left">value&lt;/th>
+&lt;th style="text-align:left">说明&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align:left">空&lt;/td>
+&lt;td style="text-align:left">ok/error&lt;/td>
+&lt;td style="text-align:left">若发放 cookie 成功， 则自动写入 cookie 并返回 ok， 否则 error&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;blockquote>
+&lt;p>主岛已经启用了新的饼干系统, 但备胎岛仍是可用的(?)&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="主系统信息">主系统信息&lt;/h2>
+&lt;p>关于一些主系统的API&lt;/p>
+&lt;h3 id="获取图片cdn地址">获取图片CDN地址&lt;/h3>
+&lt;p>/Api/getCdnPath&lt;/p>
+&lt;p>返回&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-json" data-lang="json">&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="获取备灾服务器地址">获取备灾服务器地址&lt;/h3>
+&lt;h2 id="板块系统">板块系统&lt;/h2>
+&lt;p>关于岛主要功能的API&lt;/p>
+&lt;h3 id="获取板块列表">获取板块列表&lt;/h3>
+&lt;p>/Api/getForumList&lt;/p>
+&lt;p>由于返回的是Json， 这里直接给实例&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;span class="lnt">33
+&lt;/span>&lt;span class="lnt">34
+&lt;/span>&lt;span class="lnt">35
+&lt;/span>&lt;span class="lnt">36
+&lt;/span>&lt;span class="lnt">37
+&lt;/span>&lt;span class="lnt">38
+&lt;/span>&lt;span class="lnt">39
+&lt;/span>&lt;span class="lnt">40
+&lt;/span>&lt;span class="lnt">41
+&lt;/span>&lt;span class="lnt">42
+&lt;/span>&lt;span class="lnt">43
+&lt;/span>&lt;span class="lnt">44
+&lt;/span>&lt;span class="lnt">45
+&lt;/span>&lt;span class="lnt">46
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="line">&lt;span class="cl">&lt;span class="p">[&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;id&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;4&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;sort&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;1&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;name&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;综合&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;status&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;n&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;forums&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;id&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;4&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;fgroup&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;4&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;sort&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;1&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;name&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;综合版1&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;showName&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;msg&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;msg&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;interval&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;15&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;createdAt&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;2011-10-21 15:49:28&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;updateAt&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;2015-06-23 17:26:28&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;status&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;n&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;id&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;20&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;fgroup&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;4&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;sort&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;2&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;name&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;欢乐恶搞&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;showName&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;msg&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;msg&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;interval&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;15&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;createdAt&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;2011-10-21 15:48:43&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;updateAt&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;2014-11-05 00:27:52&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;status&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;n&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;id&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;11&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;fgroup&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;4&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;sort&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;3&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;name&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;推理&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;showName&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;msg&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;•微小说、图片推理、解谜。&amp;lt;br/&amp;gt;•本版发文间隔为15秒。&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;interval&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;15&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;createdAt&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;2011-10-29 16:38:23&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;updateAt&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;2014-08-02 04:54:09&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;status&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;n&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>这里针对返回值做一下解释
+第一层JsonArray中的Object为分组， 具体信息如下&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align:left">key&lt;/th>
+&lt;th style="text-align:left">说明&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align:left">forums&lt;/td>
+&lt;td style="text-align:left">这里是在本组的 forum&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">id&lt;/td>
+&lt;td style="text-align:left">该板块组的 ID&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">name&lt;/td>
+&lt;td style="text-align:left">这个就不用说了吧*(:з」∠)*&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">sort&lt;/td>
+&lt;td style="text-align:left">服务器的排序值， 越小优先级越高， 若为-1 则自动排序&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>forumObj信息&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align:left">key&lt;/th>
+&lt;th style="text-align:left">说明&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align:left">fgroup&lt;/td>
+&lt;td style="text-align:left">所属组的 id&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">id&lt;/td>
+&lt;td style="text-align:left">额。 。&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">interval&lt;/td>
+&lt;td style="text-align:left">该板块的发言间隔时间&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">name&lt;/td>
+&lt;td style="text-align:left">版块名称&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">showName&lt;/td>
+&lt;td style="text-align:left">板块显示的名字， 若该值不为空则显示该值(包含 html)&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">sort&lt;/td>
+&lt;td style="text-align:left">跟上面一样&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">status&lt;/td>
+&lt;td style="text-align:left">始终为 n&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h3 id="获取板块串">获取板块串&lt;/h3>
+&lt;p>/Api/showf
+输入:&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align:left">key&lt;/th>
+&lt;th style="text-align:left">说明&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align:left">id&lt;/td>
+&lt;td style="text-align:left">获取板块的 id&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">page&lt;/td>
+&lt;td style="text-align:left">分页&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;blockquote>
+&lt;p>提示: 两个值都不能为空&lt;/p>
+&lt;/blockquote>
+&lt;p>返回:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="line">&lt;span class="cl">&lt;span class="p">[&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;id&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;18507780&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;img&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;2019-06-14/5d0292f7e4697&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;ext&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;.png&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;now&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;2019-06-14(五)02:16:24&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;userid&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;1tnMQXQ&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;name&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;无名氏&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;email&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;title&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;无标题&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;content&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;这建模不如做里番可惜了啊(つд⊂)&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;sage&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;0&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;admin&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;0&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;remainReplys&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="mi">3&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;replyCount&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;8&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;replys&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;id&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;18507804&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;img&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;ext&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;now&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;2019-06-14(五)02:21:52&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;userid&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;m7s6Xcm&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;name&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;无名氏&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;email&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;title&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;无标题&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;content&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;拉良家妇女下水&amp;lt;br /&amp;gt;\n劝失足姑娘上岸&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;sage&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;0&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;admin&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;0&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align:left">key&lt;/th>
+&lt;th style="text-align:left">说明&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align:left">admin&lt;/td>
+&lt;td style="text-align:left">是否是酷炫红名， 如果是酷炫红名则 userid 为红名 id&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">content&lt;/td>
+&lt;td style="text-align:left">&amp;hellip;. 这个你也懂&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">email&lt;/td>
+&lt;td style="text-align:left">你懂得&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">ext&lt;/td>
+&lt;td style="text-align:left">该串图片的后缀&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">id&lt;/td>
+&lt;td style="text-align:left">该串的 id&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">img&lt;/td>
+&lt;td style="text-align:left">该串的图片相对地址&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">name&lt;/td>
+&lt;td style="text-align:left">你懂得&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">now&lt;/td>
+&lt;td style="text-align:left">该串的可视化发言时间&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">remainReplys&lt;/td>
+&lt;td style="text-align:left">还剩余多少个回复(指没有在 showf 中返回)&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">replyCount&lt;/td>
+&lt;td style="text-align:left">总共有多少个回复&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">replys&lt;/td>
+&lt;td style="text-align:left">主页展示回复的帖子&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">title&lt;/td>
+&lt;td style="text-align:left">你还是懂的*(:з」∠)*&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">userid&lt;/td>
+&lt;td style="text-align:left">该串的饼干&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;blockquote>
+&lt;p>需要注意的是， &amp;ldquo;remainReplys&amp;quot;是新添加项目， 是&lt;strong>数字格式&lt;/strong>， 而&amp;quot;replyCount&amp;quot;返回的是&lt;strong>字符串&lt;/strong>格式&lt;/p>
+&lt;/blockquote>
+&lt;p>小提示&lt;/p>
+&lt;ol>
+&lt;li>image的缩略图地址为 &lt;a class="link" href="http://cdnpath/thumb/ext" target="_blank" rel="noopener"
+>http://cdnpath/thumb/ext&lt;/a>&lt;/li>
+&lt;li>image的真实地址为 &lt;a class="link" href="http://cdnpath/image/ext" target="_blank" rel="noopener"
+>http://cdnpath/image/ext&lt;/a>&lt;/li>
+&lt;li>image的cdnpath自己上页面上扒(:з」∠)&lt;/li>
+&lt;li>replys对象的相关信息和上面相似。 。 你们也应该懂得。 。 累屎了&lt;/li>
+&lt;li>噢， 要凑够六条才行→_→（强迫症）&lt;/li>
+&lt;li>还有一条， 可以通过img是否为空来判断是否有图片&lt;/li>
+&lt;/ol>
+&lt;h3 id="获取时间线">获取时间线&lt;/h3>
+&lt;p>/Api/timeline&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;span class="lnt">33
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="line">&lt;span class="cl">&lt;span class="p">[&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;id&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;18507780&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;fid&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;4&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;img&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;2019-06-14/5d0292f7e4697&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;ext&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;.png&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;now&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;2019-06-14(五)02:16:24&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;userid&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;1tnMQXQ&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;name&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;无名氏&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;email&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;title&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;无标题&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;content&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;这建模不如做里番可惜了啊(つд⊂)&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;sage&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;0&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;admin&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;0&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;remainReplys&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="mi">3&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;replyCount&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;8&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;replys&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;id&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;18507804&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;img&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;ext&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;now&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;2019-06-14(五)02:21:52&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;userid&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;m7s6Xcm&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;name&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;无名氏&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;email&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;title&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;无标题&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;content&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;拉良家妇女下水&amp;lt;br /&amp;gt;\n劝失足姑娘上岸&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;sage&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;0&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;admin&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;0&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align:left">key&lt;/th>
+&lt;th style="text-align:left">说明&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align:left">admin&lt;/td>
+&lt;td style="text-align:left">是否是酷炫红名， 如果是酷炫红名则 userid 为红名 id&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">content&lt;/td>
+&lt;td style="text-align:left">&amp;hellip;. 这个你也懂&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">email&lt;/td>
+&lt;td style="text-align:left">你懂得&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">ext&lt;/td>
+&lt;td style="text-align:left">该串图片的后缀&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">fid&lt;/td>
+&lt;td style="text-align:left">该串所属的板块 id&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">id&lt;/td>
+&lt;td style="text-align:left">该串的 id&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">img&lt;/td>
+&lt;td style="text-align:left">该串的图片相对地址&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">name&lt;/td>
+&lt;td style="text-align:left">你懂得&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">now&lt;/td>
+&lt;td style="text-align:left">该串的可视化发言时间&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">remainReplys&lt;/td>
+&lt;td style="text-align:left">还剩余多少个回复(指没有在 showf 中返回)&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">replyCount&lt;/td>
+&lt;td style="text-align:left">总共有多少个回复&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">replys&lt;/td>
+&lt;td style="text-align:left">主页展示回复的帖子&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">title&lt;/td>
+&lt;td style="text-align:left">你还是懂的*(:з」∠)*&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">userid&lt;/td>
+&lt;td style="text-align:left">该串的饼干&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>实际上和showf是差不多的啦…只不过多了一个&amp;quot;fid&amp;quot;用来标识时间线上串的所述板块&lt;/p>
+&lt;h3 id="获取串内容">获取串内容&lt;/h3>
+&lt;p>/Api/thread
+输入:&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align:left">key&lt;/th>
+&lt;th style="text-align:left">说明&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align:left">id&lt;/td>
+&lt;td style="text-align:left">串的 id&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">page&lt;/td>
+&lt;td style="text-align:left">分页&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>提示: 同样两个都不能为空&lt;/p>
+&lt;p>返回:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;id&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;6467841&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;img&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;ext&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;now&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;2015-08-12(三)16:08:00&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;userid&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;F0zz1FP&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;name&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;无名氏&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;email&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;title&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;无标题&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;content&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;尼玛本来我如果说个好的,知道了.这个运维工作就到手了,我多了几句嘴,然后对方就我说的提了几个问题我半天答不上来,结果到手的offer飞了.尼玛,真够郁闷的(;´Д`)&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;admin&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;0&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;replyCount&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;7&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;replys&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;id&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;6467854&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;img&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;ext&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;now&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;2015-08-12(三)16:13:05&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;userid&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;30ru124&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;name&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;无名氏&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;email&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;title&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;无标题&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;content&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;嘴欠得肥宅&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;admin&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;0&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>关于Thread Obj&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align:left">key&lt;/th>
+&lt;th style="text-align:left">说明&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align:left">admin&lt;/td>
+&lt;td style="text-align:left">是否是酷炫红名， 如果是酷炫红名则 userid 为红名 id&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">content&lt;/td>
+&lt;td style="text-align:left">&amp;hellip;. 这个你也懂&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">email&lt;/td>
+&lt;td style="text-align:left">你懂得&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">ext&lt;/td>
+&lt;td style="text-align:left">该串图片的后缀&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">id&lt;/td>
+&lt;td style="text-align:left">该串的 id&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">img&lt;/td>
+&lt;td style="text-align:left">该串的图片相对地址&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">name&lt;/td>
+&lt;td style="text-align:left">你懂得&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">now&lt;/td>
+&lt;td style="text-align:left">该串的可视化发言时间&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">replyCount&lt;/td>
+&lt;td style="text-align:left">总共有多少个回复&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">replys&lt;/td>
+&lt;td style="text-align:left">主页展示回复的帖子&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">title&lt;/td>
+&lt;td style="text-align:left">你还是懂的*(:з」∠)*&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">userid&lt;/td>
+&lt;td style="text-align:left">该串的饼干&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>→_→ 我不会告诉你这是从上面复制过来的， 小提示也跟上面一样也&lt;/p>
+&lt;blockquote>
+&lt;p>特殊的， ID为9999999的广告串， 返回的&amp;quot;id&amp;quot;和&amp;quot;admin&amp;quot;都是&lt;strong>数字&lt;/strong>&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="获取回应串">获取回应串&lt;/h3>
+&lt;p>/Api/ref&lt;/p>
+&lt;p>输入：&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align:left">key&lt;/th>
+&lt;th style="text-align:left">说明&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align:left">id&lt;/td>
+&lt;td style="text-align:left">串的 id&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>返回：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;id&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;17901165&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;img&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;2019-05-05/5cce8c7195a50&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;ext&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;.jpg&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;now&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;2019-05-05(日)15:10:41&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;userid&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;topVtba&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;name&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;无名氏&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;email&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;title&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;无标题&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;content&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;完 全 魔 幻 现 实 跑 团&amp;lt;br /&amp;gt;\r\n&amp;lt;br /&amp;gt;\r\n【日常】【超能】【魔幻现实】【青春恋爱】【搞笑】&amp;lt;br /&amp;gt;\r\n&amp;lt;br /&amp;gt;\r\n以上标签，和本团 【没 有 任 何 关 系】&amp;lt;br /&amp;gt;\r\n&amp;lt;br /&amp;gt;\r\n短暂（？）的短暂前情提要&amp;lt;br /&amp;gt;\r\n&amp;lt;font color=\&amp;#34;#789922\&amp;#34;&amp;gt;&amp;amp;gt;&amp;amp;gt;No.17498853&amp;lt;/font&amp;gt;&amp;lt;br /&amp;gt;\r\n&amp;lt;br /&amp;gt;\r\n总之你重生了&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;sage&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;0&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;admin&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;0&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>emmm…真的需要我进一步说明吗？&lt;/p>
+&lt;h4 id="旧有api">旧有API&lt;/h4>
+&lt;p>/Home/Forum/ref&lt;/p>
+&lt;p>输入：&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align:left">key&lt;/th>
+&lt;th style="text-align:left">说明&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align:left">id&lt;/td>
+&lt;td style="text-align:left">串的 id&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>返回：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;span class="lnt">33
+&lt;/span>&lt;span class="lnt">34
+&lt;/span>&lt;span class="lnt">35
+&lt;/span>&lt;span class="lnt">36
+&lt;/span>&lt;span class="lnt">37
+&lt;/span>&lt;span class="lnt">38
+&lt;/span>&lt;span class="lnt">39
+&lt;/span>&lt;span class="lnt">40
+&lt;/span>&lt;span class="lnt">41
+&lt;/span>&lt;span class="lnt">42
+&lt;/span>&lt;span class="lnt">43
+&lt;/span>&lt;span class="lnt">44
+&lt;/span>&lt;span class="lnt">45
+&lt;/span>&lt;span class="lnt">46
+&lt;/span>&lt;span class="lnt">47
+&lt;/span>&lt;span class="lnt">48
+&lt;/span>&lt;span class="lnt">49
+&lt;/span>&lt;span class="lnt">50
+&lt;/span>&lt;span class="lnt">51
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-html" data-lang="html">&lt;span class="line">&lt;span class="cl">&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">div&lt;/span> &lt;span class="na">class&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;h-threads-item&amp;#34;&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">div&lt;/span> &lt;span class="na">data-threads-id&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;17962944&amp;#34;&lt;/span> &lt;span class="na">class&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;h-threads-item-reply h-threads-item-ref&amp;#34;&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">div&lt;/span> &lt;span class="na">class&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;h-threads-item-reply-main&amp;#34;&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">div&lt;/span> &lt;span class="na">class&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;h-threads-info&amp;#34;&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">span&lt;/span> &lt;span class="na">class&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;h-threads-info-title&amp;#34;&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>无标题&lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">span&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">span&lt;/span> &lt;span class="na">class&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;h-threads-info-email&amp;#34;&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>无名氏&lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">span&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">span&lt;/span> &lt;span class="na">class&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;h-threads-info-createdat&amp;#34;&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>2019-05-09(四)18:11:05&lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">span&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">span&lt;/span> &lt;span class="na">class&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;h-threads-info-uid&amp;#34;&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>ID:DGDH18d&lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">span&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">span&lt;/span> &lt;span class="na">class&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;h-threads-info-report-btn&amp;#34;&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>[
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">a&lt;/span> &lt;span class="na">href&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;/f/值班室?r=17962944&amp;#34;&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>举报&lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">a&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">span&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">a&lt;/span> &lt;span class="na">href&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;/t/17962944?r=17962944&amp;#34;&lt;/span> &lt;span class="na">class&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;h-threads-info-id&amp;#34;&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>No.17962944&lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">a&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">span&lt;/span> &lt;span class="na">data-uk-dropdown&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;data-uk-dropdown&amp;#34;&lt;/span> &lt;span class="na">class&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;h-admin-tool uk-button-dropdown&amp;#34;&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">a&lt;/span> &lt;span class="na">href&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;#&amp;#34;&lt;/span> &lt;span class="na">class&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;uk-button uk-button-link uk-button-small&amp;#34;&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>管理&lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">a&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">div&lt;/span> &lt;span class="na">class&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;uk-dropdown uk-dropdown-small&amp;#34;&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">ul&lt;/span> &lt;span class="na">class&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;uk-nav uk-nav-dropdown&amp;#34;&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">li&lt;/span> &lt;span class="na">class&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;uk-nav-header&amp;#34;&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>管理 -&lt;span class="ni">&amp;amp;gt;&lt;/span> No.17962944&lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">li&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">li&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">a&lt;/span> &lt;span class="na">href&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;/Home/Forum/sagePost/id/17962944.html&amp;#34;&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>SAGE&lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">a&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">li&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">li&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">a&lt;/span> &lt;span class="na">href&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;http://hacfun.tv:1336/content/threads/6187238/set?key=lock&amp;amp;amp;value=true&amp;#34;&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>锁定&lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">a&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">li&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">li&lt;/span> &lt;span class="na">class&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;uk-nav-divider&amp;#34;&lt;/span>&lt;span class="p">&amp;gt;&amp;lt;/&lt;/span>&lt;span class="nt">li&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">li&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">a&lt;/span> &lt;span class="na">href&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;http://hacfun.tv:1336/content/threads/6187238/removeImages&amp;#34;&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>删图&lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">a&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">li&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">li&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">a&lt;/span> &lt;span class="na">href&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;/Home/Forum/delPost/id/17962944.html&amp;#34;&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>删串&lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">a&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">li&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">li&lt;/span> &lt;span class="na">class&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;uk-nav-divider&amp;#34;&lt;/span>&lt;span class="p">&amp;gt;&amp;lt;/&lt;/span>&lt;span class="nt">li&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">li&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">a&lt;/span> &lt;span class="na">href&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;http://hacfun.tv:1336/content/threads/6187238/update&amp;#34;&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>编辑&lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">a&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">li&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">li&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">a&lt;/span> &lt;span class="na">href&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;http://hacfun.tv:1336/content/threads?parent=6187238&amp;#34;&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>查询&lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">a&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">li&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">li&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">a&lt;/span> &lt;span class="na">href&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;/Home/Forum/banip/id/17962944.html&amp;#34;&lt;/span> &lt;span class="na">class&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;qlink&amp;#34;&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>锁IP&lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">a&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">li&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">a&lt;/span> &lt;span class="na">href&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;/Home/Forum/banCookie/id/17962944.html&amp;#34;&lt;/span> &lt;span class="na">class&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;qlink&amp;#34;&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>锁Cookie&lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">a&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">ul&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">div&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">span&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">div&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">div&lt;/span> &lt;span class="na">class&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;h-threads-content&amp;#34;&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> 朱军有什么丧丧的小情歌啊，最近迷上JOJI这个宝藏男孩了。 &lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">div&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">div&lt;/span> &lt;span class="na">class&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;uk-clearfix&amp;#34;&lt;/span>&lt;span class="p">&amp;gt;&amp;lt;/&lt;/span>&lt;span class="nt">div&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">div&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">div&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">div&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>嗯， 我知道， 混进来了一个画风不一样的……&lt;/p>
+&lt;p>都说了是旧有API嘛(摔)， 没有办法， 这个API可以通过&amp;quot;h-thread-info-id&amp;quot;的href属性来获取到回应的主串， 管理API的地址也给你看到啦(当然鉴权什么的……你懂的)&lt;/p>
+&lt;p>目前只有部分功能可以用， 至于是哪些嘛……自己猜&lt;/p>
+&lt;h3 id="发表新串">发表新串&lt;/h3>
+&lt;p>/Home/Forum/doReplyThread.html&lt;/p>
+&lt;p>输入：
+&lt;strong>body&lt;/strong>&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align:left">key&lt;/th>
+&lt;th style="text-align:left">type&lt;/th>
+&lt;th style="text-align:left">说明&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align:left">resto(二选一)&lt;/td>
+&lt;td style="text-align:left">number or string&lt;/td>
+&lt;td style="text-align:left">要回应的串号&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">fid(二选一)&lt;/td>
+&lt;td style="text-align:left">number or string&lt;/td>
+&lt;td style="text-align:left">要发串的版块号&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">name&lt;/td>
+&lt;td style="text-align:left">string&lt;/td>
+&lt;td style="text-align:left">名称&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">isManager&lt;/td>
+&lt;td style="text-align:left">object&lt;/td>
+&lt;td style="text-align:left">是否用红名发言(只要有这项即判断为红名)&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">email&lt;/td>
+&lt;td style="text-align:left">string&lt;/td>
+&lt;td style="text-align:left">邮箱&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">title&lt;/td>
+&lt;td style="text-align:left">string&lt;/td>
+&lt;td style="text-align:left">标题&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">content&lt;/td>
+&lt;td style="text-align:left">string&lt;/td>
+&lt;td style="text-align:left">正文&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">water&lt;/td>
+&lt;td style="text-align:left">boolen&lt;/td>
+&lt;td style="text-align:left">是否添加水印&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">image&lt;/td>
+&lt;td style="text-align:left">binary&lt;/td>
+&lt;td style="text-align:left">图片文件&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">&lt;strong>hash&lt;/strong>（可选）&lt;/td>
+&lt;td style="text-align:left">string&lt;/td>
+&lt;td style="text-align:left">饼干&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h2 id="订阅系统">订阅系统&lt;/h2>
+&lt;h3 id="查询订阅">查询订阅&lt;/h3>
+&lt;p>/Api/feed&lt;/p>
+&lt;p>输入:&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align:left">key&lt;/th>
+&lt;th style="text-align:left">说明&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align:left">page&lt;/td>
+&lt;td style="text-align:left">分页&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">uuid&lt;/td>
+&lt;td style="text-align:left">这个为手机的 uuid， 或者自定义的一些识别用户的方法， 用来识别某个用户&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>返回:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="line">&lt;span class="cl">&lt;span class="p">[&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;id&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;6460798&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;fid&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;4&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;category&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;img&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;ext&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;now&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;2015-08-10(一)02:04:49&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;userid&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;crGIPK87&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;name&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;无名氏&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;email&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;title&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;无标题&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;content&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;我现在身边睡着一个全裸的伪娘。。。我的心情很复杂&amp;lt;br&amp;gt;&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;status&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;n&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;admin&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;0&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>具体信息参阅前面的啦~好累啊*(:з」∠)*懒死了&lt;/p>
+&lt;h3 id="增加订阅">增加订阅&lt;/h3>
+&lt;p>/Api/addFeed
+输入&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align:left">key&lt;/th>
+&lt;th style="text-align:left">说明&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align:left">tid&lt;/td>
+&lt;td style="text-align:left">需要订阅的串 id&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">uuid&lt;/td>
+&lt;td style="text-align:left">这个为手机的 uuid， 或者自定义的一些识别用户的方法， 用来识别某个用户&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>返回&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align:left">key&lt;/th>
+&lt;th style="text-align:left">说明&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align:left">并没有&lt;/td>
+&lt;td style="text-align:left">如果成功返回 &amp;ldquo;订阅大成功 →_→&amp;rdquo; 出错或者其他原因返回 &amp;ldquo;该主题不存在&amp;rdquo;&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h3 id="删除订阅">删除订阅&lt;/h3>
+&lt;p>/Api/delFeed
+提交:&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align:left">key&lt;/th>
+&lt;th style="text-align:left">说明&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align:left">tid&lt;/td>
+&lt;td style="text-align:left">需要订阅的串 id&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">uuid&lt;/td>
+&lt;td style="text-align:left">这个为手机的 uuid， 或者自定义的一些识别用户的方法， 用来识别某个用户&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>返回:&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align:left">key&lt;/th>
+&lt;th style="text-align:left">说明&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align:left">并没有&lt;/td>
+&lt;td style="text-align:left">如果成功返回 &amp;ldquo;取消订阅成功!&amp;rdquo; 出错或者其他原因返回原因&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table></description></item><item><title>通过NoVpaJpeg.kext解决 macOS Mojave(10.14)下预览jpg格式崩溃</title><link>https://queb.fun/p/%E9%80%9A%E8%BF%87novpajpeg.kext%E8%A7%A3%E5%86%B3-macos-mojave10.14%E4%B8%8B%E9%A2%84%E8%A7%88jpg%E6%A0%BC%E5%BC%8F%E5%B4%A9%E6%BA%83/</link><pubDate>Mon, 26 Nov 2018 19:02:17 +0000</pubDate><guid>https://queb.fun/p/%E9%80%9A%E8%BF%87novpajpeg.kext%E8%A7%A3%E5%86%B3-macos-mojave10.14%E4%B8%8B%E9%A2%84%E8%A7%88jpg%E6%A0%BC%E5%BC%8F%E5%B4%A9%E6%BA%83/</guid><description>&lt;p>&lt;img src="https://i.loli.net/2018/12/02/5c03976c6e5e0.png"
+loading="lazy"
+alt="56493506_p0.png"
+>&lt;/p>
+&lt;p>​ 黑苹果升级到Mojave(10.14)后，遇到了通过预览打开jpg格式的图片时，预览会崩溃/卡转圈的情况，经过一番摸索，发现原因是预览调用了集显来解码JPG格式，而我因为有独显并没有打开集显。&lt;/p>
+&lt;p>​ 除了通过修改为没有集显的机型SMBIOS 或者开启机器的集显，还有一种方法是在Clover中添加NoVPAJpeg.kext驱动来禁用集显解码。&lt;/p>
+&lt;p>​ 原帖和Github放在了文章下方。&lt;/p>
+&lt;p>​ 实测RX580工作正常。&lt;/p>
+&lt;p>更多……：&lt;/p>
+&lt;ul>
+&lt;li>&lt;a class="link" href="https://www.insanelymac.com/forum/topic/334881-how-to-fix-quick-look-and-preview-issues-in-mojave/?page=8" target="_blank" rel="noopener"
+>[HOW TO] Fix Quick Look and Preview issues in Mojave&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://github.com/vulgo/NoVPAJpeg" target="_blank" rel="noopener"
+>NoVPAJpeg&lt;/a>&lt;/li>
+&lt;li>题图：id=56493506&lt;/li>
+&lt;/ul></description></item><item><title>Clover DSDT 笔记</title><link>https://queb.fun/p/clover-dsdt-%E7%AC%94%E8%AE%B0/</link><pubDate>Tue, 30 Oct 2018 20:16:12 +0000</pubDate><guid>https://queb.fun/p/clover-dsdt-%E7%AC%94%E8%AE%B0/</guid><description>&lt;iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&amp;id=30148963&amp;auto=1&amp;height=66">&lt;/iframe>
+&lt;p>​ 本文是我在研究黑苹果DSDT期间所做的技术笔记，可读性会很差，建议善用搜索功能。&lt;/p>
+&lt;p>​ Clover修正DSDT的方式主要有两种：Patched 与 hotpatch。hotpatch主要是对原有的属性进行修正，而patched相当于为电脑添加了新的属性。故两者不能混淆。&lt;/p>
+&lt;p>​ Clover对DSDT热修补(hotpatch)的大致思路是将现有的需要修正的DSDT进行「重命名」，然后制作一个自定的DSDT文件（.aml)。将系统原生的DSDT访问指向自定的文件，然后就可以做到自定义指定DSDT的行为，此处举例：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">Comment: Rename _DSM to XDSM
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Find: &amp;lt;5f44534d&amp;gt;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Replace: &amp;lt;5844534d&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>注：「_DSM」转为Hex写作&amp;lt;5f44534d&amp;gt;&lt;/p>
+&lt;p>将系统原生的 _DSM 访问重定向至 XDSM，配合/clover/acpi/hotpatch下的.aml文件就可以拦截处理指定的DSDT。&lt;/p>
+&lt;p>未完待续……&lt;/p></description></item><item><title>主题修改日志</title><link>https://queb.fun/p/%E4%B8%BB%E9%A2%98%E4%BF%AE%E6%94%B9%E6%97%A5%E5%BF%97/</link><pubDate>Sat, 25 Aug 2018 10:13:12 +0000</pubDate><guid>https://queb.fun/p/%E4%B8%BB%E9%A2%98%E4%BF%AE%E6%94%B9%E6%97%A5%E5%BF%97/</guid><description>&lt;p>2018.8.25：&lt;/p>
+&lt;ul>
+&lt;li>暂时修改了部分按钮的颜色——因为根本看不清（&lt;del>但还是很丑，会改的&lt;/del>）&lt;/li>
+&lt;li>将毛玻璃的效果加入了配置文件&lt;/li>
+&lt;/ul>
+&lt;p>2018.8.25之前：&lt;/p>
+&lt;ul>
+&lt;li>修改了页面样式&lt;/li>
+&lt;li>删除了性能堪忧的过渡动画&lt;/li>
+&lt;li>一些不太记得的东西&lt;/li>
+&lt;/ul>
+&lt;p>TODO：&lt;/p>
+&lt;ul>
+&lt;li>&lt;input disabled="" type="checkbox"> 将之前的脏代码整理到合适的地方&lt;/li>
+&lt;li>&lt;input disabled="" type="checkbox"> 适配Chrome的毛玻璃效果（JS版）&lt;/li>
+&lt;/ul></description></item><item><title>在hexo页面插入网易云播放器</title><link>https://queb.fun/p/%E5%9C%A8hexo%E9%A1%B5%E9%9D%A2%E6%8F%92%E5%85%A5%E7%BD%91%E6%98%93%E4%BA%91%E6%92%AD%E6%94%BE%E5%99%A8/</link><pubDate>Thu, 23 Aug 2018 08:49:33 +0000</pubDate><guid>https://queb.fun/p/%E5%9C%A8hexo%E9%A1%B5%E9%9D%A2%E6%8F%92%E5%85%A5%E7%BD%91%E6%98%93%E4%BA%91%E6%92%AD%E6%94%BE%E5%99%A8/</guid><description>&lt;p>&lt;img src="https://s6.jpg.cm/2022/02/16/LBqbmt.png"
+loading="lazy"
+alt="LBqbmt.png"
+>&lt;/p>
+&lt;!-- more -->
+&lt;p>最近终于在百(shou)忙(lie)之余想起来还有个博客的事，最近几个月除了把博客搬迁到了gitpage就完全没有理睬这玩意，既然今天想起来了就干脆把之前魔改留下的坑稍微填一下……&lt;/p>
+&lt;p>为什么会有这篇文章呢，为了让博客看着稍微正常点，我找了关于如何在Md页面中插入HTML的教程，最后发现是原生支持的……那么问题就变成了要在页面上插入些什么东西才好，思前想后果然还是王道征途，音乐控件吧&lt;/p>
+&lt;p>那么就是惯例的Google，找到了如下的代码：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-html" data-lang="html">&lt;span class="line">&lt;span class="cl">&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">iframe&lt;/span> &lt;span class="na">frameborder&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;no&amp;#34;&lt;/span> &lt;span class="na">border&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;0&amp;#34;&lt;/span> &lt;span class="na">marginwidth&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;0&amp;#34;&lt;/span> &lt;span class="na">marginheight&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;0&amp;#34;&lt;/span> &lt;span class="na">width&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;320&amp;#34;&lt;/span> &lt;span class="na">height&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;330&amp;#34;&lt;/span> &lt;span class="na">src&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;https://music.163.com/outchain/player?type=0&amp;amp;amp;id=24972133&amp;amp;amp;auto=0&amp;amp;amp;height=430&amp;#34;&lt;/span>&lt;span class="p">&amp;gt;&amp;lt;/&lt;/span>&lt;span class="nt">iframe&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>将这行代码直接放在需要的地方就可以实现如下效果的播放器：&lt;/p>
+&lt;!-- more -->
+&lt;iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="320" height="330" src="https://music.163.com/outchain/player?type=0&amp;amp;id=24972133&amp;amp;auto=0&amp;amp;height=430">&lt;/iframe>
+&lt;p>&amp;lt;iframe&amp;gt;控件的参数可以从&lt;a class="link" href="http://www.w3school.com.cn/tags/tag_iframe.asp" target="_blank" rel="noopener"
+>这里&lt;/a>看到，可以借助参数来调整控件的外观。不过最重要的还是src部分的参数，将sec部分的‘type’和‘id’部分替换成自己的就可以了
+其中：&lt;/p>
+&lt;ul>
+&lt;li>type为0的时候对应的是歌单的id；&lt;/li>
+&lt;li>type为1的时候对应的是专辑的id；&lt;/li>
+&lt;li>type为2的时候对应的是单曲的id&lt;/li>
+&lt;/ul>
+&lt;p>网易云自带的外链设置：&lt;code>https://music.163.com/#/outchain/_type/_id/m/use/html&lt;/code>,将_type和_id改为需要的参数即可。&lt;/p>
+&lt;p>&lt;strong>2018.9.4更新&lt;/strong>&lt;/p>
+&lt;p>最近将博客迁移到gitpages后发现此前的播放器不能正常显示，Google后发现是gitpage强制开启了https，而我之前的播放器src用了http……修改后解决&lt;/p>
+&lt;p>&lt;a class="link" href="http://saili.science/2017/05/30/music/" target="_blank" rel="noopener"
+>参考链接&lt;/a>&lt;/p>
+&lt;hr>
+&lt;p>题图：Pixiv_PID:70217074&lt;/p>
+&lt;p>#EOF&lt;/p></description></item><item><title>Play Store更新APP卡在“正在下载”的解决方法</title><link>https://queb.fun/p/play-store%E6%9B%B4%E6%96%B0app%E5%8D%A1%E5%9C%A8%E6%AD%A3%E5%9C%A8%E4%B8%8B%E8%BD%BD%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</link><pubDate>Thu, 23 Aug 2018 05:01:22 +0000</pubDate><guid>https://queb.fun/p/play-store%E6%9B%B4%E6%96%B0app%E5%8D%A1%E5%9C%A8%E6%AD%A3%E5%9C%A8%E4%B8%8B%E8%BD%BD%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</guid><description>&lt;p>最近几个月遇到了Play Store更新/下载应用时长时间卡在“正在下载…”的情况，然后过了几分钟之后突然开始下载的情况。一开始以为是网络的问题，但是反复检查没有头绪，于是搜索了一下，发现这个现象从去年开始就有相关的资料了（有理由怀疑是Google在搞什么动作）&lt;/p>
+&lt;p>解决方法也很简单，强行退出Play Store之后，清空Play Store的数据，重新打开就恢复了。&lt;/p></description></item><item><title>Nginx从入门到入土#1——配置文件初探</title><link>https://queb.fun/p/nginx%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E5%85%A5%E5%9C%9F#1%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%88%9D%E6%8E%A2/</link><pubDate>Fri, 13 Apr 2018 19:06:22 +0000</pubDate><guid>https://queb.fun/p/nginx%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E5%85%A5%E5%9C%9F#1%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%88%9D%E6%8E%A2/</guid><description>&lt;p>本文意在简要说明Nginx配置文件以尽快上手，诸多进阶配置项不在本文的介绍范围内，请自行Google :)&lt;/p>
+&lt;h3 id="nginx-文件树">Nginx 文件树&lt;/h3>
+&lt;p>Nginx的配置文件主要分为两类——Nginx自身的配置（即/etc/nginx/nginx.conf）和vHost配置文件（/etc/nginx/sites-available内文件）&lt;/p>
+&lt;p>&lt;img src="https://i.loli.net/2018/04/13/5ad0932aba39d.png"
+loading="lazy"
+>
+（图为/etc/nginx文件夹一览）&lt;/p>
+&lt;!-- more -->
+&lt;p>关于Nginx.conf文件，一般情况下不需要调整就可以正常工作，所以本文暂不展开讲解。但是值得注意的是，决定使用哪个vHost配置文件的相关内容位于Nginx.conf文件内：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">./nginx.conf
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">##
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"># Virtual Host Configs
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">##
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">include /etc/nginx/conf.d/*.conf;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">include /etc/nginx/sites-enabled/*;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>可以通过更改include字段来选择启用的vHost配置文件&lt;/p>
+&lt;h3 id="vhost配置">vHost配置&lt;/h3>
+&lt;p>由上例可知，实际中Nginx使用的是./sites-enabled/下的配置文件，然而一般情况下，我们选择将配置文件放到./sites-available/文件夹下，然后将要应用的配置文件软链接到sites-enabled文件夹下来使用。&lt;/p>
+&lt;p>如果你是通过apt或yum安装的Nginx，./sites-available/文件夹下应该会有一个default配置（也有可能同时存在它的备份），这就是nginx的默认配置文件。如果只是简单的端口转发/同时运行多个站点，只要在default的基础上进行修改即可。&lt;/p>
+&lt;p>以下是一个default文件的例子：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-gdscript3" data-lang="gdscript3">&lt;span class="line">&lt;span class="cl">&lt;span class="n">server&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">listen&lt;/span> &lt;span class="mi">80&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">server_name&lt;/span> &lt;span class="n">localhost&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">root&lt;/span> &lt;span class="o">/&lt;/span>&lt;span class="k">var&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">www&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">index&lt;/span> &lt;span class="n">index&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">html&lt;/span> &lt;span class="n">index&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">htm&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">access_log&lt;/span> &lt;span class="o">/&lt;/span>&lt;span class="k">var&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="nb">log&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">nginx&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">access&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">log&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">error_log&lt;/span> &lt;span class="o">/&lt;/span>&lt;span class="k">var&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="nb">log&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">nginx&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">error&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">log&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">location&lt;/span> &lt;span class="o">/&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="mi">301&lt;/span> &lt;span class="n">https&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="o">//$&lt;/span>&lt;span class="n">host&lt;/span>&lt;span class="o">$&lt;/span>&lt;span class="n">request_uri&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>其中：&lt;/p>
+&lt;ul>
+&lt;li>server{}代表了一个服务端，理论上每个不同的服务对应着一个server；&lt;/li>
+&lt;li>listen指你要监听的端口；&lt;/li>
+&lt;li>server_name 指响应的域名
+&lt;ul>
+&lt;li>详见 &lt;a class="link" href="https://www.jianshu.com/p/2d6f16a32b37" target="_blank" rel="noopener"
+>https://www.jianshu.com/p/2d6f16a32b37&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>root 指网站的根目录&lt;/li>
+&lt;li>index指你网站的起始页面&lt;/li>
+&lt;li>location{}是该服务所响应的路径（即你的域名/IP后面的部分）&lt;/li>
+&lt;/ul>
+&lt;p>下面我们详细说明一下location&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-gdscript3" data-lang="gdscript3">&lt;span class="line">&lt;span class="cl">&lt;span class="n">location&lt;/span> &lt;span class="o">/&lt;/span>&lt;span class="n">blog&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">stub_status&lt;/span> &lt;span class="n">on&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">access_log&lt;/span> &lt;span class="n">off&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">root&lt;/span> &lt;span class="o">/&lt;/span>&lt;span class="k">var&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">www&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">index&lt;/span> &lt;span class="n">index&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">html&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>location后面跟的“/”就是其响应的路径，其中“/”指的是响应所有路径。即形如“yourdomain.name/*** ”的URL都会被响应。如果location后面跟的是“/blog”，那么形如 “ yourdomain.name/blog ”的URL就会被响应。&lt;/p>
+&lt;p>是的，同一个server可以有多个location。
+同时在location内，server中的一些数据可以被覆盖，比如 root。&lt;/p>
+&lt;hr>
+&lt;p>修改日志：&lt;/p>
+&lt;p>2018-04-16：稍作修改；&lt;/p>
+&lt;p>2018-04-13：初版；&lt;/p>
+&lt;p>#EOF&lt;/p></description></item><item><title>黑苹果升级10.13.4——显卡篇</title><link>https://queb.fun/p/%E9%BB%91%E8%8B%B9%E6%9E%9C%E5%8D%87%E7%BA%A710.13.4%E6%98%BE%E5%8D%A1%E7%AF%87/</link><pubDate>Sat, 31 Mar 2018 11:53:12 +0000</pubDate><guid>https://queb.fun/p/%E9%BB%91%E8%8B%B9%E6%9E%9C%E5%8D%87%E7%BA%A710.13.4%E6%98%BE%E5%8D%A1%E7%AF%87/</guid><description>&lt;p>&lt;img src="https://i.loli.net/2018/04/13/5ad080a90ad84.jpg"
+loading="lazy"
+>&lt;/p>
+&lt;p>###2018.8.23更新：
+显卡驱动换为WhateverGreen，在错觉程度的水平上提升了性能表现……&lt;/p>
+&lt;hr>
+&lt;p>今日apple推送了macOS 10.13.4 新增了对eGPU的支持，实测在配合 NvidiaGraphicsFixup 时，可以显著提升MacOS的图形性能。&lt;/p>
+&lt;p>需要将 NvidiaGraphicsFixup 升级至1.2.5版本，WebDriver升级到387.10.10.10.30.103（即13.4最新版驱动）&lt;/p>
+&lt;p>升级过程应该不用我多讲了。。。大家一试便知&lt;/p>
+&lt;p>·附上 NvidiaGraphicsFixup 项目地址 &lt;a class="link" href="https://github.com/lvs1974/NvidiaGraphicsFixup" target="_blank" rel="noopener"
+>https://github.com/lvs1974/NvidiaGraphicsFixup&lt;/a>&lt;/p>
+&lt;hr>
+&lt;p>题图: &lt;a class="link" href="http://adnmb1.com/t/6621569" target="_blank" rel="noopener"
+>http://adnmb1.com/t/6621569&lt;/a>&lt;/p></description></item><item><title>沉沉浮浮的千木岛</title><link>https://queb.fun/p/%E6%B2%89%E6%B2%89%E6%B5%AE%E6%B5%AE%E7%9A%84%E5%8D%83%E6%9C%A8%E5%B2%9B/</link><pubDate>Tue, 20 Mar 2018 19:13:48 +0000</pubDate><guid>https://queb.fun/p/%E6%B2%89%E6%B2%89%E6%B5%AE%E6%B5%AE%E7%9A%84%E5%8D%83%E6%9C%A8%E5%B2%9B/</guid><description>&lt;p>距离上一次试图浮岛大概过去了两年，期间断断续续写过很多字。&lt;/p>
+&lt;p>然而如同往常一样，内心始终是对创作抱有抵触情绪的；又觉得矫情的无病呻吟实在是不适合放到外面引人发笑，加之腾讯云的学生政策变更导致我的学生主机莫名被取消了资格，便放弃了再自建博客的想法。&lt;/p>
+&lt;p>但在这两年，尤其是2017年，在网络上遇见了许多年轻有为的人，在深深的羡慕同时，也萌发了留下一些东西的想法。虽然这些文字只能勉强称得上是经验之谈，但是相信如果有人能因为我的经验少掉一些头发，便也是令我心满意足的生存价值。&lt;/p>
+&lt;p>我依旧是不擅长表达想法的，所以对于看完了这些无聊文字的你，请接受我对你献上的祝愿。&lt;/p>
+&lt;p>愿属于你的自由终将来临。&lt;/p></description></item><item><title>Links</title><link>https://queb.fun/links/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://queb.fun/links/</guid><description>&lt;p>To use this feature, add &lt;code>links&lt;/code> section to frontmatter.&lt;/p>
+&lt;p>This page&amp;rsquo;s frontmatter:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;span class="lnt">9
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">links&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">title&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">GitHub&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">description&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">GitHub is the world&amp;#39;s largest software development platform.&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">website&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">https://github.com&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">image&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">title&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">TypeScript&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">description&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">TypeScript is a typed superset of JavaScript that compiles to plain JavaScript.&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">website&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">https://www.typescriptlang.org&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">image&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">ts-logo-128.jpg&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;code>image&lt;/code> field accepts both local and external images.&lt;/p></description></item><item><title>Search</title><link>https://queb.fun/search/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://queb.fun/search/</guid><description/></item></channel></rss>

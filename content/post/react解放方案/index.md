@@ -1,8 +1,10 @@
 ---
 title: '我中意的React解决方案'
 date: 2022-02-21 16:33:51
-lastmod: 2023-12-26 18:20:51
-tags: []
+lastmod: 2024-02-20 16:37:51
+tags:
+  - 技术笔记
+  - react
 published: true
 hideInList: false
 feature: https://s6.jpg.cm/2022/02/21/LflaxW.md.jpg
@@ -21,13 +23,13 @@ isTop: false
 
 目前用的最多的解决方案. 用起来有些坑(主要是 `this` 相关的部分)但整体来说很好.
 
+### [Helux](https://github.com/heluxjs/helux)
+
+目前正在进行测试的方案. 优势在于属于 `AIO` 方案, 所以对于各种奇奇怪怪的用例都有支持. 是否喜欢这种大而全的解决方案就见仁见智了.
+
 ### [Mobx](https://mobx.js.org/)
 
 备用方案,和 valtio 差不太多。问题在于必须使用 observer 包裹组件，而且兼容性不强
-
-### [Immer](https://immerjs.github.io/immer/)
-
-Mobx 作者新搞的小玩具，实用性一般，因为要修改必须从顶级 state 的 draft 开始访问，否则不能正确响应。但是思路还是很好的，工程量不大的小项目小组件可以试试看
 
 ## 路由
 
@@ -37,21 +39,13 @@ Mobx 作者新搞的小玩具，实用性一般，因为要修改必须从顶级
 
 ### [React Hook Router](https://github.com/Paratron/hookrouter)
 
-这就是当初用过的方案，现在不再推荐了因为 react-router 已经很好了，而且这个作者不喜欢 TS 所以这方面的支持也不太好，而且很久没更新了。但作为一个小型 router 的实现代码是值得学习的。
+这就是当初用过的方案，现在**不再推荐了**因为 `react-router` 已经很好了，而且这个作者不喜欢 TS 所以这方面的支持也不太好，而且很久没更新了。但作为一个小型 router 的实现代码是值得学习的。
 
 ## CSS
 
 ### emotionJS
 
 目前在用的，除了 `css props` 我颇有微词以外，其他的部分都算完美，`css-in-js`保证了样式的可控性（我知道大部分时候用不到，但是用得到的时候还是很爽的），使用完整的 CSS/SCSS 语法而不是什么`Tailwind`黑科技。库很小而且泛用性很高。本质上这东西和`styled`是一家子所以代码也很容易迁移。平台支持广：虽然理论上这东西支持 RN 但属实没必要。
-
-### styled-jsx
-
-呃，这东西就比较微妙了。首先他是需要 babel 支持的，这意味着在某些你不想用，或者不能用 babel 的场合这东西就跪了。与 emotion 相比实际上我更喜欢 styled 的写法，即把 style 单独写在一个标签里面然后用`scoped css`限制他的作用域，但是 styled-jsx 是不建议注入子组件的样式的，我不赞同这个设计。所以权衡之后放弃了这东西。btw `next.js` 默认用的这个。说明还是有相当一部分人喜欢 `shadow-css` 设计的。看个人喜好和具体业务场景了。
-
-### @material-ui/style
-
-这东西入土了，新的 mui 用的是 emotion，然后保留了之前的 api 而已。
 
 ### react-spring
 

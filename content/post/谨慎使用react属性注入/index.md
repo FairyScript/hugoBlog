@@ -10,6 +10,8 @@ hidden: false
 comments: true
 categories:
 tags:
+  - 杂谈
+
 draft: false
 ---
 

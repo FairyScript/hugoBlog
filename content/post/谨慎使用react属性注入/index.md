@@ -9,9 +9,9 @@ license:
 hidden: false
 comments: true
 categories:
+  - tech
 tags:
-  - 杂谈
-
+  - react
 draft: false
 ---
 

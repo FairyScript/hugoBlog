@@ -3,7 +3,7 @@ title: '料理包评测记录'
 date: 2022-02-16 04:51:45
 description: 珍爱生命,远离选择困难症
 slug: d87d3df2
-image: https://s6.jpg.cm/2022/02/16/LBquTR.jpg
+image: cover.webp
 math:
 license:
 hidden: false

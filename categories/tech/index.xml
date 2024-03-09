@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>技术笔记 on 千木岛</title><link>https://queb.fun/categories/tech/</link><description>Recent content in 技术笔记 on 千木岛</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Mon, 18 Dec 2023 14:17:01 +0800</lastBuildDate><atom:link href="https://queb.fun/categories/tech/index.xml" rel="self" type="application/rss+xml"/><item><title>谨慎使用react属性注入</title><link>https://queb.fun/p/86d911df/</link><pubDate>Mon, 18 Dec 2023 14:17:01 +0800</pubDate><guid>https://queb.fun/p/86d911df/</guid><description>&lt;img src="https://queb.fun/p/86d911df/cover.webp" alt="Featured image of post 谨慎使用react属性注入" />&lt;h3 id="跑题预警">跑题预警&lt;/h3>
+&lt;p>虽然这是一篇关于 &lt;code>react cloneChildren&lt;/code> 的文章,但我会插入&lt;strong>大量&lt;/strong>上下文来说明为什么我选择使用了这个功能, 又写了篇文章说明需要谨慎使用的原因. 实际上该主题占用全文篇幅约 &lt;strong>10%&lt;/strong>. 请酌情阅读~&lt;/p>
+&lt;hr>
+&lt;h3 id="起因">起因&lt;/h3>
+&lt;p>最近在公司的项目中遇到了一个这样的场景: 需求编写一个无头的 tab 组件,其中作为 &lt;code>tabItem&lt;/code> 可以接受任意的 &lt;code>Component&lt;/code> 作为子项,参数又外部控制&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-jsx" data-lang="jsx">&lt;span class="line">&lt;span class="cl">&lt;span class="kr">const&lt;/span> &lt;span class="nx">SomeTab&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">()&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kr">const&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="nx">active&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">setActive&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">useState&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">0&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">TabList&lt;/span> &lt;span class="na">active&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="nx">active&lt;/span>&lt;span class="p">}&lt;/span> &lt;span class="na">setActive&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="nx">setActive&lt;/span>&lt;span class="p">}&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">TabItem&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">CustomComp&lt;/span> &lt;span class="p">/&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">TabItem&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">TabItem&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">CustomComp&lt;/span> &lt;span class="p">/&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">TabItem&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">TabItem&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">CustomComp&lt;/span> &lt;span class="p">/&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">TabItem&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">TabList&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>然后在我的用例当中,实际上我不需要 item 组件有过高的业务复杂度,仅需要能根据状态切换显示就可以了. 于是我进行约定: 自定义组件可以接受某个 &amp;lsquo;active&amp;rsquo; 的我的第一版代码如下&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-tsx" data-lang="tsx">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">//定义组件props类型 active 与 setActive 作为 context 传递, 剩余props 透传给内部 div 容器
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kr">interface&lt;/span> &lt;span class="nx">ITabContext&lt;/span>&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">T&lt;/span> &lt;span class="na">extends&lt;/span> &lt;span class="na">string&lt;/span>&lt;span class="p">&amp;gt;&lt;/span> &lt;span class="kr">extends&lt;/span> &lt;span class="nx">HTMLAttributes&lt;/span>&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">HTMLDivElement&lt;/span>&lt;span class="p">&amp;gt;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">active&lt;/span>: &lt;span class="kt">T&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">setActive&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">active&lt;/span>: &lt;span class="kt">T&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="k">void&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kr">const&lt;/span> &lt;span class="nx">TabContext&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">createContext&lt;/span>&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">ITabContext&lt;/span>&lt;span class="err">&amp;lt;&lt;/span>&lt;span class="na">any&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>&lt;span class="o">&amp;gt;&lt;/span>&lt;span class="p">({&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">active&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="s1">&amp;#39;&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">setActive&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="p">()&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="p">{},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kr">export&lt;/span> &lt;span class="kd">function&lt;/span> &lt;span class="nx">TabList&lt;/span>&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">T&lt;/span> &lt;span class="na">extends&lt;/span> &lt;span class="na">string&lt;/span>&lt;span class="p">&amp;gt;(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">props&lt;/span>: &lt;span class="kt">PropsWithChildren&lt;/span>&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">ITabContext&lt;/span>&lt;span class="err">&amp;lt;&lt;/span>&lt;span class="na">T&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>&lt;span class="o">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kr">const&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="nx">children&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">active&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">setActive&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="p">...&lt;/span>&lt;span class="nx">rest&lt;/span> &lt;span class="p">}&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">props&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kr">const&lt;/span> &lt;span class="nx">value&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">useMemo&lt;/span>&lt;span class="p">(()&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="p">({&lt;/span> &lt;span class="nx">active&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">setActive&lt;/span> &lt;span class="p">}),&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="nx">active&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">setActive&lt;/span>&lt;span class="p">])&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">TabContext.Provider&lt;/span> &lt;span class="na">value&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="nx">value&lt;/span>&lt;span class="p">}&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">div&lt;/span> &lt;span class="p">{&lt;/span>&lt;span class="na">...rest&lt;/span>&lt;span class="p">}&amp;gt;{&lt;/span>&lt;span class="nx">children&lt;/span>&lt;span class="p">}&amp;lt;/&lt;/span>&lt;span class="nt">div&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">TabContext.Provider&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>这样容器组件就完成了, 接下来只需要在孩子组件当中响应选择事件就可以&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-tsx" data-lang="tsx">&lt;span class="line">&lt;span class="cl">&lt;span class="kr">interface&lt;/span> &lt;span class="nx">ITabItemProps&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">value&lt;/span>: &lt;span class="kt">string&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kr">export&lt;/span> &lt;span class="kr">const&lt;/span> &lt;span class="nx">TabItem&lt;/span>: &lt;span class="kt">React.FC&lt;/span>&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">PropsWithChildren&lt;/span>&lt;span class="err">&amp;lt;&lt;/span>&lt;span class="na">ITabItemProps&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>&lt;span class="o">&amp;gt;&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">({&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">children&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">value&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">})&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kr">const&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="nx">active&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">setActive&lt;/span> &lt;span class="p">}&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">useContext&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">TabContext&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kr">const&lt;/span> &lt;span class="nx">id&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">useId&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kr">const&lt;/span> &lt;span class="nx">fid&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="sb">`tabItem-&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nx">id&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="sb">`&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kr">const&lt;/span> &lt;span class="nx">isActive&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">active&lt;/span> &lt;span class="o">===&lt;/span> &lt;span class="nx">value&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">div&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">input&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">type&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;radio&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">id&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="nx">fid&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">hidden&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">onChange&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="p">{()&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">setActive&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">value&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">checked&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="nx">isActive&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">/&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">label&lt;/span> &lt;span class="na">htmlFor&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="nx">fid&lt;/span>&lt;span class="p">}&lt;/span> &lt;span class="na">data&lt;/span>&lt;span class="err">-&lt;/span>&lt;span class="na">active&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="nx">active&lt;/span>&lt;span class="p">}&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>&lt;span class="nx">children&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">label&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">div&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>一切都是那么的完美,现在只需要在 css 当中获取 &lt;code>data-active&lt;/code> 状态就可以了&amp;hellip;吗?&lt;/p>
+&lt;p>当时写下这段代码的我对于自己的 css 水平还是过于乐观了,在写完这段代码 3 分钟 之后才逐渐意识到问题所在.&lt;/p>
+&lt;p>首先我们需要知道, css 3 标准提供了一个名为 &lt;code>属性选择器 (Attribute selectors)&lt;/code> 的功能, 它让你可以以形如&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-css" data-lang="css">&lt;span class="line">&lt;span class="cl">&lt;span class="o">&amp;amp;[&lt;/span>&lt;span class="nt">data-active&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;true&amp;#39;&lt;/span>&lt;span class="o">]&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">color&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">red&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>的方式进行样式选择,这大大加强了在使用静态 css 进行样式控制的能力. 我们可以使用类似 &lt;code>&amp;lt;div data-active={true}&amp;gt;Content!&amp;lt;/div&amp;gt;&lt;/code> 的方式控制 css 样式而不需要使用 &lt;code>css-in-js&lt;/code> 的方式.&lt;/p>
+&lt;p>但这有一个问题, 这个选择器选择的是 &lt;code>html 属性&lt;/code>. 这意味着该属性实际上无法传递给子元素. 加之 css 本身并不支持父级选择器, 所以在动态传入孩子的用例中便无法使用这种方法. 那么有没有什么东西是可以传递给孩子(当然,还需要有作用域控制. 我可不想为起名字绞尽脑汁!)呢? 答案当然是有的&amp;ndash; 那就是 &lt;code>css 变量 (css variables)&lt;/code>. 再加上 &lt;code>@container&lt;/code> 查询, 一顿 Google 之后代码变成了这样&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-jsx" data-lang="jsx">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">//...
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">label&lt;/span> &lt;span class="na">htmlFor&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="nx">fid&lt;/span>&lt;span class="p">}&lt;/span> &lt;span class="na">style&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="p">{{&lt;/span> &lt;span class="s1">&amp;#39;--active&amp;#39;&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="mi">1&lt;/span> &lt;span class="p">}}&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>&lt;span class="nx">children&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">label&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-css" data-lang="css">&lt;span class="line">&lt;span class="cl">&lt;span class="c">/* children.css*/&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">@&lt;/span>&lt;span class="k">container&lt;/span> &lt;span class="nt">style&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="nt">--active&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="nd">1&lt;/span>&lt;span class="o">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c">/*activeCss*/&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;strong>芜湖完美&lt;/strong> &lt;del>不过这个 &lt;code>@container&lt;/code> 怎么没听说过&lt;/del>&lt;/p>
+&lt;p>以防万一还是确认一下兼容性&amp;hellip;&lt;/p>
+&lt;p>&lt;img src="https://queb.fun/p/86d911df/caniuse.webp"
+width="594"
+height="458"
+srcset="https://queb.fun/p/86d911df/caniuse_hu120c4f1522e5b1b72056d10e0d33e08f_40724_480x0_resize_q75_h2_box_2.webp 480w, https://queb.fun/p/86d911df/caniuse_hu120c4f1522e5b1b72056d10e0d33e08f_40724_1024x0_resize_q75_h2_box_2.webp 1024w"
+loading="lazy"
+alt="蛤?!"
+class="gallery-image"
+data-flex-grow="129"
+data-flex-basis="311px"
+>&lt;/p>
+&lt;p>彳亍, 105 开始, 120 正式支持. 那这个指定用不上了. 那还想要达到这种效果只能考虑最传统的 &lt;code>props inject&lt;/code> 了. 简单搓一个&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-ts" data-lang="ts">&lt;span class="line">&lt;span class="cl">&lt;span class="kr">import&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="nx">Children&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">ReactNode&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">cloneElement&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">ReactElement&lt;/span> &lt;span class="p">}&lt;/span> &lt;span class="kr">from&lt;/span> &lt;span class="s1">&amp;#39;react&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kr">export&lt;/span> &lt;span class="kd">function&lt;/span> &lt;span class="nx">injectChildrenProp&lt;/span>&lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">children&lt;/span>: &lt;span class="kt">ReactNode&lt;/span> &lt;span class="o">|&lt;/span> &lt;span class="nx">ReactNode&lt;/span>&lt;span class="p">[],&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">props&lt;/span>: &lt;span class="kt">object&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="nx">Children&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">map&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">children&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">child&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="k">typeof&lt;/span> &lt;span class="nx">child&lt;/span> &lt;span class="o">!==&lt;/span> &lt;span class="s1">&amp;#39;object&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="k">return&lt;/span> &lt;span class="nx">child&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="nx">cloneElement&lt;/span>&lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">child&lt;/span> &lt;span class="kr">as&lt;/span> &lt;span class="nx">React&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">ReactElement&lt;/span>&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">object&lt;/span>&lt;span class="p">&amp;gt;,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">Object&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">assign&lt;/span>&lt;span class="p">({},&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">child&lt;/span> &lt;span class="kr">as&lt;/span> &lt;span class="nx">ReactElement&lt;/span>&lt;span class="p">).&lt;/span>&lt;span class="nx">props&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">props&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="正文-总结">&lt;del>正文&lt;/del> 总结&lt;/h3>
+&lt;p>纯粹的代码开发到这里就结束惹, 时候总结的时候我的想法是, 尽管这种写法省略了为孩子传参,看起来会优雅一些.但是隐藏 &lt;code>prop&lt;/code> 从长远来看是增加了后续维护的难度的.后续的改进思路是给 &lt;code>TabItem&lt;/code> 的 children 加上类型限定, 如果再次设计我也可能会选择闭包的形式 like:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-jsx" data-lang="jsx">&lt;span class="line">&lt;span class="cl">&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">TabList&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">TabItem&lt;/span>&lt;span class="p">&amp;gt;{(&lt;/span>&lt;span class="nx">active&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">CustomElement&lt;/span> &lt;span class="p">/&amp;gt;}&amp;lt;/&lt;/span>&lt;span class="nt">TabItem&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">TabList&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>但是这样就有点丑不是&amp;hellip;所以还是一个取舍问题.&lt;/p></description></item><item><title>一次关于r3f异常缩放的排查</title><link>https://queb.fun/p/6c28e634/</link><pubDate>Tue, 12 Dec 2023 10:00:00 +0800</pubDate><guid>https://queb.fun/p/6c28e634/</guid><description>&lt;img src="https://queb.fun/p/6c28e634/cover.webp" alt="Featured image of post 一次关于r3f异常缩放的排查" />&lt;h2 id="前情提要">前情提要&lt;/h2>
+&lt;p>在开发某个 3d 相关的微服务项目的时候,我使用了&lt;code>@react-three/fiber&lt;/code>作为渲染引擎.在开发过程中,我发现了一个很奇怪的问题,就是在外层 dom 元素应用了 &lt;code>CSS transform scale&lt;/code> 之后,&lt;code>f3c&lt;/code>的渲染会再次应用一次缩放.&lt;/p>
+&lt;h2 id="问题排查--解决">问题排查 &amp;amp; 解决&lt;/h2>
+&lt;p>通过查看 &lt;code>f3c&lt;/code> 文档可知,&lt;code>f3c&lt;/code> 会在渲染的时候,将 &lt;code>canvas&lt;/code> 的 &lt;code>width&lt;/code> 和 &lt;code>height&lt;/code> 设置为 &lt;code>100%&lt;/code>,然后通过读取外部容器的大小来确定 &lt;code>canvas&lt;/code> 的大小.这样做的目的是为了自适应外部容器的大小.&lt;/p>
+&lt;p>具体而言,&lt;code>f3c&lt;/code> 使用了 &lt;code>react-use-measure&lt;/code> 作为获取 dom 元素大小的库. 而问题则出在这里.&lt;/p>
+&lt;p>通过查看 &lt;code>react-use-measure&lt;/code> 的源码可以发现.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-ts" data-lang="ts">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// ...
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kr">const&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="nx">left&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">top&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">width&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">height&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">bottom&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">right&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">x&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">y&lt;/span> &lt;span class="p">}&lt;/span> &lt;span class="o">=&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">state&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">current&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">element&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">getBoundingClientRect&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="kr">as&lt;/span> &lt;span class="kt">unknown&lt;/span> &lt;span class="kr">as&lt;/span> &lt;span class="nx">RectReadOnly&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kr">const&lt;/span> &lt;span class="nx">size&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">left&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">top&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">width&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">height&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">bottom&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">right&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">x&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">y&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">state&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">current&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">element&lt;/span> &lt;span class="k">instanceof&lt;/span> &lt;span class="nx">HTMLElement&lt;/span> &lt;span class="o">&amp;amp;&amp;amp;&lt;/span> &lt;span class="nx">offsetSize&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">size&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">height&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">state&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">current&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">element&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">offsetHeight&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">size&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">width&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">state&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">current&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">element&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">offsetWidth&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// ...
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>在默认行为当中, &lt;code>react-use-measure&lt;/code> 会默认使用 &lt;code>getBoundingClientRect&lt;/code> 来获取 dom 元素的大小.而 &lt;code>getBoundingClientRect&lt;/code> 获取到的大小是&lt;strong>经过&lt;/strong> &lt;code>transform&lt;/code> 之后的大小.这就导致了 &lt;code>f3c&lt;/code> 在渲染的时候,会再次应用一次缩放.&lt;/p>
+&lt;p>而解决这个问题也很简单,只需要传递一个 &lt;code>offsetSize&lt;/code> 参数,就可以让 &lt;code>react-use-measure&lt;/code> 使用 &lt;code>offsetWidth&lt;/code> 和 &lt;code>offsetHeight&lt;/code> 来获取 dom 元素的大小. &lt;code>offsetWidth&lt;/code> 本身并不会受 &lt;code>transform&lt;/code> 影响.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-tsx" data-lang="tsx">&lt;span class="line">&lt;span class="cl">&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">Canvas&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">resize&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="p">{{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 解决css csale 造成的canvas大小不一致问题
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nx">offsetSize&lt;/span>: &lt;span class="kt">true&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">&amp;gt;&amp;lt;/&lt;/span>&lt;span class="nt">Canvas&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="碎碎念">碎碎念&lt;/h2>
+&lt;p>天知道这个问题到底掉了我多少头发&amp;hellip; 之前没有用过 &lt;code>getBoundingClientRect&lt;/code>, 完全不知道还有这种坑. css 中绝大部分属性都是不响应 &lt;code>transform&lt;/code> 的,但是 &lt;code>getBoundingClientRect&lt;/code> 却是响应的.这个真的是太难了.&lt;/p>
+&lt;h2 id="参考链接">参考链接&lt;/h2>
+&lt;ul>
+&lt;li>&lt;a class="link" href="https://github.com/pmndrs/react-use-measure/blob/8639e5a93d60930159dc83743780ce4787fe90bb/src/web/index.ts#L81-L109" target="_blank" rel="noopener"
+>react-use-measure&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect" target="_blank" rel="noopener"
+>MDN - Element.getBoundingClientRect()&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/offsetHeight" target="_blank" rel="noopener"
+>MDN - HTMLElement.offsetHeight&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://www.pixiv.net/artworks/112687098" target="_blank" rel="noopener"
+>Pixiv - ガケの国の隠れ家&lt;/a>&lt;/li>
+&lt;/ul></description></item></channel></rss>

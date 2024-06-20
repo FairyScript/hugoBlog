@@ -14,7 +14,7 @@ tags:
   - react
   - css
   - vite
-draft: true
+draft: false
 ---
 
 最近在工作中遇到了一起 CSS style 样式无法生效的问题.特此记录.

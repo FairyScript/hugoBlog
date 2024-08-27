@@ -9,8 +9,11 @@ license:
 hidden: false
 comments: true
 categories:
+  - tech
 tags:
-draft: true
+  - rsync
+  - windows
+draft: false
 ---
 
 ## 前言

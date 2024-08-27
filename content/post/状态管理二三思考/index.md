@@ -9,6 +9,7 @@ license:
 hidden: false
 comments: true
 categories:
+  - tech
 tags:
   - js
 draft: false

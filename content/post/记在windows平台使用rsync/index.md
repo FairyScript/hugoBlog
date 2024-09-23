@@ -16,6 +16,14 @@ tags:
 draft: false
 ---
 
+### 2024.9.14 更新
+
+貌似这样装的rsync使用 windows 自带的 openssl 会有写奇怪的问题,最后还是选择安装了 choco 的 rsync
+
+https://community.chocolatey.org/packages/rsync
+
+---
+
 ## 前言
 
 实际上写这篇文章的时候距离我配置rsync可能已经过了一万年,完全不记得细节了..所以以下的内容都是基于回忆写成的,可能存在部分不准确之处.

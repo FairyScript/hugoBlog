@@ -3,7 +3,7 @@ title: '转载: 一个由 BGP Route Aggregation 引发的问题'
 description:
 date: 2025-01-14T09:35:41Z
 slug: 9b2ac422
-image:
+image: bgp-aggregation.png
 math:
 license: CC0
 hidden: false

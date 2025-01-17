@@ -2,7 +2,6 @@
 title: '记重新安装windows下GPG踩到的坑'
 date: 2022-03-30 23:19:45
 tags: []
-published: true
 hideInList: false
 feature:
 isTop: false

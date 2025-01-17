@@ -2,7 +2,6 @@
 title: '博客迁移到Gridea'
 date: 2020-07-13 14:35:29
 tags: []
-published: true
 hideInList: false
 feature: 
 isTop: false

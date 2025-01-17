@@ -2,7 +2,6 @@
 title: '在hexo页面插入网易云播放器'
 date: 2018-08-23 08:49:33
 tags: [技术笔记,网易云音乐,Hexo]
-published: true
 hideInList: false
 feature: https://s6.jpg.cm/2022/02/16/LBqbmt.png
 isTop: false

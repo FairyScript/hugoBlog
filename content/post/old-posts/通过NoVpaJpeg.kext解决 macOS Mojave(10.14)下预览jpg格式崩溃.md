@@ -2,7 +2,6 @@
 title: '通过NoVpaJpeg.kext解决 macOS Mojave(10.14)下预览jpg格式崩溃'
 date: 2018-11-26 19:02:17
 tags: [技术笔记,黑苹果]
-published: true
 hideInList: false
 feature: 
 isTop: false

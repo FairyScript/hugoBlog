@@ -2,7 +2,6 @@
 title: 'Nginx从入门到入土#1——配置文件初探'
 date: 2018-04-13 19:06:22
 tags: [技术笔记,Nginx]
-published: true
 hideInList: false
 feature: 
 isTop: false

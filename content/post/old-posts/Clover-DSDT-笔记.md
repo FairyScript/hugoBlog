@@ -1,7 +1,6 @@
 ---
 title: Clover DSDT 笔记
 sage: true
-published: true
 abbrlink: f1ba07a0
 date: 2018-10-30 20:16:12
 tags:

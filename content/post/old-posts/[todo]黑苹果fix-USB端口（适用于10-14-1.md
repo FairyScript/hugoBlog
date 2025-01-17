@@ -2,7 +2,6 @@
 title: '黑苹果fix USB端口（适用于10.14.1)'
 date: 2018-11-17 21:39:54
 tags: [技术笔记,黑苹果]
-published: false
 ---
 
 > 本文所述内容来源于 https://www.insanelymac.com/forum/topic/335018-intel-fb-patcher-v165/ 

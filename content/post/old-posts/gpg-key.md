@@ -2,7 +2,6 @@
 title: '记录一下让自己显得很愚蠢的东西'
 date: 2022-04-11 22:16:47
 tags: []
-published: true
 hideInList: true
 feature: https://s6.jpg.cm/2022/04/11/LjJAfC.jpg
 slug: 3LwEYA3t

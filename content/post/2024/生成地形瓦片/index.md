@@ -3,7 +3,7 @@ title: "gdal地图重投影的离奇bug"
 description: 
 date: 2024-09-07T10:16:47+08:00
 slug: 3d6d3035
-image: 
+image: cover.webp
 math: 
 license: 
 hidden: false

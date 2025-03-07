@@ -9,7 +9,7 @@ license:
 hidden: false
 comments: true
 categories:
-  - 杂谈
+  - chat
 tag:
   - 碎碎念
 ---

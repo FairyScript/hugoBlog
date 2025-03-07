@@ -7,7 +7,7 @@ image:
 math:
 license:
 categories:
-  - 技术笔记
+  - tech
 tags:
   - React
   - Typescript

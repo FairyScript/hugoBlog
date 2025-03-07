@@ -10,6 +10,7 @@ hidden: false
 comments: true
 categories:
   - tech
+  - forward
 tags:
   - BGP
 draft: false

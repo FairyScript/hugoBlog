@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Go on 千木岛</title><link>https://queb.fun/tags/go/</link><description>Recent content in Go on 千木岛</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Fri, 06 Sep 2024 11:21:43 +0800</lastBuildDate><atom:link href="https://queb.fun/tags/go/index.xml" rel="self" type="application/rss+xml"/><item><title>在linux上交叉编译需要gcc的go程序</title><link>https://queb.fun/p/63e1cdb6/</link><pubDate>Fri, 06 Sep 2024 11:21:43 +0800</pubDate><guid>https://queb.fun/p/63e1cdb6/</guid><description>&lt;h2 id="参考">参考
+&lt;/h2>&lt;p>&lt;a class="link" href="https://studygolang.com/topics/15781?fr=sidebar" target="_blank" rel="noopener"
+>https://studygolang.com/topics/15781?fr=sidebar&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://wiki.eryajf.net/pages/52d983/#_2-linux-%E7%8E%AF%E5%A2%83%E7%BC%96%E8%AF%91" target="_blank" rel="noopener"
+>https://wiki.eryajf.net/pages/52d983/#_2-linux-%E7%8E%AF%E5%A2%83%E7%BC%96%E8%AF%91&lt;/a>&lt;/p>
+&lt;h2 id="正文">正文
+&lt;/h2>&lt;p>先装好&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">mingw-w64
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">libz-mingw-w64
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">&lt;span class="cp">#!/bin/sh
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cp">&lt;/span>&lt;span class="nb">export&lt;/span> &lt;span class="nv">CGO_ENABLED&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">1&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">export&lt;/span> &lt;span class="nv">GOOS&lt;/span>&lt;span class="o">=&lt;/span>windows
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">export&lt;/span> &lt;span class="nv">GOARCH&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">386&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">export&lt;/span> &lt;span class="nv">CC&lt;/span>&lt;span class="o">=&lt;/span>i686-w64-mingw32-gcc
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">export&lt;/span> &lt;span class="nv">CXX&lt;/span>&lt;span class="o">=&lt;/span>i686-w64-mingw32-g++
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">go build -ldflags &lt;span class="s1">&amp;#39;-s -w -H=windowsgui&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item></channel></rss>

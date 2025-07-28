@@ -34,3 +34,15 @@ done
 ```bash
 find . -type f -exec dos2unix {} +
 ```
+
+## docker 导出镜像为tar.gz包
+
+```bash
+docker save <image_name> | gzip > <image_name>.tar.gz
+```
+
+使用 `docker load`命令可以导入。
+
+```bash
+docker load < <image_name>.tar.gz
+```

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Typescript on 千木岛</title><link>https://queb.fun/tags/typescript/</link><description>Recent content in Typescript on 千木岛</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 13 Dec 2023 17:15:52 +0800</lastBuildDate><atom:link href="https://queb.fun/tags/typescript/index.xml" rel="self" type="application/rss+xml"/><item><title>React生态观察 2023年12月篇</title><link>https://queb.fun/p/a2d31c0e/</link><pubDate>Wed, 13 Dec 2023 17:15:52 +0800</pubDate><guid>https://queb.fun/p/a2d31c0e/</guid><description>&lt;h2 id="zod"&gt;zod
+&lt;/h2&gt;&lt;p&gt;&lt;a class="link" href="https://github.com/colinhacks/zod" target="_blank" rel="noopener"
+&gt;zod&lt;/a&gt; 是一个蛮有意思的类型检查库, 补全了 typescript 无法运行时检查的一些不足, 同时还提供了一些转换功能. 但目前来说对于 function 类型存在一些 args 推导方面的问题.&lt;/p&gt;
+&lt;h2 id="biome"&gt;Biome
+&lt;/h2&gt;&lt;p&gt;&lt;a class="link" href="https://github.com/biomejs/biome" target="_blank" rel="noopener"
+&gt;Biome&lt;/a&gt; 一个集成了类型检查 + 格式化的代码审查工具. 特色是用 rust 写的所以速度飞快. 但目前对规则的支持还不足以满足我项目的需求.
+观望中.&lt;/p&gt;
+&lt;h3 id="2023-12-18-更新"&gt;2023-12-18 更新
+&lt;/h3&gt;&lt;p&gt;最近发现了一个类似的工具 &lt;a class="link" href="https://github.com/oxc-project/oxc" target="_blank" rel="noopener"
+&gt;oxc&lt;/a&gt;. 同样加入关注列表.&lt;/p&gt;</description></item></channel></rss>

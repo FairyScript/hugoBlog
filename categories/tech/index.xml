@@ -1,0 +1,663 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>技术笔记 on 千木岛</title><link>https://queb.fun/categories/tech/</link><description>Recent content in 技术笔记 on 千木岛</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Mon, 31 Mar 2025 13:58:12 +0800</lastBuildDate><atom:link href="https://queb.fun/categories/tech/index.xml" rel="self" type="application/rss+xml"/><item><title>2025.03新的win11跳过OOBE联网</title><link>https://queb.fun/p/bf59ca16/</link><pubDate>Mon, 31 Mar 2025 13:58:12 +0800</pubDate><guid>https://queb.fun/p/bf59ca16/</guid><description>&lt;p&gt;前段时间微软删除了在安装过程中使用 &lt;code&gt;oobe/bypassnro.cmd&lt;/code&gt; 跳过强制联网注册的方法.现记录一个新的,更快而且不需要重启&lt;/p&gt;
+&lt;p&gt;在安装界面按下 &lt;code&gt;Shift + F10&lt;/code&gt; 打开 cmd, 在里面输入 &lt;code&gt;start ms-cxh:localonly&lt;/code&gt; 回车执行.&lt;/p&gt;
+&lt;p&gt;EOF&lt;/p&gt;</description></item><item><title>转载: 一个由 BGP Route Aggregation 引发的问题</title><link>https://queb.fun/p/9b2ac422/</link><pubDate>Tue, 14 Jan 2025 09:35:41 +0000</pubDate><guid>https://queb.fun/p/9b2ac422/</guid><description>&lt;img src="https://queb.fun/p/9b2ac422/bgp-aggregation.png" alt="Featured image of post 转载: 一个由 BGP Route Aggregation 引发的问题" /&gt;&lt;h2 id="fairyscript-说"&gt;FairyScript 说
+&lt;/h2&gt;&lt;p&gt;这篇文章是我在浏览他人博客的时候看到的,认为质量非常高.故转载存档.&lt;/p&gt;
+&lt;p&gt;该文档的版权遵守原本的 &lt;code&gt;CC0&lt;/code&gt; 版权协议.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;原文: &lt;a class="link" href="https://www.kawabangga.com/posts/6851" target="_blank" rel="noopener"
+&gt;https://www.kawabangga.com/posts/6851&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;接下来是原文内容&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;上周遇到的一个问题很有意思，后来搜索相关的资料，找到的也比较少，感觉有必要记录一下。&lt;/p&gt;
+&lt;p&gt;问题的场景很简单：我们有两个路由设备同时发布了 &lt;code&gt;10.81.0.0/16&lt;/code&gt; 的网段做 ECMP[^1^]，网络一切正常。拓扑如下图。现在，有一个新的 IP，只存在于 Router A 上，所以 Router A 宣告网段 &lt;code&gt;10.81.100.100/32&lt;/code&gt;，而 Router B 不宣告。这样，由于在路由表中， &lt;code&gt;/32&lt;/code&gt; 的 prefix 比 &lt;code&gt;/16&lt;/code&gt; 要长，所以 Router X 在从路由表选路的时候， &lt;code&gt;10.81.100.100&lt;/code&gt; 会优先选择去 Router A，而对于其他的 &lt;code&gt;10.81.0.0/16&lt;/code&gt; 的网段，会负载均衡到 A 和 B 两台路由器上。&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://queb.fun/p/9b2ac422/bgp-aggregation.png"
+width="589"
+height="311"
+srcset="https://queb.fun/p/9b2ac422/bgp-aggregation_hu_1d5ddde99632e8c1.png 480w, https://queb.fun/p/9b2ac422/bgp-aggregation_hu_d9069824c129d707.png 1024w"
+loading="lazy"
+alt="img"
+class="gallery-image"
+data-flex-grow="189"
+data-flex-basis="454px"
+&gt; 简化的拓扑图&lt;/p&gt;
+&lt;p&gt;理论上，一切看似合理并且正常。但是 &lt;code&gt;/32&lt;/code&gt; 的网段一经宣告， &lt;code&gt;10.81.0.0/16&lt;/code&gt; 的网络都挂了。&lt;/p&gt;
+&lt;p&gt;事后我们得知，在 Router X 上有一条路由聚合配置。但是这条合理的路由聚合，怎么会让整个网段挂掉呢？&lt;/p&gt;
+&lt;p&gt;为什么需要路由聚合呢？&lt;/p&gt;
+&lt;p&gt;Router A 每次宣告一个网段给 Router X，Router X 的 BGP 路由就会多一个。Router B 每次宣告一个网段，X 上也会多一个。可想而知，Router X 上的路由是它的下游的总和。同理，Router X 上游的路由器的路由将会更多。路由的条目越多，对路由器的性能要求就越高。所以，核心路由器要想处理所有的路由条目，就需要性能非常高。性能是有上限的，假设性能再搞也无法处理这么多路由，怎么办呢？我们可以优化另一个变量——路由条目[^2^]。&lt;/p&gt;
+&lt;p&gt;如何减少路由条目呢？ 考虑下面 3 个网段：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;10.81.2.0/24&lt;/li&gt;
+&lt;li&gt;10.81.3.0/24&lt;/li&gt;
+&lt;li&gt;10.83.4.4/26&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;其实都可以汇聚成一个网段： &lt;code&gt;10.81.0.0/16&lt;/code&gt;。把这个网段宣告出去，收到的流量可以在 X 这里根据自己的路由表进行转发。&lt;/p&gt;
+&lt;p&gt;这里产生了一个问题：就是我们宣告了自己没有路由的网段出去，比如我们的路由中并不存在 &lt;code&gt;10.81.5.0/24&lt;/code&gt; 这个段，但是被我们的 &lt;code&gt;10.81.0.0/16&lt;/code&gt; 宣告了出去。&lt;/p&gt;
+&lt;p&gt;由此，会产生两个问题。第一个问题，假设其他路由器有到 &lt;code&gt;10.81.5.0/24&lt;/code&gt; 的路由，那么会不会走到我们的 &lt;code&gt;10.81.0.0/16&lt;/code&gt; 这里来呢？答案是不会的。因为 &lt;strong&gt;路由表的匹配规则是最长前缀匹配&lt;/strong&gt;， &lt;code&gt;/24&lt;/code&gt; 比我们的 &lt;code&gt;/16&lt;/code&gt; 优先级更高。&lt;/p&gt;
+&lt;p&gt;第二个问题更加严重一些，路由的聚合可能导致环路[^3^]。&lt;/p&gt;
+&lt;p&gt;考虑下面这个拓扑图，两个路由器都存在路由聚合的配置。&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://queb.fun/p/9b2ac422/bgp-aggregation-loop.png"
+width="616"
+height="409"
+srcset="https://queb.fun/p/9b2ac422/bgp-aggregation-loop_hu_de82543a4b3437f3.png 480w, https://queb.fun/p/9b2ac422/bgp-aggregation-loop_hu_719b3e469773a988.png 1024w"
+loading="lazy"
+alt="img"
+class="gallery-image"
+data-flex-grow="150"
+data-flex-basis="361px"
+&gt; 路由聚合导致环路产生的例子&lt;/p&gt;
+&lt;p&gt;这里的问题是， &lt;code&gt;10.81.4.1&lt;/code&gt; 这个 IP 不存在于 A 也不存在于 B，但是由于路由聚合的配置，A 认为在 B 上，B 认为在 A 上，导致在转发的时候会出现环路。虽然 IP 层有 TTL 机制，会让这个包最终被丢弃，但是也会让两个路由器在某些网段的转发上浪费一些计算资源。&lt;/p&gt;
+&lt;p&gt;如何避免在转发「不存在的网段」的时候出现的环路呢？一个思路是我们精确的控制聚合的配置，不配置出来可能产生环路的聚合，但是这几乎是不可能的。（就像用静态路由配置替代动态路由一样不可能）。&lt;/p&gt;
+&lt;p&gt;另一个思路是，在 &lt;code&gt;10.81.4.1&lt;/code&gt; 这种本地没有路由的包出现的时候，直接「黑洞」掉。方法很简单，就是在每次聚合的时候，创建一条路由，终点是 &lt;code&gt;Null0&lt;/code&gt;，即直接丢弃。&lt;/p&gt;
+&lt;p&gt;具体来说，在上图的 Router A 中，聚合本地的三条路由到 &lt;code&gt;/16&lt;/code&gt;，我们应该这么做：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;向外宣告路由 &lt;code&gt;10.81.0.0/16&lt;/code&gt;，以达到减少路由条目的目的[^4^]；&lt;/li&gt;
+&lt;li&gt;在本地插入一条 Null0 的路由，使得本地的路由最终如下。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;10.81.0.0/16 -&amp;gt; Null0
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;10.81.1.0/24-&amp;gt;local
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;10.81.2.0/24-&amp;gt;local
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;10.81.3.0/24-&amp;gt;local
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;注意，路由表的顺序没有意义，因为用的是最长前缀匹配。转发包的时候，对于 &lt;code&gt;10.81.1.0/24&lt;/code&gt; 这种本地存在的段，因为它们的前缀比 &lt;code&gt;/16&lt;/code&gt; 长，所以正常转发；对于不存在的段，比如 &lt;code&gt;10.81.4.1&lt;/code&gt;，会命中 &lt;code&gt;10.81.0.0/16 -&amp;gt; Null0&lt;/code&gt; 的路由，直接在本地丢弃。这样，就可以阻止环路的产生。由聚合而自动产生的 &lt;code&gt;/16&lt;/code&gt; 是一个防环的兜底路由，正常情况下，不应该使用这条路由，如果命中这条路由，说明无法转发的包到达了路由器，直接丢弃即可。&lt;/p&gt;
+&lt;p&gt;回到本文开头的问题上，为什么宣告一条 &lt;code&gt;/32&lt;/code&gt; 会导致整个网段挂掉呢？ &lt;code&gt;Null0&lt;/code&gt; 不是说只是兜底而已吗？回答这个问题，还要补充一点知识。&lt;/p&gt;
+&lt;h2 id="bgp-和路由表"&gt;BGP 和路由表
+&lt;/h2&gt;&lt;p&gt;路由设备按照路由表（叫做 RIB, Routing Information Base）进行转发（实际上还有一层加速用的 FIB，但是 FIB 的 source of the truth 是 RIB，所以这里先忽略）。 &lt;strong&gt;RIB 转发的逻辑是最长前缀匹配。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;RIB 是怎么生成的呢？一种是静态配置，即静态路由。另一种是动态路由协议。路由协议之间交换路由信息，然后负责动态修改 RIB。在有多条可达路由的时候，怎么决定把哪一条路由写入到 RIB 呢？这就是不同的路由协议来决定的了。比如，BGP 有 13 条选路原则[^5^]；OSPF 和 IS-IS 这种协议也有自己的路径选择算法。&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://queb.fun/p/9b2ac422/rib-and-routing.png"
+width="400"
+height="186"
+srcset="https://queb.fun/p/9b2ac422/rib-and-routing_hu_15f7dc5adf503295.png 480w, https://queb.fun/p/9b2ac422/rib-and-routing_hu_68bdb38fe586d4b6.png 1024w"
+loading="lazy"
+alt="img"
+class="gallery-image"
+data-flex-grow="215"
+data-flex-basis="516px"
+&gt; 路由协议和 RIB 的关系[^6^]&lt;/p&gt;
+&lt;p&gt;这张图比较好，不同的路由协议可以同时运行，不同的路由协议可以根据自己的算法来操作路由表，决定转发路径。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;路由的聚合也是路由协议的一部分。&lt;/strong&gt; 像 OSPF, EIGRP, BGP 这些协议，都有关于路由聚合的定义和支持。重申一下：路由聚合是路由协议的 feature，而不是路由表 RIB 的。&lt;/p&gt;
+&lt;p&gt;这也就是说，路由聚合中产生的 Null0 黑洞条目首先出现在 BGP 中，然后 BGP 根据自己的选路原则，放到路由表中。&lt;/p&gt;
+&lt;p&gt;回到本文最先开始讨论的问题，现在就可以用上面的知识来解释这个问题了。&lt;/p&gt;
+&lt;p&gt;首先，Router X 会收到 3 条路由。&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://queb.fun/p/9b2ac422/bgp-aggregation-null0.png"
+width="541"
+height="496"
+srcset="https://queb.fun/p/9b2ac422/bgp-aggregation-null0_hu_160eff9e5d694ae4.png 480w, https://queb.fun/p/9b2ac422/bgp-aggregation-null0_hu_db153a068f2693fa.png 1024w"
+loading="lazy"
+alt="img"
+class="gallery-image"
+data-flex-grow="109"
+data-flex-basis="261px"
+&gt;&lt;/p&gt;
+&lt;p&gt;到达 Router X，经过聚合之后，在 BGP 里面，会有 4 条路，多出来的一条是聚合产生的 Null0 黑洞路由。&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://queb.fun/p/9b2ac422/show-ip-bgp-paths-1024x244.png"
+width="1024"
+height="244"
+srcset="https://queb.fun/p/9b2ac422/show-ip-bgp-paths-1024x244_hu_fe41440b43f2dc97.png 480w, https://queb.fun/p/9b2ac422/show-ip-bgp-paths-1024x244_hu_5fefdef9fb242a79.png 1024w"
+loading="lazy"
+alt="img"
+class="gallery-image"
+data-flex-grow="419"
+data-flex-basis="1007px"
+&gt; 到达 10.81.0.0/16 的路由有 3 个&lt;/p&gt;
+&lt;p&gt;BGP 会按照自己的选路原则，在 10.81.0.0/16 的 3 条路径中选择一条放到 RIB 中。这 3 条路径中，Null0 这条可是本地路由，Weight 是最高的。所以，Null0 由于其他两条真实存在的路由，进入了 RIB。&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://queb.fun/p/9b2ac422/show-rib-1024x405.png"
+width="1024"
+height="405"
+srcset="https://queb.fun/p/9b2ac422/show-rib-1024x405_hu_1d8d5779a44dc60d.png 480w, https://queb.fun/p/9b2ac422/show-rib-1024x405_hu_ab9c0b9ee5e70307.png 1024w"
+loading="lazy"
+alt="img"
+class="gallery-image"
+data-flex-grow="252"
+data-flex-basis="606px"
+&gt; show ip route&lt;/p&gt;
+&lt;p&gt;可以看到路由表中，只有 &lt;code&gt;10.81.100.100&lt;/code&gt; 明细路由和 &lt;code&gt;10.81.0.0/16&lt;/code&gt; 到 Null0 的黑洞路由，其他两条路由被刷下去了。&lt;/p&gt;
+&lt;p&gt;到这里，真相就大白了。 &lt;code&gt;10.81.100.100&lt;/code&gt; 在没有发布的时候， &lt;code&gt;10.81.0.0/16&lt;/code&gt; 工作正常。但是一旦发布， &lt;code&gt;10.81.0.0/16&lt;/code&gt; 的正常路由就被路由聚合产生的 Null0 给刷下去了。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a class="link" href="https://www.kawabangga.com/posts/6732" target="_blank" rel="noopener"
+&gt;数据中心网络高可用技术：ECMP&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="https://www.cisco.com/c/en/us/support/docs/ip/border-gateway-protocol-bgp/5441-aggregation.html" target="_blank" rel="noopener"
+&gt;Understand Route Aggregation in BGP – Cisco&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="https://www.kawabangga.com/posts/6291" target="_blank" rel="noopener"
+&gt;网络中的环路和防环技术&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;确认了下没有写错，这里的意思是 Tiao Mu De Mu Di，博大精深的中文！&lt;a class="link" href="https://www.kawabangga.com/posts/6851#e62605e2-790d-46f6-8ac2-e8ea1a9996d5-link" target="_blank" rel="noopener"
+&gt;↩︎&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="https://www.cisco.com/c/en/us/support/docs/ip/border-gateway-protocol-bgp/13753-25.html" target="_blank" rel="noopener"
+&gt;Select BGP Best Path Algorithm – Cisco&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;来源： &lt;a class="link" href="https://www.cnblogs.com/wanderHao/p/12251527.html" target="_blank" rel="noopener"
+&gt;FIB 表与 RIB 表的区别与联系 – &amp;amp;Yhao – 博客园&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;</description></item><item><title>gdal地图重投影的离奇bug</title><link>https://queb.fun/p/3d6d3035/</link><pubDate>Sat, 07 Sep 2024 10:16:47 +0800</pubDate><guid>https://queb.fun/p/3d6d3035/</guid><description>&lt;img src="https://queb.fun/p/3d6d3035/cover.webp" alt="Featured image of post gdal地图重投影的离奇bug" /&gt;&lt;p&gt;&lt;code&gt;gdal&lt;/code&gt; 重新投影的时候,注意不要包含极点坐标,会有神奇的bug&lt;/p&gt;
+&lt;p&gt;建议使用 &lt;code&gt;gdal_translate&lt;/code&gt; 提前切除极点坐标.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;gdal_translate -projwin 90 60 160 0 -of GTiff input.tif ouput.tif&lt;/code&gt;&lt;/p&gt;
+&lt;h2 id="推荐阅读"&gt;推荐阅读
+&lt;/h2&gt;&lt;p&gt;&lt;a class="link" href="https://github.com/syncpoint/terrain-rgb" target="_blank" rel="noopener"
+&gt;https://github.com/syncpoint/terrain-rgb&lt;/a&gt;&lt;/p&gt;</description></item><item><title>在linux上交叉编译需要gcc的go程序</title><link>https://queb.fun/p/63e1cdb6/</link><pubDate>Fri, 06 Sep 2024 11:21:43 +0800</pubDate><guid>https://queb.fun/p/63e1cdb6/</guid><description>&lt;h2 id="参考"&gt;参考
+&lt;/h2&gt;&lt;p&gt;&lt;a class="link" href="https://studygolang.com/topics/15781?fr=sidebar" target="_blank" rel="noopener"
+&gt;https://studygolang.com/topics/15781?fr=sidebar&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class="link" href="https://wiki.eryajf.net/pages/52d983/#_2-linux-%E7%8E%AF%E5%A2%83%E7%BC%96%E8%AF%91" target="_blank" rel="noopener"
+&gt;https://wiki.eryajf.net/pages/52d983/#_2-linux-%E7%8E%AF%E5%A2%83%E7%BC%96%E8%AF%91&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="正文"&gt;正文
+&lt;/h2&gt;&lt;p&gt;先装好&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;mingw-w64
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;libz-mingw-w64
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;span class="lnt"&gt;7
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="cp"&gt;#!/bin/sh
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;CGO_ENABLED&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;GOOS&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;windows
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;GOARCH&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;386&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;CC&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;i686-w64-mingw32-gcc
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;CXX&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;i686-w64-mingw32-g++
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;go build -ldflags &lt;span class="s1"&gt;&amp;#39;-s -w -H=windowsgui&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description></item><item><title>Windows平台也要用Rsync!</title><link>https://queb.fun/p/ae650ec1/</link><pubDate>Tue, 27 Aug 2024 09:38:58 +0000</pubDate><guid>https://queb.fun/p/ae650ec1/</guid><description>&lt;h3 id="2024914-更新"&gt;2024.9.14 更新
+&lt;/h3&gt;&lt;p&gt;貌似这样装的rsync使用 windows 自带的 openssl 会有写奇怪的问题,最后还是选择安装了 choco 的 rsync&lt;/p&gt;
+&lt;p&gt;&lt;a class="link" href="https://community.chocolatey.org/packages/rsync" target="_blank" rel="noopener"
+&gt;https://community.chocolatey.org/packages/rsync&lt;/a&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="前言"&gt;前言
+&lt;/h2&gt;&lt;p&gt;实际上写这篇文章的时候距离我配置rsync可能已经过了一万年,完全不记得细节了..所以以下的内容都是基于回忆写成的,可能存在部分不准确之处.&lt;/p&gt;
+&lt;h2 id="参考"&gt;参考
+&lt;/h2&gt;&lt;p&gt;[https://qiita.com/clvth14/items/5a7eb26ddca49b7f57c2]
+[https://gist.github.com/radleta/0b337a2b14f761951cf2aab0578512b9]&lt;/p&gt;
+&lt;h2 id="正式开始"&gt;正式开始!
+&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;先安装zstd&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;这一步是可选的,大部分Windows的解压软件是自带这个功能的,可以考虑手动部署二进制文件就不需要这个了.但我仍然建议按照教程安装&lt;/p&gt;
+&lt;p&gt;简单来说,去 [https://github.com/facebook/zstd/releases] 这里下载二进制,然后加入环境变量 (PATH 或者 .bashrc)&lt;/p&gt;
+&lt;ol start="2"&gt;
+&lt;li&gt;下载Rsync二进制&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;去(这里)[http://repo.msys2.org/msys/x86_64/]下载压缩包,注意是&lt;code&gt;rsync-〇〇〇–〇-x86_64.pkg.tar.zst&lt;/code&gt; 格式的.&lt;/p&gt;
+&lt;p&gt;然后使用以下的命令解压缩&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;zstd -d rsync-3.2.7-2-x86_64.pkg.tar.zst
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;tar -xvf rsync-3.2.7-2-x86_64.pkg.tar
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;把解压出来的exe文件放到环境变量,或者直接放入 &lt;code&gt;C:\Program Files\Git\usr\bin&lt;/code&gt; 文件夹 (这样仅限于gitbash方便调用)&lt;/p&gt;
+&lt;ol start="3"&gt;
+&lt;li&gt;补齐必须的dll文件&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;同样的,去[http://repo.msys2.org/msys/x86_64/]下载对应的文件,解压缩放入环境变量&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;libzstd-1.5.2-2-x86_64.pkg.tar.zst&lt;/code&gt;
+&lt;code&gt;libxxhash-0.8.1-1-x86_64.pkg.tar.zst&lt;/code&gt;
+&lt;code&gt;libopenssl-3.0.7-2-x86_64.pkg.tar.zst&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;大功告成!&lt;/strong&gt;&lt;/p&gt;</description></item><item><title>状态管理二三思考</title><link>https://queb.fun/p/0397ec81/</link><pubDate>Tue, 27 Aug 2024 09:35:41 +0000</pubDate><guid>https://queb.fun/p/0397ec81/</guid><description>&lt;p&gt;store可以由一下几部分构成&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;data: 基本的数据&lt;/li&gt;
+&lt;li&gt;accessor: 方便基于一个索引(例如,id)从 store 中提取数据. 例如: &lt;code&gt;getDataById()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;deriveData: 计算状态,基于 store 中已有的数据派生得来&lt;/li&gt;
+&lt;li&gt;mutation: 使 store 发生变化的动作,一般有参数.可以影响一个字段,也可以影响多个字段&lt;/li&gt;
+&lt;li&gt;event: 事件,不一定使 store 发生变化,也不一定有参数.&lt;/li&gt;
+&lt;/ul&gt;</description></item><item><title>记一次CSS样式异常排查</title><link>https://queb.fun/p/1b7980ef/</link><pubDate>Thu, 20 Jun 2024 16:50:00 +0800</pubDate><guid>https://queb.fun/p/1b7980ef/</guid><description>&lt;img src="https://queb.fun/p/1b7980ef/cover.webp" alt="Featured image of post 记一次CSS样式异常排查" /&gt;&lt;p&gt;最近在工作中遇到了一起 CSS style 样式无法生效的问题.特此记录.&lt;/p&gt;
+&lt;h3 id="一些信息"&gt;一些信息
+&lt;/h3&gt;&lt;p&gt;项目中涉及的技术栈如下&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;React 18&lt;/li&gt;
+&lt;li&gt;Vite 5&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;根据目前分析的结果,可以认为任何直接注入 CSS 样式的库都会收到影响(包括 emotionJS), 不确定类似 Post CSS 之类的编译器会不会遇到该问题.但感觉上是可能的.&lt;/p&gt;
+&lt;h2 id="表现"&gt;表现
+&lt;/h2&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-jsx" data-lang="jsx"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kr"&gt;import&lt;/span&gt; &lt;span class="nx"&gt;image&lt;/span&gt; &lt;span class="nx"&gt;from&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;some.svg&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;Foo&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt; &lt;span class="na"&gt;style&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{{&lt;/span&gt; &lt;span class="nx"&gt;maskImage&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="sb"&gt;`url(&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nx"&gt;image&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="sb"&gt;)`&lt;/span&gt; &lt;span class="p"&gt;}}&lt;/span&gt; &lt;span class="p"&gt;/&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;该代码在编译后产物内可以看到样式存在,但 Chrome 渲染之后,在 dom 内无法看到该条样式,若同时存在其他样式共存则其他样式不受影响.&lt;/p&gt;
+&lt;h2 id="原因"&gt;原因
+&lt;/h2&gt;&lt;p&gt;原因是因为 Vite 默认所采取的 &lt;a class="link" href="https://vitejs.dev/config/build-options.html#build-assetsinlinelimit" target="_blank" rel="noopener"
+&gt;&lt;code&gt;inline import&lt;/code&gt; 优化功能&lt;/a&gt; 会默认将小于 4kb 的文件以 &lt;code&gt;data URL&lt;/code&gt; 形式内联进代码. 这在大部分情况下都是正常工作的,但在本用例下:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;svg 小于 4kb, 满足内联条件&lt;/li&gt;
+&lt;li&gt;svg 本身是纯文本内容. dataURL 不会以 base64 形式而是直接以明文形式插入&lt;/li&gt;
+&lt;li&gt;css 样式本质上是 字符串拼接,且 js 内使用不会触发 vite 关于 CSS url() 的优化&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;所以会生成形如&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-jsx" data-lang="jsx"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;maskImage&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;url(data:image/svg+xml;utf8,&amp;lt;svg&amp;gt;...&amp;lt;/svg&amp;gt;)&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;的内容.该内容语法错误股会被浏览器忽略.&lt;/p&gt;
+&lt;h2 id="解决方案"&gt;解决方案:
+&lt;/h2&gt;&lt;h3 id="1-在-url-外加上双引号-"&gt;1. 在 URL 外加上双引号 &amp;lt;&amp;quot;&amp;gt;
+&lt;/h3&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-jsx" data-lang="jsx"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nx"&gt;style&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{{&lt;/span&gt; &lt;span class="nx"&gt;maskImage&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="sb"&gt;`url(&amp;#34;&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nx"&gt;image&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="sb"&gt;&amp;#34;)`&lt;/span&gt; &lt;span class="p"&gt;}}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id="2-在-vite-中设置不内联-svg"&gt;2. 在 Vite 中设置,不内联 svg
+&lt;/h3&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;span class="lnt"&gt;7
+&lt;/span&gt;&lt;span class="lnt"&gt;8
+&lt;/span&gt;&lt;span class="lnt"&gt;9
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-ts" data-lang="ts"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;// vite.config.ts
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nx"&gt;assetsInlineLimit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;filePath&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;content&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;//svg永远不内联
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;filePath&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;endsWith&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;.svg&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="kc"&gt;false&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// 小于 4kb 的文件转为 base64
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nx"&gt;content&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;length&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;1024&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;#EOF&lt;/p&gt;</description></item><item><title>谨慎使用react属性注入</title><link>https://queb.fun/p/86d911df/</link><pubDate>Mon, 18 Dec 2023 14:17:01 +0800</pubDate><guid>https://queb.fun/p/86d911df/</guid><description>&lt;img src="https://queb.fun/p/86d911df/cover.webp" alt="Featured image of post 谨慎使用react属性注入" /&gt;&lt;h3 id="跑题预警"&gt;跑题预警
+&lt;/h3&gt;&lt;p&gt;虽然这是一篇关于 &lt;code&gt;react cloneChildren&lt;/code&gt; 的文章,但我会插入&lt;strong&gt;大量&lt;/strong&gt;上下文来说明为什么我选择使用了这个功能, 又写了篇文章说明需要谨慎使用的原因. 实际上该主题占用全文篇幅约 &lt;strong&gt;10%&lt;/strong&gt;. 请酌情阅读~&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id="起因"&gt;起因
+&lt;/h3&gt;&lt;p&gt;最近在公司的项目中遇到了一个这样的场景: 需求编写一个无头的 tab 组件,其中作为 &lt;code&gt;tabItem&lt;/code&gt; 可以接受任意的 &lt;code&gt;Component&lt;/code&gt; 作为子项,参数又外部控制&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-jsx" data-lang="jsx"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;SomeTab&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nx"&gt;active&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;setActive&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;useState&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;TabList&lt;/span&gt; &lt;span class="na"&gt;active&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nx"&gt;active&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="na"&gt;setActive&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nx"&gt;setActive&lt;/span&gt;&lt;span class="p"&gt;}&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;TabItem&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;CustomComp&lt;/span&gt; &lt;span class="p"&gt;/&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;TabItem&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;TabItem&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;CustomComp&lt;/span&gt; &lt;span class="p"&gt;/&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;TabItem&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;TabItem&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;CustomComp&lt;/span&gt; &lt;span class="p"&gt;/&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;TabItem&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;TabList&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;然后在我的用例当中,实际上我不需要 item 组件有过高的业务复杂度,仅需要能根据状态切换显示就可以了. 于是我进行约定: 自定义组件可以接受某个 &amp;lsquo;active&amp;rsquo; 的我的第一版代码如下&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;span class="lnt"&gt;18
+&lt;/span&gt;&lt;span class="lnt"&gt;19
+&lt;/span&gt;&lt;span class="lnt"&gt;20
+&lt;/span&gt;&lt;span class="lnt"&gt;21
+&lt;/span&gt;&lt;span class="lnt"&gt;22
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-tsx" data-lang="tsx"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;//定义组件props类型 active 与 setActive 作为 context 传递, 剩余props 透传给内部 div 容器
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kr"&gt;interface&lt;/span&gt; &lt;span class="nx"&gt;ITabContext&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;T&lt;/span&gt; &lt;span class="na"&gt;extends&lt;/span&gt; &lt;span class="na"&gt;string&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt; &lt;span class="kr"&gt;extends&lt;/span&gt; &lt;span class="nx"&gt;HTMLAttributes&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;HTMLDivElement&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;active&lt;/span&gt;: &lt;span class="kt"&gt;T&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;setActive&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;active&lt;/span&gt;: &lt;span class="kt"&gt;T&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="k"&gt;void&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;TabContext&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;createContext&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;ITabContext&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;any&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;gt;({&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;active&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;setActive&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{},&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;})&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kr"&gt;export&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="nx"&gt;TabList&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;T&lt;/span&gt; &lt;span class="na"&gt;extends&lt;/span&gt; &lt;span class="na"&gt;string&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;props&lt;/span&gt;: &lt;span class="kt"&gt;PropsWithChildren&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;ITabContext&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;T&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="nx"&gt;children&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;active&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;setActive&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;...&lt;/span&gt;&lt;span class="nx"&gt;rest&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;props&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;value&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;useMemo&lt;/span&gt;&lt;span class="p"&gt;(()&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;({&lt;/span&gt; &lt;span class="nx"&gt;active&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;setActive&lt;/span&gt; &lt;span class="p"&gt;}),&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nx"&gt;active&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;setActive&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;TabContext.Provider&lt;/span&gt; &lt;span class="na"&gt;value&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nx"&gt;value&lt;/span&gt;&lt;span class="p"&gt;}&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="na"&gt;...rest&lt;/span&gt;&lt;span class="p"&gt;}&amp;gt;{&lt;/span&gt;&lt;span class="nx"&gt;children&lt;/span&gt;&lt;span class="p"&gt;}&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;TabContext.Provider&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这样容器组件就完成了, 接下来只需要在孩子组件当中响应选择事件就可以&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;span class="lnt"&gt;18
+&lt;/span&gt;&lt;span class="lnt"&gt;19
+&lt;/span&gt;&lt;span class="lnt"&gt;20
+&lt;/span&gt;&lt;span class="lnt"&gt;21
+&lt;/span&gt;&lt;span class="lnt"&gt;22
+&lt;/span&gt;&lt;span class="lnt"&gt;23
+&lt;/span&gt;&lt;span class="lnt"&gt;24
+&lt;/span&gt;&lt;span class="lnt"&gt;25
+&lt;/span&gt;&lt;span class="lnt"&gt;26
+&lt;/span&gt;&lt;span class="lnt"&gt;27
+&lt;/span&gt;&lt;span class="lnt"&gt;28
+&lt;/span&gt;&lt;span class="lnt"&gt;29
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-tsx" data-lang="tsx"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kr"&gt;interface&lt;/span&gt; &lt;span class="nx"&gt;ITabItemProps&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;value&lt;/span&gt;: &lt;span class="kt"&gt;string&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kr"&gt;export&lt;/span&gt; &lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;TabItem&lt;/span&gt;: &lt;span class="kt"&gt;React.FC&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;PropsWithChildren&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;ITabItemProps&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;({&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;children&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;value&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;})&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="nx"&gt;active&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;setActive&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;useContext&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;TabContext&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;id&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;useId&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;fid&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="sb"&gt;`tabItem-&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nx"&gt;id&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="sb"&gt;`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;isActive&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;active&lt;/span&gt; &lt;span class="o"&gt;===&lt;/span&gt; &lt;span class="nx"&gt;value&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;input&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="na"&gt;type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;radio&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="na"&gt;id&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nx"&gt;fid&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="na"&gt;hidden&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="na"&gt;onChange&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{()&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;setActive&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;value&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;}}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="na"&gt;checked&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nx"&gt;isActive&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;/&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;label&lt;/span&gt; &lt;span class="na"&gt;htmlFor&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nx"&gt;fid&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="na"&gt;data-active&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nx"&gt;active&lt;/span&gt;&lt;span class="p"&gt;}&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nx"&gt;children&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;label&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;一切都是那么的完美,现在只需要在 css 当中获取 &lt;code&gt;data-active&lt;/code&gt; 状态就可以了&amp;hellip;吗?&lt;/p&gt;
+&lt;p&gt;当时写下这段代码的我对于自己的 css 水平还是过于乐观了,在写完这段代码 3 分钟 之后才逐渐意识到问题所在.&lt;/p&gt;
+&lt;p&gt;首先我们需要知道, css 3 标准提供了一个名为 &lt;code&gt;属性选择器 (Attribute selectors)&lt;/code&gt; 的功能, 它让你可以以形如&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-css" data-lang="css"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;&amp;amp;[&lt;/span&gt;&lt;span class="nt"&gt;data-active&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;true&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;color&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="kc"&gt;red&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;的方式进行样式选择,这大大加强了在使用静态 css 进行样式控制的能力. 我们可以使用类似 &lt;code&gt;&amp;lt;div data-active={true}&amp;gt;Content!&amp;lt;/div&amp;gt;&lt;/code&gt; 的方式控制 css 样式而不需要使用 &lt;code&gt;css-in-js&lt;/code&gt; 的方式.&lt;/p&gt;
+&lt;p&gt;但这有一个问题, 这个选择器选择的是 &lt;code&gt;html 属性&lt;/code&gt;. 这意味着该属性实际上无法传递给子元素. 加之 css 本身并不支持父级选择器, 所以在动态传入孩子的用例中便无法使用这种方法. 那么有没有什么东西是可以传递给孩子(当然,还需要有作用域控制. 我可不想为起名字绞尽脑汁!)呢? 答案当然是有的&amp;ndash; 那就是 &lt;code&gt;css 变量 (css variables)&lt;/code&gt;. 再加上 &lt;code&gt;@container&lt;/code&gt; 查询, 一顿 Google 之后代码变成了这样&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-jsx" data-lang="jsx"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;//...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;label&lt;/span&gt; &lt;span class="na"&gt;htmlFor&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nx"&gt;fid&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="na"&gt;style&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{{&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;--active&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="p"&gt;}}&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nx"&gt;children&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;label&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-css" data-lang="css"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c"&gt;/* children.css*/&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;@&lt;/span&gt;&lt;span class="k"&gt;container&lt;/span&gt; &lt;span class="nt"&gt;style&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="nt"&gt;--active&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="nd"&gt;1&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c"&gt;/*activeCss*/&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;芜湖完美&lt;/strong&gt; &lt;del&gt;不过这个 &lt;code&gt;@container&lt;/code&gt; 怎么没听说过&lt;/del&gt;&lt;/p&gt;
+&lt;p&gt;以防万一还是确认一下兼容性&amp;hellip;&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://queb.fun/p/86d911df/caniuse.webp"
+width="594"
+height="458"
+srcset="https://queb.fun/p/86d911df/caniuse_hu_7dab90bb864ff63a.webp 480w, https://queb.fun/p/86d911df/caniuse_hu_cc4011362731d36e.webp 1024w"
+loading="lazy"
+alt="蛤?!"
+class="gallery-image"
+data-flex-grow="129"
+data-flex-basis="311px"
+&gt;&lt;/p&gt;
+&lt;p&gt;彳亍, 105 开始, 120 正式支持. 那这个指定用不上了. 那还想要达到这种效果只能考虑最传统的 &lt;code&gt;props inject&lt;/code&gt; 了. 简单搓一个&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-ts" data-lang="ts"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kr"&gt;import&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="nx"&gt;Children&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;ReactNode&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;cloneElement&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;ReactElement&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="kr"&gt;from&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;react&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kr"&gt;export&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="nx"&gt;injectChildrenProp&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;children&lt;/span&gt;: &lt;span class="kt"&gt;ReactNode&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="nx"&gt;ReactNode&lt;/span&gt;&lt;span class="p"&gt;[],&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;props&lt;/span&gt;: &lt;span class="kt"&gt;object&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nx"&gt;Children&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;map&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;children&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;child&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;typeof&lt;/span&gt; &lt;span class="nx"&gt;child&lt;/span&gt; &lt;span class="o"&gt;!==&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;object&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nx"&gt;child&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nx"&gt;cloneElement&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;child&lt;/span&gt; &lt;span class="kr"&gt;as&lt;/span&gt; &lt;span class="nx"&gt;React&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;ReactElement&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;object&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nb"&gt;Object&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;assign&lt;/span&gt;&lt;span class="p"&gt;({},&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;child&lt;/span&gt; &lt;span class="kr"&gt;as&lt;/span&gt; &lt;span class="nx"&gt;ReactElement&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;props&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;props&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;})&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id="正文-总结"&gt;&lt;del&gt;正文&lt;/del&gt; 总结
+&lt;/h3&gt;&lt;p&gt;纯粹的代码开发到这里就结束惹, 时候总结的时候我的想法是, 尽管这种写法省略了为孩子传参,看起来会优雅一些.但是隐藏 &lt;code&gt;prop&lt;/code&gt; 从长远来看是增加了后续维护的难度的.后续的改进思路是给 &lt;code&gt;TabItem&lt;/code&gt; 的 children 加上类型限定, 如果再次设计我也可能会选择闭包的形式 like:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-jsx" data-lang="jsx"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;TabList&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;TabItem&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;{(&lt;/span&gt;&lt;span class="nx"&gt;active&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;CustomElement&lt;/span&gt; &lt;span class="p"&gt;/&amp;gt;}&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;TabItem&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;TabList&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;但是这样就有点丑不是&amp;hellip;所以还是一个取舍问题.&lt;/p&gt;</description></item><item><title>React生态观察 2023年12月篇</title><link>https://queb.fun/p/a2d31c0e/</link><pubDate>Wed, 13 Dec 2023 17:15:52 +0800</pubDate><guid>https://queb.fun/p/a2d31c0e/</guid><description>&lt;h2 id="zod"&gt;zod
+&lt;/h2&gt;&lt;p&gt;&lt;a class="link" href="https://github.com/colinhacks/zod" target="_blank" rel="noopener"
+&gt;zod&lt;/a&gt; 是一个蛮有意思的类型检查库, 补全了 typescript 无法运行时检查的一些不足, 同时还提供了一些转换功能. 但目前来说对于 function 类型存在一些 args 推导方面的问题.&lt;/p&gt;
+&lt;h2 id="biome"&gt;Biome
+&lt;/h2&gt;&lt;p&gt;&lt;a class="link" href="https://github.com/biomejs/biome" target="_blank" rel="noopener"
+&gt;Biome&lt;/a&gt; 一个集成了类型检查 + 格式化的代码审查工具. 特色是用 rust 写的所以速度飞快. 但目前对规则的支持还不足以满足我项目的需求.
+观望中.&lt;/p&gt;
+&lt;h3 id="2023-12-18-更新"&gt;2023-12-18 更新
+&lt;/h3&gt;&lt;p&gt;最近发现了一个类似的工具 &lt;a class="link" href="https://github.com/oxc-project/oxc" target="_blank" rel="noopener"
+&gt;oxc&lt;/a&gt;. 同样加入关注列表.&lt;/p&gt;</description></item><item><title>一次关于r3f异常缩放的排查</title><link>https://queb.fun/p/6c28e634/</link><pubDate>Tue, 12 Dec 2023 10:00:00 +0800</pubDate><guid>https://queb.fun/p/6c28e634/</guid><description>&lt;img src="https://queb.fun/p/6c28e634/cover.webp" alt="Featured image of post 一次关于r3f异常缩放的排查" /&gt;&lt;h2 id="前情提要"&gt;前情提要
+&lt;/h2&gt;&lt;p&gt;在开发某个 3d 相关的微服务项目的时候,我使用了&lt;code&gt;@react-three/fiber&lt;/code&gt;作为渲染引擎.在开发过程中,我发现了一个很奇怪的问题,就是在外层 dom 元素应用了 &lt;code&gt;CSS transform scale&lt;/code&gt; 之后,&lt;code&gt;f3c&lt;/code&gt;的渲染会再次应用一次缩放.&lt;/p&gt;
+&lt;h2 id="问题排查--解决"&gt;问题排查 &amp;amp; 解决
+&lt;/h2&gt;&lt;p&gt;通过查看 &lt;code&gt;f3c&lt;/code&gt; 文档可知,&lt;code&gt;f3c&lt;/code&gt; 会在渲染的时候,将 &lt;code&gt;canvas&lt;/code&gt; 的 &lt;code&gt;width&lt;/code&gt; 和 &lt;code&gt;height&lt;/code&gt; 设置为 &lt;code&gt;100%&lt;/code&gt;,然后通过读取外部容器的大小来确定 &lt;code&gt;canvas&lt;/code&gt; 的大小.这样做的目的是为了自适应外部容器的大小.&lt;/p&gt;
+&lt;p&gt;具体而言,&lt;code&gt;f3c&lt;/code&gt; 使用了 &lt;code&gt;react-use-measure&lt;/code&gt; 作为获取 dom 元素大小的库. 而问题则出在这里.&lt;/p&gt;
+&lt;p&gt;通过查看 &lt;code&gt;react-use-measure&lt;/code&gt; 的源码可以发现.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;span class="lnt"&gt;18
+&lt;/span&gt;&lt;span class="lnt"&gt;19
+&lt;/span&gt;&lt;span class="lnt"&gt;20
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-ts" data-lang="ts"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;// ...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="nx"&gt;left&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;top&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;width&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;height&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;bottom&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;right&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;y&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;state&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;current&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;element&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;getBoundingClientRect&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="kr"&gt;as&lt;/span&gt; &lt;span class="kt"&gt;unknown&lt;/span&gt; &lt;span class="kr"&gt;as&lt;/span&gt; &lt;span class="nx"&gt;RectReadOnly&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;size&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;left&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;top&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;width&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;height&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;bottom&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;right&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;y&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;state&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;current&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;element&lt;/span&gt; &lt;span class="k"&gt;instanceof&lt;/span&gt; &lt;span class="nx"&gt;HTMLElement&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="nx"&gt;offsetSize&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;size&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;height&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;state&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;current&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;element&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;offsetHeight&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;size&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;width&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;state&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;current&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;element&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;offsetWidth&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;// ...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;在默认行为当中, &lt;code&gt;react-use-measure&lt;/code&gt; 会默认使用 &lt;code&gt;getBoundingClientRect&lt;/code&gt; 来获取 dom 元素的大小.而 &lt;code&gt;getBoundingClientRect&lt;/code&gt; 获取到的大小是&lt;strong&gt;经过&lt;/strong&gt; &lt;code&gt;transform&lt;/code&gt; 之后的大小.这就导致了 &lt;code&gt;f3c&lt;/code&gt; 在渲染的时候,会再次应用一次缩放.&lt;/p&gt;
+&lt;p&gt;而解决这个问题也很简单,只需要传递一个 &lt;code&gt;offsetSize&lt;/code&gt; 参数,就可以让 &lt;code&gt;react-use-measure&lt;/code&gt; 使用 &lt;code&gt;offsetWidth&lt;/code&gt; 和 &lt;code&gt;offsetHeight&lt;/code&gt; 来获取 dom 元素的大小. &lt;code&gt;offsetWidth&lt;/code&gt; 本身并不会受 &lt;code&gt;transform&lt;/code&gt; 影响.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-tsx" data-lang="tsx"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;Canvas&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="na"&gt;resize&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// 解决css csale 造成的canvas大小不一致问题
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;offsetSize&lt;/span&gt;: &lt;span class="kt"&gt;true&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;}}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;Canvas&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id="碎碎念"&gt;碎碎念
+&lt;/h2&gt;&lt;p&gt;天知道这个问题到底掉了我多少头发&amp;hellip; 之前没有用过 &lt;code&gt;getBoundingClientRect&lt;/code&gt;, 完全不知道还有这种坑. css 中绝大部分属性都是不响应 &lt;code&gt;transform&lt;/code&gt; 的,但是 &lt;code&gt;getBoundingClientRect&lt;/code&gt; 却是响应的.这个真的是太难了.&lt;/p&gt;
+&lt;h2 id="参考链接"&gt;参考链接
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a class="link" href="https://github.com/pmndrs/react-use-measure/blob/8639e5a93d60930159dc83743780ce4787fe90bb/src/web/index.ts#L81-L109" target="_blank" rel="noopener"
+&gt;react-use-measure&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect" target="_blank" rel="noopener"
+&gt;MDN - Element.getBoundingClientRect()&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/offsetHeight" target="_blank" rel="noopener"
+&gt;MDN - HTMLElement.offsetHeight&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="https://www.pixiv.net/artworks/112687098" target="_blank" rel="noopener"
+&gt;Pixiv - ガケの国の隠れ家&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</description></item></channel></rss>

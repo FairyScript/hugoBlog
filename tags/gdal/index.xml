@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Gdal on 千木岛</title><link>https://queb.fun/tags/gdal/</link><description>Recent content in Gdal on 千木岛</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sat, 07 Sep 2024 10:16:47 +0800</lastBuildDate><atom:link href="https://queb.fun/tags/gdal/index.xml" rel="self" type="application/rss+xml"/><item><title>gdal地图重投影的离奇bug</title><link>https://queb.fun/p/3d6d3035/</link><pubDate>Sat, 07 Sep 2024 10:16:47 +0800</pubDate><guid>https://queb.fun/p/3d6d3035/</guid><description>&lt;img src="https://queb.fun/p/3d6d3035/cover.webp" alt="Featured image of post gdal地图重投影的离奇bug" /&gt;&lt;p&gt;&lt;code&gt;gdal&lt;/code&gt; 重新投影的时候,注意不要包含极点坐标,会有神奇的bug&lt;/p&gt;
+&lt;p&gt;建议使用 &lt;code&gt;gdal_translate&lt;/code&gt; 提前切除极点坐标.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;gdal_translate -projwin 90 60 160 0 -of GTiff input.tif ouput.tif&lt;/code&gt;&lt;/p&gt;
+&lt;h2 id="推荐阅读"&gt;推荐阅读
+&lt;/h2&gt;&lt;p&gt;&lt;a class="link" href="https://github.com/syncpoint/terrain-rgb" target="_blank" rel="noopener"
+&gt;https://github.com/syncpoint/terrain-rgb&lt;/a&gt;&lt;/p&gt;</description></item></channel></rss>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Js on 千木岛</title><link>https://queb.fun/tags/js/</link><description>Recent content in Js on 千木岛</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Tue, 27 Aug 2024 09:35:41 +0000</lastBuildDate><atom:link href="https://queb.fun/tags/js/index.xml" rel="self" type="application/rss+xml"/><item><title>状态管理二三思考</title><link>https://queb.fun/p/0397ec81/</link><pubDate>Tue, 27 Aug 2024 09:35:41 +0000</pubDate><guid>https://queb.fun/p/0397ec81/</guid><description>&lt;p&gt;store可以由一下几部分构成&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;data: 基本的数据&lt;/li&gt;
+&lt;li&gt;accessor: 方便基于一个索引(例如,id)从 store 中提取数据. 例如: &lt;code&gt;getDataById()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;deriveData: 计算状态,基于 store 中已有的数据派生得来&lt;/li&gt;
+&lt;li&gt;mutation: 使 store 发生变化的动作,一般有参数.可以影响一个字段,也可以影响多个字段&lt;/li&gt;
+&lt;li&gt;event: 事件,不一定使 store 发生变化,也不一定有参数.&lt;/li&gt;
+&lt;/ul&gt;</description></item></channel></rss>

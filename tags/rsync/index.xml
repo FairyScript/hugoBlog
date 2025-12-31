@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Rsync on 千木岛</title><link>https://queb.fun/tags/rsync/</link><description>Recent content in Rsync on 千木岛</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Tue, 27 Aug 2024 09:38:58 +0000</lastBuildDate><atom:link href="https://queb.fun/tags/rsync/index.xml" rel="self" type="application/rss+xml"/><item><title>Windows平台也要用Rsync!</title><link>https://queb.fun/p/ae650ec1/</link><pubDate>Tue, 27 Aug 2024 09:38:58 +0000</pubDate><guid>https://queb.fun/p/ae650ec1/</guid><description>&lt;h3 id="2024914-更新"&gt;2024.9.14 更新
+&lt;/h3&gt;&lt;p&gt;貌似这样装的rsync使用 windows 自带的 openssl 会有写奇怪的问题,最后还是选择安装了 choco 的 rsync&lt;/p&gt;
+&lt;p&gt;&lt;a class="link" href="https://community.chocolatey.org/packages/rsync" target="_blank" rel="noopener"
+&gt;https://community.chocolatey.org/packages/rsync&lt;/a&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="前言"&gt;前言
+&lt;/h2&gt;&lt;p&gt;实际上写这篇文章的时候距离我配置rsync可能已经过了一万年,完全不记得细节了..所以以下的内容都是基于回忆写成的,可能存在部分不准确之处.&lt;/p&gt;
+&lt;h2 id="参考"&gt;参考
+&lt;/h2&gt;&lt;p&gt;[https://qiita.com/clvth14/items/5a7eb26ddca49b7f57c2]
+[https://gist.github.com/radleta/0b337a2b14f761951cf2aab0578512b9]&lt;/p&gt;
+&lt;h2 id="正式开始"&gt;正式开始!
+&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;先安装zstd&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;这一步是可选的,大部分Windows的解压软件是自带这个功能的,可以考虑手动部署二进制文件就不需要这个了.但我仍然建议按照教程安装&lt;/p&gt;
+&lt;p&gt;简单来说,去 [https://github.com/facebook/zstd/releases] 这里下载二进制,然后加入环境变量 (PATH 或者 .bashrc)&lt;/p&gt;
+&lt;ol start="2"&gt;
+&lt;li&gt;下载Rsync二进制&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;去(这里)[http://repo.msys2.org/msys/x86_64/]下载压缩包,注意是&lt;code&gt;rsync-〇〇〇–〇-x86_64.pkg.tar.zst&lt;/code&gt; 格式的.&lt;/p&gt;
+&lt;p&gt;然后使用以下的命令解压缩&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;zstd -d rsync-3.2.7-2-x86_64.pkg.tar.zst
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;tar -xvf rsync-3.2.7-2-x86_64.pkg.tar
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;把解压出来的exe文件放到环境变量,或者直接放入 &lt;code&gt;C:\Program Files\Git\usr\bin&lt;/code&gt; 文件夹 (这样仅限于gitbash方便调用)&lt;/p&gt;
+&lt;ol start="3"&gt;
+&lt;li&gt;补齐必须的dll文件&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;同样的,去[http://repo.msys2.org/msys/x86_64/]下载对应的文件,解压缩放入环境变量&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;libzstd-1.5.2-2-x86_64.pkg.tar.zst&lt;/code&gt;
+&lt;code&gt;libxxhash-0.8.1-1-x86_64.pkg.tar.zst&lt;/code&gt;
+&lt;code&gt;libopenssl-3.0.7-2-x86_64.pkg.tar.zst&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;大功告成!&lt;/strong&gt;&lt;/p&gt;</description></item></channel></rss>

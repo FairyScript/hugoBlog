@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>黑苹果 on 千木岛</title><link>https://queb.fun/tags/%E9%BB%91%E8%8B%B9%E6%9E%9C/</link><description>Recent content in 黑苹果 on 千木岛</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Mon, 03 Dec 2018 21:11:19 +0000</lastBuildDate><atom:link href="https://queb.fun/tags/%E9%BB%91%E8%8B%B9%E6%9E%9C/index.xml" rel="self" type="application/rss+xml"/><item><title>黑苹果安装经验谈</title><link>https://queb.fun/p/%E9%BB%91%E8%8B%B9%E6%9E%9C%E5%AE%89%E8%A3%85%E7%BB%8F%E9%AA%8C%E8%B0%88/</link><pubDate>Mon, 03 Dec 2018 21:11:19 +0000</pubDate><guid>https://queb.fun/p/%E9%BB%91%E8%8B%B9%E6%9E%9C%E5%AE%89%E8%A3%85%E7%BB%8F%E9%AA%8C%E8%B0%88/</guid><description>&lt;h2 id="写在开头"&gt;写在开头
+&lt;/h2&gt;&lt;p&gt;​ Justin He大佬写的&lt;a class="link" href="https://catty-house.blogspot.com/2018/10/hackintosh.html" target="_blank" rel="noopener"
+&gt;[Hackintosh]如何正确的黑苹果[原创]&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;​ 本来打算写一篇安装黑苹果的教程，可网络上优质的教程已经很多了，重复造轮子并没有什么意义。所以我想谈一谈从16年接触黑苹果到现在，我安装黑苹果并排除错误的一些心得。&lt;/p&gt;
+&lt;p&gt;​&lt;/p&gt;</description></item><item><title>通过NoVpaJpeg.kext解决 macOS Mojave(10.14)下预览jpg格式崩溃</title><link>https://queb.fun/p/%E9%80%9A%E8%BF%87novpajpeg.kext%E8%A7%A3%E5%86%B3-macos-mojave10.14%E4%B8%8B%E9%A2%84%E8%A7%88jpg%E6%A0%BC%E5%BC%8F%E5%B4%A9%E6%BA%83/</link><pubDate>Mon, 26 Nov 2018 19:02:17 +0000</pubDate><guid>https://queb.fun/p/%E9%80%9A%E8%BF%87novpajpeg.kext%E8%A7%A3%E5%86%B3-macos-mojave10.14%E4%B8%8B%E9%A2%84%E8%A7%88jpg%E6%A0%BC%E5%BC%8F%E5%B4%A9%E6%BA%83/</guid><description>&lt;p&gt;&lt;img src="https://i.loli.net/2018/12/02/5c03976c6e5e0.png"
+loading="lazy"
+alt="56493506_p0.png"
+&gt;&lt;/p&gt;
+&lt;p&gt;​ 黑苹果升级到Mojave(10.14)后，遇到了通过预览打开jpg格式的图片时，预览会崩溃/卡转圈的情况，经过一番摸索，发现原因是预览调用了集显来解码JPG格式，而我因为有独显并没有打开集显。&lt;/p&gt;
+&lt;p&gt;​ 除了通过修改为没有集显的机型SMBIOS 或者开启机器的集显，还有一种方法是在Clover中添加NoVPAJpeg.kext驱动来禁用集显解码。&lt;/p&gt;
+&lt;p&gt;​ 原帖和Github放在了文章下方。&lt;/p&gt;
+&lt;p&gt;​ 实测RX580工作正常。&lt;/p&gt;
+&lt;p&gt;更多……：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a class="link" href="https://www.insanelymac.com/forum/topic/334881-how-to-fix-quick-look-and-preview-issues-in-mojave/?page=8" target="_blank" rel="noopener"
+&gt;[HOW TO] Fix Quick Look and Preview issues in Mojave&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="https://github.com/vulgo/NoVPAJpeg" target="_blank" rel="noopener"
+&gt;NoVPAJpeg&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;题图：id=56493506&lt;/li&gt;
+&lt;/ul&gt;</description></item><item><title>黑苹果fix USB端口（适用于10.14.1)</title><link>https://queb.fun/p/%E9%BB%91%E8%8B%B9%E6%9E%9Cfix-usb%E7%AB%AF%E5%8F%A3%E9%80%82%E7%94%A8%E4%BA%8E10.14.1/</link><pubDate>Sat, 17 Nov 2018 21:39:54 +0000</pubDate><guid>https://queb.fun/p/%E9%BB%91%E8%8B%B9%E6%9E%9Cfix-usb%E7%AB%AF%E5%8F%A3%E9%80%82%E7%94%A8%E4%BA%8E10.14.1/</guid><description>&lt;blockquote&gt;
+&lt;p&gt;本文所述内容来源于 &lt;a class="link" href="https://www.insanelymac.com/forum/topic/335018-intel-fb-patcher-v165/" target="_blank" rel="noopener"
+&gt;https://www.insanelymac.com/forum/topic/335018-intel-fb-patcher-v165/&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;自macOS版本来到10.14.1之后，过去常用的通过USBInjectall.kext 来破解系统USB端口数来完成后续修补的办法已经部分失效，本文即是为了在新版本系统中修补USB端口而作，其中核心内容译自开头链接&lt;/p&gt;
+&lt;p&gt;所需工具：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;macOS（如果有低于10.14.1的系统，可以直接进行修补而不需要重复下面的步骤）&lt;/li&gt;
+&lt;li&gt;FB-Patcher （https://www.insanelymac.com/forum/topic/335018-intel-fb-patcher-v165/）&lt;/li&gt;
+&lt;li&gt;USBInjectall.kext （https://github.com/RehabMan/OS-X-USB-Inject-All）&lt;/li&gt;
+&lt;li&gt;Clover （文本编辑或者Clover Configurator）&lt;/li&gt;
+&lt;li&gt;一个可以使用的USB3.0设备&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="201945更新"&gt;===2019.4.5更新===
+&lt;/h3&gt;&lt;h3 id="步骤1"&gt;步骤1
+&lt;/h3&gt;&lt;p&gt;在Clover（/Clover/kexts/Other）中添加USBInjectall.kext，为了使其工作，在Clover-Acpi-DSDT中添加三个patch：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Rename XHC1 -&amp;gt; XHC&lt;/li&gt;
+&lt;li&gt;Rename EHC1 -&amp;gt; EH01&lt;/li&gt;
+&lt;li&gt;Rename EHC2 -&amp;gt; EH02&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src="https://i.loli.net/2018/12/06/5c0830114dc9d.png"
+loading="lazy"
+&gt;&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;h3 id="步骤2"&gt;步骤2
+&lt;/h3&gt;&lt;p&gt;在Clover-boot-customflag中添加&lt;code&gt;-uia_exclude_ss&lt;/code&gt;（屏蔽USB3.0控制器），重启电脑。&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://i.loli.net/2018/12/06/5c083081e85b2.png"
+loading="lazy"
+&gt;&lt;/p&gt;
+&lt;p&gt;此时你的电脑应该只有USB2.0控制器在工作。&lt;/p&gt;
+&lt;h3 id="步骤3"&gt;步骤3
+&lt;/h3&gt;&lt;p&gt;启动FB-Patcher，选择General-USB。&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://i.loli.net/2018/12/02/5c039f9f5c729.png"
+loading="lazy"
+&gt;&lt;/p&gt;
+&lt;p&gt;列表中绿色的项即是可以（正在）使用的USB2.0端口。此时你需要把电脑上&lt;strong&gt;每一个&lt;/strong&gt;USB接口都插一遍。最后显示的部分就是你得电脑上所有可用的USB2.0端口。请&lt;strong&gt;特别留意&lt;/strong&gt;你电脑的&lt;strong&gt;键盘/鼠标&lt;/strong&gt;所对应的hs端口编号（比如我的是&lt;code&gt;HS07&lt;/code&gt;与&lt;code&gt;HS08&lt;/code&gt;，稍后会用到。将所有没有使用的端口选中，点击左下方的删除，然后导出成USBports.kext保存，USB2.0部分完成。&lt;/p&gt;
+&lt;h3 id="步骤4"&gt;步骤4
+&lt;/h3&gt;&lt;p&gt;再次打开Clover，编辑bootflag将&lt;code&gt;-uia_exclude_ss&lt;/code&gt;替换为&lt;code&gt;-uia_exclude_hs&lt;/code&gt;;添加&lt;code&gt;uia_include=&amp;lt;font color=&amp;quot;blue&amp;quot;&amp;gt;x&amp;lt;/font&amp;gt;&lt;/code&gt;。此处的x为刚刚获取的键盘鼠标端口（意为排除对键盘鼠标端口的屏蔽），重启电脑。重复步骤3，记录下所有可工作的SS端口&lt;/p&gt;
+&lt;p&gt;注：一个USB3.0物理接口同时对应着USB2.0和USB3.0两个port，如果一个USB3.0接口只开启了SS port的话，它将不能识别USB2.0的设备，而USB2.0物理接口只对应一个hs port。&lt;/p&gt;
+&lt;p&gt;USB Connector 属性：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;0 为USB2.0 (480Mbps)；&lt;/li&gt;
+&lt;li&gt;3 为USB3.0 (5.0Gbps)；&lt;/li&gt;
+&lt;li&gt;255 为内建接口&lt;/li&gt;
+&lt;/ul&gt;</description></item><item><title>Clover DSDT 笔记</title><link>https://queb.fun/p/clover-dsdt-%E7%AC%94%E8%AE%B0/</link><pubDate>Tue, 30 Oct 2018 20:16:12 +0000</pubDate><guid>https://queb.fun/p/clover-dsdt-%E7%AC%94%E8%AE%B0/</guid><description>&lt;iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&amp;id=30148963&amp;auto=1&amp;height=66"&gt;&lt;/iframe&gt;
+&lt;p&gt;​ 本文是我在研究黑苹果DSDT期间所做的技术笔记，可读性会很差，建议善用搜索功能。&lt;/p&gt;
+&lt;p&gt;​ Clover修正DSDT的方式主要有两种：Patched 与 hotpatch。hotpatch主要是对原有的属性进行修正，而patched相当于为电脑添加了新的属性。故两者不能混淆。&lt;/p&gt;
+&lt;p&gt;​ Clover对DSDT热修补(hotpatch)的大致思路是将现有的需要修正的DSDT进行「重命名」，然后制作一个自定的DSDT文件（.aml)。将系统原生的DSDT访问指向自定的文件，然后就可以做到自定义指定DSDT的行为，此处举例：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Comment: Rename _DSM to XDSM
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Find: &amp;lt;5f44534d&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Replace: &amp;lt;5844534d&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;注：「_DSM」转为Hex写作&amp;lt;5f44534d&amp;gt;&lt;/p&gt;
+&lt;p&gt;将系统原生的 _DSM 访问重定向至 XDSM，配合/clover/acpi/hotpatch下的.aml文件就可以拦截处理指定的DSDT。&lt;/p&gt;
+&lt;p&gt;未完待续……&lt;/p&gt;</description></item><item><title>黑苹果升级10.13.4——显卡篇</title><link>https://queb.fun/p/%E9%BB%91%E8%8B%B9%E6%9E%9C%E5%8D%87%E7%BA%A710.13.4%E6%98%BE%E5%8D%A1%E7%AF%87/</link><pubDate>Sat, 31 Mar 2018 11:53:12 +0000</pubDate><guid>https://queb.fun/p/%E9%BB%91%E8%8B%B9%E6%9E%9C%E5%8D%87%E7%BA%A710.13.4%E6%98%BE%E5%8D%A1%E7%AF%87/</guid><description>&lt;p&gt;&lt;img src="https://i.loli.net/2018/04/13/5ad080a90ad84.jpg"
+loading="lazy"
+&gt;&lt;/p&gt;
+&lt;p&gt;###2018.8.23更新：
+显卡驱动换为WhateverGreen，在错觉程度的水平上提升了性能表现……&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;今日apple推送了macOS 10.13.4 新增了对eGPU的支持，实测在配合 NvidiaGraphicsFixup 时，可以显著提升MacOS的图形性能。&lt;/p&gt;
+&lt;p&gt;需要将 NvidiaGraphicsFixup 升级至1.2.5版本，WebDriver升级到387.10.10.10.30.103（即13.4最新版驱动）&lt;/p&gt;
+&lt;p&gt;升级过程应该不用我多讲了。。。大家一试便知&lt;/p&gt;
+&lt;p&gt;·附上 NvidiaGraphicsFixup 项目地址 &lt;a class="link" href="https://github.com/lvs1974/NvidiaGraphicsFixup" target="_blank" rel="noopener"
+&gt;https://github.com/lvs1974/NvidiaGraphicsFixup&lt;/a&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;题图: &lt;a class="link" href="http://adnmb1.com/t/6621569" target="_blank" rel="noopener"
+&gt;http://adnmb1.com/t/6621569&lt;/a&gt;&lt;/p&gt;</description></item></channel></rss>

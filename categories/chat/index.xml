@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>杂谈 on 千木岛</title><link>https://queb.fun/categories/chat/</link><description>Recent content in 杂谈 on 千木岛</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 31 Dec 2025 18:41:00 +0800</lastBuildDate><atom:link href="https://queb.fun/categories/chat/index.xml" rel="self" type="application/rss+xml"/><item><title>写在2025的最后一天</title><link>https://queb.fun/p/last-day-of-2025/</link><pubDate>Wed, 31 Dec 2025 18:41:00 +0800</pubDate><guid>https://queb.fun/p/last-day-of-2025/</guid><description>&lt;img src="https://queb.fun/p/last-day-of-2025/cover.webp" alt="Featured image of post 写在2025的最后一天" /&gt;&lt;p&gt;2025年的最后一天，我在江阴。&lt;/p&gt;
+&lt;p&gt;今天被群友问起为什么很久都没有更新文章了，突然觉得有点惭愧。实际上今年虽然工作上出差成为了常态，但我还是有一些时间写东西的，只是当开了个头之后，发现将自己想表达出的内容写完整并不容易。于是就一直没有发布。&lt;/p&gt;
+&lt;p&gt;今年在技术方面的主题差不多是『重走全栈之路』。一方面重拾起了后端相关的开发知识。实际上之前虽然主要是写非GUI的程序，但也不是典型的CURD类后端开发。今年在工作中接触到了一些微服务相关的内容，才发现自己在这方面的知识储备实在是太少了。于是就开始尝试自己构建一个monorepo的项目，尝试去寻找在2025年比较流行的技术栈和实践方式。这方面我写了一个卫月第三方repo的聚合项目。目前还是私有状态，等完善一些之后会开源出来。&lt;/p&gt;
+&lt;p&gt;另外一部分的话，就是研究了K8S相关的内容。之前虽然也接触过一些容器化的东西，但大多是停留在Docker层面。今年在刚刚好在工作中需要用到K8S集群，所以就顺势学了一下相关的东西。目前也算是入门了。以后等有心情搞homelab的时候，应该会尝试自己搭建一个K8S集群。这部分后续应该会写一些文章来记录自己的学习成果。&lt;/p&gt;
+&lt;p&gt;今年还没有完成的项目的话，想要DIY一个键盘，可是我被动手能力拖了后腿。希望自己不要被拖延症打败，明年能够完成这个项目。&lt;/p&gt;
+&lt;p&gt;今年有到哪些地方去旅游吗？我在回忆的时候竟然有些搞不清楚到底是在什么时候发生的事情。今年参加了大学同学的婚礼，回了一趟广西。同龄人都逐渐成家立业了，生活真是奇妙无比。因为工作原因的话去了趟洛阳，然后就是这次的江阴之行。本来今天想去长江边逛逛，但是看起来天气有点阴。天气预报显示明天还要下雨，所以可能就不去外面逛了。刚好适合在酒店里写点东西。&lt;/p&gt;
+&lt;p&gt;转眼间举例约定的时间已经过去了7年。我与当初约定的人也早就不再联系。我想他应该是过得很好的，不知道有没有实现自己的理想。今年的大家都平平安安的，真好。祝大家来年也一切顺遂。&lt;/p&gt;
+&lt;p&gt;以往的我最后通常是要来几句煽情的话，曾经还和朋友吹嘘说自己很擅长这个，现在想想当时的自己可不太会读空气，朋友真是一个永远的命题啊。我怎么做都没有办法让他人记得我。或许这就是我人生的选择吧。&lt;/p&gt;
+&lt;p&gt;爱您。&lt;/p&gt;</description></item><item><title>互联网迷思</title><link>https://queb.fun/p/2968ee5a/</link><pubDate>Thu, 29 Aug 2024 17:45:12 +0800</pubDate><guid>https://queb.fun/p/2968ee5a/</guid><description>&lt;blockquote&gt;
+&lt;p&gt;中文互联网上的高质量内容,就像实数轴上的有理数一样多 &amp;ndash;FairyScript&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;2024年我最大的痛苦来源便是中文互联网上高质量的内容和高质量的讨论越来越少了,大量的内容被限制在私域当中难以被触及.&lt;/p&gt;
+&lt;p&gt;更大的问题是,缺少了广泛讨论的情况下,个人的情绪非常容易被小圈子放大(回音室效应).但直接在公开领域发言无异于在洪水中游泳.只能是在无穷的争论当中消磨掉理智.&lt;/p&gt;
+&lt;p&gt;当今的互联网对于人类来说可能太大了.如何平衡交流的质量和防止回声室效应是未来一个很重要的课题.&lt;/p&gt;
+&lt;p&gt;在2023年我接触到了 mastodon, 他的理念是比较新颖的. 但目前从我的角度来看,还没有体现出相较于 Twitter 的优势(排除掉 Twitter 作为商业公司的骚操作以外).&lt;/p&gt;
+&lt;p&gt;互联网如何才能使全人类变得更好,更幸福? 我希望未来能够得到这个命题的答案.&lt;/p&gt;</description></item><item><title>摸鱼笔记 壱</title><link>https://queb.fun/p/e5d42f4f/</link><pubDate>Wed, 13 Dec 2023 16:50:51 +0800</pubDate><guid>https://queb.fun/p/e5d42f4f/</guid><description>&lt;img src="https://queb.fun/p/e5d42f4f/cover.webp" alt="Featured image of post 摸鱼笔记 壱" /&gt;&lt;p&gt;&lt;a class="link" href="https://www.pixiv.net/artworks/113301209" target="_blank" rel="noopener"
+&gt;沈める街&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;兴趣的丧失比想象中更快, 在尚未发现的某个时间.&lt;/p&gt;
+&lt;p&gt;最近谈不上在学习什么东西, 每天下班之后回到家也只是看一些视频.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;zod&lt;/code&gt; 是一个蛮有意思的类型检查库, 但对于 func type 的检查还是不够令人满意,目前还在研究中.&lt;/p&gt;
+&lt;p&gt;冬天到了,最近睡觉很难睡醒,感觉比夏天时候更加嗜睡了.&lt;/p&gt;</description></item><item><title>Hello World</title><link>https://queb.fun/p/hello-world/</link><pubDate>Thu, 19 Oct 2023 00:00:00 +0000</pubDate><guid>https://queb.fun/p/hello-world/</guid><description>&lt;img src="https://queb.fun/p/hello-world/cover.jpg" alt="Featured image of post Hello World" /&gt;&lt;p&gt;啊&lt;/p&gt;
+&lt;p&gt;尽管是打算说明一下来着,但是真的很累&lt;/p&gt;
+&lt;p&gt;最近又阳了,身体不好.还用掉了宝贵的年假,真的是太难了&lt;/p&gt;
+&lt;p&gt;说起来已经是第三次了吧,这次的强度感觉和第一次差不多.直接高烧放倒&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;正在慢慢把之前博客的文章迁移过来,部分图片可能会失效,这个就没办法了.&lt;/p&gt;
+&lt;p&gt;希望大家都身体健康!&lt;/p&gt;
+&lt;p&gt;FS, 19 Oct 2023&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Photo by &lt;a class="link" href="https://unsplash.com/@pawel_czerwinski" target="_blank" rel="noopener"
+&gt;Pawel Czerwinski&lt;/a&gt; on &lt;a class="link" href="https://unsplash.com/" target="_blank" rel="noopener"
+&gt;Unsplash&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;</description></item><item><title>料理包评测记录</title><link>https://queb.fun/p/d87d3df2/</link><pubDate>Wed, 16 Feb 2022 04:51:45 +0000</pubDate><guid>https://queb.fun/p/d87d3df2/</guid><description>&lt;img src="https://queb.fun/p/d87d3df2/cover.webp" alt="Featured image of post 料理包评测记录" /&gt;&lt;p&gt;主要记一下自己吃过的口味还不错的料理包。煮饭什么的最麻烦了&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;h2 id="王小余"&gt;王小余
+&lt;/h2&gt;&lt;p&gt;总的来说这家料理包，油和调味用的不错。量比较少，盐中等&lt;/p&gt;
+&lt;h3 id="肉末外婆菜"&gt;肉末外婆菜
+&lt;/h3&gt;&lt;p&gt;垃圾，别吃。肉末显微镜下可能能看见吧，我视力不好别搞&lt;/p&gt;
+&lt;h3 id="香菇鸡丁"&gt;香菇鸡丁
+&lt;/h3&gt;&lt;p&gt;这个不错，口感和味道都不错&lt;/p&gt;
+&lt;h3 id="啤酒鸭"&gt;啤酒鸭
+&lt;/h3&gt;&lt;p&gt;究极垃圾，一股怪味。骨头还多。禽肉还是别料理包了，尤其是带骨头的&lt;/p&gt;
+&lt;h3 id="武冈香干炒肉"&gt;武冈香干炒肉
+&lt;/h3&gt;&lt;p&gt;实际上就是豆干炒豆干，肉不能说没有吧，但是别指望&lt;/p&gt;
+&lt;h3 id="巴西烤肉"&gt;巴西烤肉
+&lt;/h3&gt;&lt;p&gt;心中的 MVP，好吃就完事了。说起来都是调味料的味道但是都吃料理包了还要什么自行车&lt;/p&gt;
+&lt;h3 id="青豆炒肉"&gt;青豆炒肉
+&lt;/h3&gt;&lt;p&gt;还可以，炒肉=炒肉末，但好歹也是肉。青豆挺软的味道 ok&lt;/p&gt;
+&lt;p&gt;这家的调味都挺相似的，油分比较大，不过不是油腻的那种。3.5/5&lt;/p&gt;
+&lt;h3 id="卤肉"&gt;卤肉
+&lt;/h3&gt;&lt;p&gt;其实是卤肉馅，配图如下
+&lt;img src="https://imgs.aixifan.com/FqRusdCLr6hVXtGy1UT0PEPoYXrt"
+loading="lazy"
+alt="好多油.jpg"
+&gt;&lt;/p&gt;
+&lt;h3 id="梅菜扣肉"&gt;梅菜扣肉
+&lt;/h3&gt;&lt;p&gt;好吃，量大肉多。差点没吃完。秒了！&lt;/p&gt;
+&lt;h3 id="香辣土匪鸭"&gt;香辣土匪鸭
+&lt;/h3&gt;&lt;blockquote&gt;
+&lt;p&gt;禽肉还是别料理包了，尤其是带骨头的&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;虽然这个调味更重口了所以勉强压住了那种恶心的味道，但不行就是不行，别买&lt;/p&gt;
+&lt;h3 id="五香脆骨"&gt;五香脆骨
+&lt;/h3&gt;&lt;p&gt;脆骨口感不是很好，但是调味尚可。差强人意。&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://s6.jpg.cm/2022/02/22/LfFVdD.jpg"
+loading="lazy"
+&gt;&lt;/p&gt;
+&lt;h2 id="新美香"&gt;新美香
+&lt;/h2&gt;&lt;p&gt;在买上面那个王小余之前我买了挺久这家的。对比之后发现这家的口感很奇怪，像是加了不少增稠剂。但是用料上还是可以的，可能是我没有 get 到他的好。吃的挺多但是我记不大住了，就随便写几个&lt;/p&gt;
+&lt;h3 id="台式卤肉--香菇卤肉"&gt;台式卤肉 &amp;amp; 香菇卤肉
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;咸！&lt;/strong&gt; 这个卤肉某种意义上可以算作是浇头。当菜绝对是大材小用了。肉都是小丁丁而且偏肥。如果住了面之类的可以配一下，还不错&lt;/p&gt;
+&lt;h3 id="咖喱鸡肉"&gt;咖喱鸡肉
+&lt;/h3&gt;&lt;p&gt;除了那个奇怪的勾芡问题以外还可以，鸡肉的口感很松弛但是量还是够的。&lt;/p&gt;
+&lt;h3 id="鱼香肉丝"&gt;鱼香肉丝
+&lt;/h3&gt;&lt;p&gt;同上，味道还行勾芡怪怪的。&lt;/p&gt;
+&lt;h3 id="一些带骨肉的菜"&gt;一些带骨肉的菜
+&lt;/h3&gt;&lt;p&gt;统统不推荐，料理包不要买带骨头的，很蠢。&lt;/p&gt;
+&lt;h3 id="肉末茄子"&gt;肉末茄子
+&lt;/h3&gt;&lt;p&gt;还可以，茄子倒是很适合他这个勾芡。我喜欢。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;未完待续&lt;/p&gt;</description></item></channel></rss>

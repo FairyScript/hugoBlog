@@ -1,0 +1,1282 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>千木岛</title><link>https://queb.fun/</link><description>Recent content on 千木岛</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 31 Dec 2025 18:41:00 +0800</lastBuildDate><atom:link href="https://queb.fun/index.xml" rel="self" type="application/rss+xml"/><item><title>写在2025的最后一天</title><link>https://queb.fun/p/last-day-of-2025/</link><pubDate>Wed, 31 Dec 2025 18:41:00 +0800</pubDate><guid>https://queb.fun/p/last-day-of-2025/</guid><description>&lt;img src="https://queb.fun/p/last-day-of-2025/cover.webp" alt="Featured image of post 写在2025的最后一天" /&gt;&lt;p&gt;2025年的最后一天，我在江阴。&lt;/p&gt;
+&lt;p&gt;今天被群友问起为什么很久都没有更新文章了，突然觉得有点惭愧。实际上今年虽然工作上出差成为了常态，但我还是有一些时间写东西的，只是当开了个头之后，发现将自己想表达出的内容写完整并不容易。于是就一直没有发布。&lt;/p&gt;
+&lt;p&gt;今年在技术方面的主题差不多是『重走全栈之路』。一方面重拾起了后端相关的开发知识。实际上之前虽然主要是写非GUI的程序，但也不是典型的CURD类后端开发。今年在工作中接触到了一些微服务相关的内容，才发现自己在这方面的知识储备实在是太少了。于是就开始尝试自己构建一个monorepo的项目，尝试去寻找在2025年比较流行的技术栈和实践方式。这方面我写了一个卫月第三方repo的聚合项目。目前还是私有状态，等完善一些之后会开源出来。&lt;/p&gt;
+&lt;p&gt;另外一部分的话，就是研究了K8S相关的内容。之前虽然也接触过一些容器化的东西，但大多是停留在Docker层面。今年在刚刚好在工作中需要用到K8S集群，所以就顺势学了一下相关的东西。目前也算是入门了。以后等有心情搞homelab的时候，应该会尝试自己搭建一个K8S集群。这部分后续应该会写一些文章来记录自己的学习成果。&lt;/p&gt;
+&lt;p&gt;今年还没有完成的项目的话，想要DIY一个键盘，可是我被动手能力拖了后腿。希望自己不要被拖延症打败，明年能够完成这个项目。&lt;/p&gt;
+&lt;p&gt;今年有到哪些地方去旅游吗？我在回忆的时候竟然有些搞不清楚到底是在什么时候发生的事情。今年参加了大学同学的婚礼，回了一趟广西。同龄人都逐渐成家立业了，生活真是奇妙无比。因为工作原因的话去了趟洛阳，然后就是这次的江阴之行。本来今天想去长江边逛逛，但是看起来天气有点阴。天气预报显示明天还要下雨，所以可能就不去外面逛了。刚好适合在酒店里写点东西。&lt;/p&gt;
+&lt;p&gt;转眼间举例约定的时间已经过去了7年。我与当初约定的人也早就不再联系。我想他应该是过得很好的，不知道有没有实现自己的理想。今年的大家都平平安安的，真好。祝大家来年也一切顺遂。&lt;/p&gt;
+&lt;p&gt;以往的我最后通常是要来几句煽情的话，曾经还和朋友吹嘘说自己很擅长这个，现在想想当时的自己可不太会读空气，朋友真是一个永远的命题啊。我怎么做都没有办法让他人记得我。或许这就是我人生的选择吧。&lt;/p&gt;
+&lt;p&gt;爱您。&lt;/p&gt;</description></item><item><title>Linux妙妙命令备忘录</title><link>https://queb.fun/p/3f205a3c/</link><pubDate>Thu, 24 Jul 2025 11:41:27 +0800</pubDate><guid>https://queb.fun/p/3f205a3c/</guid><description>&lt;h2 id="查看ip地址"&gt;查看IP地址
+&lt;/h2&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;hostname -I
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id="批量修改拓展名"&gt;批量修改拓展名
+&lt;/h2&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;for&lt;/span&gt; file in *.txt&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; mv &lt;span class="s2"&gt;&amp;#34;&lt;/span&gt;&lt;span class="nv"&gt;$file&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;file&lt;/span&gt;&lt;span class="p"&gt;%.txt&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;.md&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;done&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id="crlf改为lf"&gt;CRLF改为LF
+&lt;/h2&gt;&lt;p&gt;需要安装&lt;code&gt;dos2unix&lt;/code&gt;工具。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;find . -type f -exec dos2unix &lt;span class="o"&gt;{}&lt;/span&gt; +
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id="docker-导出镜像为targz包"&gt;docker 导出镜像为tar.gz包
+&lt;/h2&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;docker save &amp;lt;image_name&amp;gt; &lt;span class="p"&gt;|&lt;/span&gt; gzip &amp;gt; &amp;lt;image_name&amp;gt;.tar.gz
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;使用 &lt;code&gt;docker load&lt;/code&gt;命令可以导入。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;docker load &amp;lt; &amp;lt;image_name&amp;gt;.tar.gz
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description></item><item><title>2025.03新的win11跳过OOBE联网</title><link>https://queb.fun/p/bf59ca16/</link><pubDate>Mon, 31 Mar 2025 13:58:12 +0800</pubDate><guid>https://queb.fun/p/bf59ca16/</guid><description>&lt;p&gt;前段时间微软删除了在安装过程中使用 &lt;code&gt;oobe/bypassnro.cmd&lt;/code&gt; 跳过强制联网注册的方法.现记录一个新的,更快而且不需要重启&lt;/p&gt;
+&lt;p&gt;在安装界面按下 &lt;code&gt;Shift + F10&lt;/code&gt; 打开 cmd, 在里面输入 &lt;code&gt;start ms-cxh:localonly&lt;/code&gt; 回车执行.&lt;/p&gt;
+&lt;p&gt;EOF&lt;/p&gt;</description></item><item><title>转载: 一个由 BGP Route Aggregation 引发的问题</title><link>https://queb.fun/p/9b2ac422/</link><pubDate>Tue, 14 Jan 2025 09:35:41 +0000</pubDate><guid>https://queb.fun/p/9b2ac422/</guid><description>&lt;img src="https://queb.fun/p/9b2ac422/bgp-aggregation.png" alt="Featured image of post 转载: 一个由 BGP Route Aggregation 引发的问题" /&gt;&lt;h2 id="fairyscript-说"&gt;FairyScript 说
+&lt;/h2&gt;&lt;p&gt;这篇文章是我在浏览他人博客的时候看到的,认为质量非常高.故转载存档.&lt;/p&gt;
+&lt;p&gt;该文档的版权遵守原本的 &lt;code&gt;CC0&lt;/code&gt; 版权协议.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;原文: &lt;a class="link" href="https://www.kawabangga.com/posts/6851" target="_blank" rel="noopener"
+&gt;https://www.kawabangga.com/posts/6851&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;接下来是原文内容&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;上周遇到的一个问题很有意思，后来搜索相关的资料，找到的也比较少，感觉有必要记录一下。&lt;/p&gt;
+&lt;p&gt;问题的场景很简单：我们有两个路由设备同时发布了 &lt;code&gt;10.81.0.0/16&lt;/code&gt; 的网段做 ECMP[^1^]，网络一切正常。拓扑如下图。现在，有一个新的 IP，只存在于 Router A 上，所以 Router A 宣告网段 &lt;code&gt;10.81.100.100/32&lt;/code&gt;，而 Router B 不宣告。这样，由于在路由表中， &lt;code&gt;/32&lt;/code&gt; 的 prefix 比 &lt;code&gt;/16&lt;/code&gt; 要长，所以 Router X 在从路由表选路的时候， &lt;code&gt;10.81.100.100&lt;/code&gt; 会优先选择去 Router A，而对于其他的 &lt;code&gt;10.81.0.0/16&lt;/code&gt; 的网段，会负载均衡到 A 和 B 两台路由器上。&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://queb.fun/p/9b2ac422/bgp-aggregation.png"
+width="589"
+height="311"
+srcset="https://queb.fun/p/9b2ac422/bgp-aggregation_hu_1d5ddde99632e8c1.png 480w, https://queb.fun/p/9b2ac422/bgp-aggregation_hu_d9069824c129d707.png 1024w"
+loading="lazy"
+alt="img"
+class="gallery-image"
+data-flex-grow="189"
+data-flex-basis="454px"
+&gt; 简化的拓扑图&lt;/p&gt;
+&lt;p&gt;理论上，一切看似合理并且正常。但是 &lt;code&gt;/32&lt;/code&gt; 的网段一经宣告， &lt;code&gt;10.81.0.0/16&lt;/code&gt; 的网络都挂了。&lt;/p&gt;
+&lt;p&gt;事后我们得知，在 Router X 上有一条路由聚合配置。但是这条合理的路由聚合，怎么会让整个网段挂掉呢？&lt;/p&gt;
+&lt;p&gt;为什么需要路由聚合呢？&lt;/p&gt;
+&lt;p&gt;Router A 每次宣告一个网段给 Router X，Router X 的 BGP 路由就会多一个。Router B 每次宣告一个网段，X 上也会多一个。可想而知，Router X 上的路由是它的下游的总和。同理，Router X 上游的路由器的路由将会更多。路由的条目越多，对路由器的性能要求就越高。所以，核心路由器要想处理所有的路由条目，就需要性能非常高。性能是有上限的，假设性能再搞也无法处理这么多路由，怎么办呢？我们可以优化另一个变量——路由条目[^2^]。&lt;/p&gt;
+&lt;p&gt;如何减少路由条目呢？ 考虑下面 3 个网段：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;10.81.2.0/24&lt;/li&gt;
+&lt;li&gt;10.81.3.0/24&lt;/li&gt;
+&lt;li&gt;10.83.4.4/26&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;其实都可以汇聚成一个网段： &lt;code&gt;10.81.0.0/16&lt;/code&gt;。把这个网段宣告出去，收到的流量可以在 X 这里根据自己的路由表进行转发。&lt;/p&gt;
+&lt;p&gt;这里产生了一个问题：就是我们宣告了自己没有路由的网段出去，比如我们的路由中并不存在 &lt;code&gt;10.81.5.0/24&lt;/code&gt; 这个段，但是被我们的 &lt;code&gt;10.81.0.0/16&lt;/code&gt; 宣告了出去。&lt;/p&gt;
+&lt;p&gt;由此，会产生两个问题。第一个问题，假设其他路由器有到 &lt;code&gt;10.81.5.0/24&lt;/code&gt; 的路由，那么会不会走到我们的 &lt;code&gt;10.81.0.0/16&lt;/code&gt; 这里来呢？答案是不会的。因为 &lt;strong&gt;路由表的匹配规则是最长前缀匹配&lt;/strong&gt;， &lt;code&gt;/24&lt;/code&gt; 比我们的 &lt;code&gt;/16&lt;/code&gt; 优先级更高。&lt;/p&gt;
+&lt;p&gt;第二个问题更加严重一些，路由的聚合可能导致环路[^3^]。&lt;/p&gt;
+&lt;p&gt;考虑下面这个拓扑图，两个路由器都存在路由聚合的配置。&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://queb.fun/p/9b2ac422/bgp-aggregation-loop.png"
+width="616"
+height="409"
+srcset="https://queb.fun/p/9b2ac422/bgp-aggregation-loop_hu_de82543a4b3437f3.png 480w, https://queb.fun/p/9b2ac422/bgp-aggregation-loop_hu_719b3e469773a988.png 1024w"
+loading="lazy"
+alt="img"
+class="gallery-image"
+data-flex-grow="150"
+data-flex-basis="361px"
+&gt; 路由聚合导致环路产生的例子&lt;/p&gt;
+&lt;p&gt;这里的问题是， &lt;code&gt;10.81.4.1&lt;/code&gt; 这个 IP 不存在于 A 也不存在于 B，但是由于路由聚合的配置，A 认为在 B 上，B 认为在 A 上，导致在转发的时候会出现环路。虽然 IP 层有 TTL 机制，会让这个包最终被丢弃，但是也会让两个路由器在某些网段的转发上浪费一些计算资源。&lt;/p&gt;
+&lt;p&gt;如何避免在转发「不存在的网段」的时候出现的环路呢？一个思路是我们精确的控制聚合的配置，不配置出来可能产生环路的聚合，但是这几乎是不可能的。（就像用静态路由配置替代动态路由一样不可能）。&lt;/p&gt;
+&lt;p&gt;另一个思路是，在 &lt;code&gt;10.81.4.1&lt;/code&gt; 这种本地没有路由的包出现的时候，直接「黑洞」掉。方法很简单，就是在每次聚合的时候，创建一条路由，终点是 &lt;code&gt;Null0&lt;/code&gt;，即直接丢弃。&lt;/p&gt;
+&lt;p&gt;具体来说，在上图的 Router A 中，聚合本地的三条路由到 &lt;code&gt;/16&lt;/code&gt;，我们应该这么做：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;向外宣告路由 &lt;code&gt;10.81.0.0/16&lt;/code&gt;，以达到减少路由条目的目的[^4^]；&lt;/li&gt;
+&lt;li&gt;在本地插入一条 Null0 的路由，使得本地的路由最终如下。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;10.81.0.0/16 -&amp;gt; Null0
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;10.81.1.0/24-&amp;gt;local
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;10.81.2.0/24-&amp;gt;local
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;10.81.3.0/24-&amp;gt;local
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;注意，路由表的顺序没有意义，因为用的是最长前缀匹配。转发包的时候，对于 &lt;code&gt;10.81.1.0/24&lt;/code&gt; 这种本地存在的段，因为它们的前缀比 &lt;code&gt;/16&lt;/code&gt; 长，所以正常转发；对于不存在的段，比如 &lt;code&gt;10.81.4.1&lt;/code&gt;，会命中 &lt;code&gt;10.81.0.0/16 -&amp;gt; Null0&lt;/code&gt; 的路由，直接在本地丢弃。这样，就可以阻止环路的产生。由聚合而自动产生的 &lt;code&gt;/16&lt;/code&gt; 是一个防环的兜底路由，正常情况下，不应该使用这条路由，如果命中这条路由，说明无法转发的包到达了路由器，直接丢弃即可。&lt;/p&gt;
+&lt;p&gt;回到本文开头的问题上，为什么宣告一条 &lt;code&gt;/32&lt;/code&gt; 会导致整个网段挂掉呢？ &lt;code&gt;Null0&lt;/code&gt; 不是说只是兜底而已吗？回答这个问题，还要补充一点知识。&lt;/p&gt;
+&lt;h2 id="bgp-和路由表"&gt;BGP 和路由表
+&lt;/h2&gt;&lt;p&gt;路由设备按照路由表（叫做 RIB, Routing Information Base）进行转发（实际上还有一层加速用的 FIB，但是 FIB 的 source of the truth 是 RIB，所以这里先忽略）。 &lt;strong&gt;RIB 转发的逻辑是最长前缀匹配。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;RIB 是怎么生成的呢？一种是静态配置，即静态路由。另一种是动态路由协议。路由协议之间交换路由信息，然后负责动态修改 RIB。在有多条可达路由的时候，怎么决定把哪一条路由写入到 RIB 呢？这就是不同的路由协议来决定的了。比如，BGP 有 13 条选路原则[^5^]；OSPF 和 IS-IS 这种协议也有自己的路径选择算法。&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://queb.fun/p/9b2ac422/rib-and-routing.png"
+width="400"
+height="186"
+srcset="https://queb.fun/p/9b2ac422/rib-and-routing_hu_15f7dc5adf503295.png 480w, https://queb.fun/p/9b2ac422/rib-and-routing_hu_68bdb38fe586d4b6.png 1024w"
+loading="lazy"
+alt="img"
+class="gallery-image"
+data-flex-grow="215"
+data-flex-basis="516px"
+&gt; 路由协议和 RIB 的关系[^6^]&lt;/p&gt;
+&lt;p&gt;这张图比较好，不同的路由协议可以同时运行，不同的路由协议可以根据自己的算法来操作路由表，决定转发路径。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;路由的聚合也是路由协议的一部分。&lt;/strong&gt; 像 OSPF, EIGRP, BGP 这些协议，都有关于路由聚合的定义和支持。重申一下：路由聚合是路由协议的 feature，而不是路由表 RIB 的。&lt;/p&gt;
+&lt;p&gt;这也就是说，路由聚合中产生的 Null0 黑洞条目首先出现在 BGP 中，然后 BGP 根据自己的选路原则，放到路由表中。&lt;/p&gt;
+&lt;p&gt;回到本文最先开始讨论的问题，现在就可以用上面的知识来解释这个问题了。&lt;/p&gt;
+&lt;p&gt;首先，Router X 会收到 3 条路由。&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://queb.fun/p/9b2ac422/bgp-aggregation-null0.png"
+width="541"
+height="496"
+srcset="https://queb.fun/p/9b2ac422/bgp-aggregation-null0_hu_160eff9e5d694ae4.png 480w, https://queb.fun/p/9b2ac422/bgp-aggregation-null0_hu_db153a068f2693fa.png 1024w"
+loading="lazy"
+alt="img"
+class="gallery-image"
+data-flex-grow="109"
+data-flex-basis="261px"
+&gt;&lt;/p&gt;
+&lt;p&gt;到达 Router X，经过聚合之后，在 BGP 里面，会有 4 条路，多出来的一条是聚合产生的 Null0 黑洞路由。&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://queb.fun/p/9b2ac422/show-ip-bgp-paths-1024x244.png"
+width="1024"
+height="244"
+srcset="https://queb.fun/p/9b2ac422/show-ip-bgp-paths-1024x244_hu_fe41440b43f2dc97.png 480w, https://queb.fun/p/9b2ac422/show-ip-bgp-paths-1024x244_hu_5fefdef9fb242a79.png 1024w"
+loading="lazy"
+alt="img"
+class="gallery-image"
+data-flex-grow="419"
+data-flex-basis="1007px"
+&gt; 到达 10.81.0.0/16 的路由有 3 个&lt;/p&gt;
+&lt;p&gt;BGP 会按照自己的选路原则，在 10.81.0.0/16 的 3 条路径中选择一条放到 RIB 中。这 3 条路径中，Null0 这条可是本地路由，Weight 是最高的。所以，Null0 由于其他两条真实存在的路由，进入了 RIB。&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://queb.fun/p/9b2ac422/show-rib-1024x405.png"
+width="1024"
+height="405"
+srcset="https://queb.fun/p/9b2ac422/show-rib-1024x405_hu_1d8d5779a44dc60d.png 480w, https://queb.fun/p/9b2ac422/show-rib-1024x405_hu_ab9c0b9ee5e70307.png 1024w"
+loading="lazy"
+alt="img"
+class="gallery-image"
+data-flex-grow="252"
+data-flex-basis="606px"
+&gt; show ip route&lt;/p&gt;
+&lt;p&gt;可以看到路由表中，只有 &lt;code&gt;10.81.100.100&lt;/code&gt; 明细路由和 &lt;code&gt;10.81.0.0/16&lt;/code&gt; 到 Null0 的黑洞路由，其他两条路由被刷下去了。&lt;/p&gt;
+&lt;p&gt;到这里，真相就大白了。 &lt;code&gt;10.81.100.100&lt;/code&gt; 在没有发布的时候， &lt;code&gt;10.81.0.0/16&lt;/code&gt; 工作正常。但是一旦发布， &lt;code&gt;10.81.0.0/16&lt;/code&gt; 的正常路由就被路由聚合产生的 Null0 给刷下去了。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a class="link" href="https://www.kawabangga.com/posts/6732" target="_blank" rel="noopener"
+&gt;数据中心网络高可用技术：ECMP&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="https://www.cisco.com/c/en/us/support/docs/ip/border-gateway-protocol-bgp/5441-aggregation.html" target="_blank" rel="noopener"
+&gt;Understand Route Aggregation in BGP – Cisco&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="https://www.kawabangga.com/posts/6291" target="_blank" rel="noopener"
+&gt;网络中的环路和防环技术&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;确认了下没有写错，这里的意思是 Tiao Mu De Mu Di，博大精深的中文！&lt;a class="link" href="https://www.kawabangga.com/posts/6851#e62605e2-790d-46f6-8ac2-e8ea1a9996d5-link" target="_blank" rel="noopener"
+&gt;↩︎&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="https://www.cisco.com/c/en/us/support/docs/ip/border-gateway-protocol-bgp/13753-25.html" target="_blank" rel="noopener"
+&gt;Select BGP Best Path Algorithm – Cisco&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;来源： &lt;a class="link" href="https://www.cnblogs.com/wanderHao/p/12251527.html" target="_blank" rel="noopener"
+&gt;FIB 表与 RIB 表的区别与联系 – &amp;amp;Yhao – 博客园&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;</description></item><item><title>gdal地图重投影的离奇bug</title><link>https://queb.fun/p/3d6d3035/</link><pubDate>Sat, 07 Sep 2024 10:16:47 +0800</pubDate><guid>https://queb.fun/p/3d6d3035/</guid><description>&lt;img src="https://queb.fun/p/3d6d3035/cover.webp" alt="Featured image of post gdal地图重投影的离奇bug" /&gt;&lt;p&gt;&lt;code&gt;gdal&lt;/code&gt; 重新投影的时候,注意不要包含极点坐标,会有神奇的bug&lt;/p&gt;
+&lt;p&gt;建议使用 &lt;code&gt;gdal_translate&lt;/code&gt; 提前切除极点坐标.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;gdal_translate -projwin 90 60 160 0 -of GTiff input.tif ouput.tif&lt;/code&gt;&lt;/p&gt;
+&lt;h2 id="推荐阅读"&gt;推荐阅读
+&lt;/h2&gt;&lt;p&gt;&lt;a class="link" href="https://github.com/syncpoint/terrain-rgb" target="_blank" rel="noopener"
+&gt;https://github.com/syncpoint/terrain-rgb&lt;/a&gt;&lt;/p&gt;</description></item><item><title>在linux上交叉编译需要gcc的go程序</title><link>https://queb.fun/p/63e1cdb6/</link><pubDate>Fri, 06 Sep 2024 11:21:43 +0800</pubDate><guid>https://queb.fun/p/63e1cdb6/</guid><description>&lt;h2 id="参考"&gt;参考
+&lt;/h2&gt;&lt;p&gt;&lt;a class="link" href="https://studygolang.com/topics/15781?fr=sidebar" target="_blank" rel="noopener"
+&gt;https://studygolang.com/topics/15781?fr=sidebar&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class="link" href="https://wiki.eryajf.net/pages/52d983/#_2-linux-%E7%8E%AF%E5%A2%83%E7%BC%96%E8%AF%91" target="_blank" rel="noopener"
+&gt;https://wiki.eryajf.net/pages/52d983/#_2-linux-%E7%8E%AF%E5%A2%83%E7%BC%96%E8%AF%91&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="正文"&gt;正文
+&lt;/h2&gt;&lt;p&gt;先装好&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;mingw-w64
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;libz-mingw-w64
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;span class="lnt"&gt;7
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-sh" data-lang="sh"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="cp"&gt;#!/bin/sh
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;CGO_ENABLED&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;GOOS&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;windows
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;GOARCH&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;386&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;CC&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;i686-w64-mingw32-gcc
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;CXX&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;i686-w64-mingw32-g++
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;go build -ldflags &lt;span class="s1"&gt;&amp;#39;-s -w -H=windowsgui&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description></item><item><title>互联网迷思</title><link>https://queb.fun/p/2968ee5a/</link><pubDate>Thu, 29 Aug 2024 17:45:12 +0800</pubDate><guid>https://queb.fun/p/2968ee5a/</guid><description>&lt;blockquote&gt;
+&lt;p&gt;中文互联网上的高质量内容,就像实数轴上的有理数一样多 &amp;ndash;FairyScript&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;2024年我最大的痛苦来源便是中文互联网上高质量的内容和高质量的讨论越来越少了,大量的内容被限制在私域当中难以被触及.&lt;/p&gt;
+&lt;p&gt;更大的问题是,缺少了广泛讨论的情况下,个人的情绪非常容易被小圈子放大(回音室效应).但直接在公开领域发言无异于在洪水中游泳.只能是在无穷的争论当中消磨掉理智.&lt;/p&gt;
+&lt;p&gt;当今的互联网对于人类来说可能太大了.如何平衡交流的质量和防止回声室效应是未来一个很重要的课题.&lt;/p&gt;
+&lt;p&gt;在2023年我接触到了 mastodon, 他的理念是比较新颖的. 但目前从我的角度来看,还没有体现出相较于 Twitter 的优势(排除掉 Twitter 作为商业公司的骚操作以外).&lt;/p&gt;
+&lt;p&gt;互联网如何才能使全人类变得更好,更幸福? 我希望未来能够得到这个命题的答案.&lt;/p&gt;</description></item><item><title>Windows平台也要用Rsync!</title><link>https://queb.fun/p/ae650ec1/</link><pubDate>Tue, 27 Aug 2024 09:38:58 +0000</pubDate><guid>https://queb.fun/p/ae650ec1/</guid><description>&lt;h3 id="2024914-更新"&gt;2024.9.14 更新
+&lt;/h3&gt;&lt;p&gt;貌似这样装的rsync使用 windows 自带的 openssl 会有写奇怪的问题,最后还是选择安装了 choco 的 rsync&lt;/p&gt;
+&lt;p&gt;&lt;a class="link" href="https://community.chocolatey.org/packages/rsync" target="_blank" rel="noopener"
+&gt;https://community.chocolatey.org/packages/rsync&lt;/a&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="前言"&gt;前言
+&lt;/h2&gt;&lt;p&gt;实际上写这篇文章的时候距离我配置rsync可能已经过了一万年,完全不记得细节了..所以以下的内容都是基于回忆写成的,可能存在部分不准确之处.&lt;/p&gt;
+&lt;h2 id="参考"&gt;参考
+&lt;/h2&gt;&lt;p&gt;[https://qiita.com/clvth14/items/5a7eb26ddca49b7f57c2]
+[https://gist.github.com/radleta/0b337a2b14f761951cf2aab0578512b9]&lt;/p&gt;
+&lt;h2 id="正式开始"&gt;正式开始!
+&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;先安装zstd&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;这一步是可选的,大部分Windows的解压软件是自带这个功能的,可以考虑手动部署二进制文件就不需要这个了.但我仍然建议按照教程安装&lt;/p&gt;
+&lt;p&gt;简单来说,去 [https://github.com/facebook/zstd/releases] 这里下载二进制,然后加入环境变量 (PATH 或者 .bashrc)&lt;/p&gt;
+&lt;ol start="2"&gt;
+&lt;li&gt;下载Rsync二进制&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;去(这里)[http://repo.msys2.org/msys/x86_64/]下载压缩包,注意是&lt;code&gt;rsync-〇〇〇–〇-x86_64.pkg.tar.zst&lt;/code&gt; 格式的.&lt;/p&gt;
+&lt;p&gt;然后使用以下的命令解压缩&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;zstd -d rsync-3.2.7-2-x86_64.pkg.tar.zst
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;tar -xvf rsync-3.2.7-2-x86_64.pkg.tar
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;把解压出来的exe文件放到环境变量,或者直接放入 &lt;code&gt;C:\Program Files\Git\usr\bin&lt;/code&gt; 文件夹 (这样仅限于gitbash方便调用)&lt;/p&gt;
+&lt;ol start="3"&gt;
+&lt;li&gt;补齐必须的dll文件&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;同样的,去[http://repo.msys2.org/msys/x86_64/]下载对应的文件,解压缩放入环境变量&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;libzstd-1.5.2-2-x86_64.pkg.tar.zst&lt;/code&gt;
+&lt;code&gt;libxxhash-0.8.1-1-x86_64.pkg.tar.zst&lt;/code&gt;
+&lt;code&gt;libopenssl-3.0.7-2-x86_64.pkg.tar.zst&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;大功告成!&lt;/strong&gt;&lt;/p&gt;</description></item><item><title>状态管理二三思考</title><link>https://queb.fun/p/0397ec81/</link><pubDate>Tue, 27 Aug 2024 09:35:41 +0000</pubDate><guid>https://queb.fun/p/0397ec81/</guid><description>&lt;p&gt;store可以由一下几部分构成&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;data: 基本的数据&lt;/li&gt;
+&lt;li&gt;accessor: 方便基于一个索引(例如,id)从 store 中提取数据. 例如: &lt;code&gt;getDataById()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;deriveData: 计算状态,基于 store 中已有的数据派生得来&lt;/li&gt;
+&lt;li&gt;mutation: 使 store 发生变化的动作,一般有参数.可以影响一个字段,也可以影响多个字段&lt;/li&gt;
+&lt;li&gt;event: 事件,不一定使 store 发生变化,也不一定有参数.&lt;/li&gt;
+&lt;/ul&gt;</description></item><item><title>记一次CSS样式异常排查</title><link>https://queb.fun/p/1b7980ef/</link><pubDate>Thu, 20 Jun 2024 16:50:00 +0800</pubDate><guid>https://queb.fun/p/1b7980ef/</guid><description>&lt;img src="https://queb.fun/p/1b7980ef/cover.webp" alt="Featured image of post 记一次CSS样式异常排查" /&gt;&lt;p&gt;最近在工作中遇到了一起 CSS style 样式无法生效的问题.特此记录.&lt;/p&gt;
+&lt;h3 id="一些信息"&gt;一些信息
+&lt;/h3&gt;&lt;p&gt;项目中涉及的技术栈如下&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;React 18&lt;/li&gt;
+&lt;li&gt;Vite 5&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;根据目前分析的结果,可以认为任何直接注入 CSS 样式的库都会收到影响(包括 emotionJS), 不确定类似 Post CSS 之类的编译器会不会遇到该问题.但感觉上是可能的.&lt;/p&gt;
+&lt;h2 id="表现"&gt;表现
+&lt;/h2&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-jsx" data-lang="jsx"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kr"&gt;import&lt;/span&gt; &lt;span class="nx"&gt;image&lt;/span&gt; &lt;span class="nx"&gt;from&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;some.svg&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;Foo&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt; &lt;span class="na"&gt;style&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{{&lt;/span&gt; &lt;span class="nx"&gt;maskImage&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="sb"&gt;`url(&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nx"&gt;image&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="sb"&gt;)`&lt;/span&gt; &lt;span class="p"&gt;}}&lt;/span&gt; &lt;span class="p"&gt;/&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;该代码在编译后产物内可以看到样式存在,但 Chrome 渲染之后,在 dom 内无法看到该条样式,若同时存在其他样式共存则其他样式不受影响.&lt;/p&gt;
+&lt;h2 id="原因"&gt;原因
+&lt;/h2&gt;&lt;p&gt;原因是因为 Vite 默认所采取的 &lt;a class="link" href="https://vitejs.dev/config/build-options.html#build-assetsinlinelimit" target="_blank" rel="noopener"
+&gt;&lt;code&gt;inline import&lt;/code&gt; 优化功能&lt;/a&gt; 会默认将小于 4kb 的文件以 &lt;code&gt;data URL&lt;/code&gt; 形式内联进代码. 这在大部分情况下都是正常工作的,但在本用例下:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;svg 小于 4kb, 满足内联条件&lt;/li&gt;
+&lt;li&gt;svg 本身是纯文本内容. dataURL 不会以 base64 形式而是直接以明文形式插入&lt;/li&gt;
+&lt;li&gt;css 样式本质上是 字符串拼接,且 js 内使用不会触发 vite 关于 CSS url() 的优化&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;所以会生成形如&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-jsx" data-lang="jsx"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;maskImage&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;url(data:image/svg+xml;utf8,&amp;lt;svg&amp;gt;...&amp;lt;/svg&amp;gt;)&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;的内容.该内容语法错误股会被浏览器忽略.&lt;/p&gt;
+&lt;h2 id="解决方案"&gt;解决方案:
+&lt;/h2&gt;&lt;h3 id="1-在-url-外加上双引号-"&gt;1. 在 URL 外加上双引号 &amp;lt;&amp;quot;&amp;gt;
+&lt;/h3&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-jsx" data-lang="jsx"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nx"&gt;style&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{{&lt;/span&gt; &lt;span class="nx"&gt;maskImage&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="sb"&gt;`url(&amp;#34;&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nx"&gt;image&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="sb"&gt;&amp;#34;)`&lt;/span&gt; &lt;span class="p"&gt;}}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id="2-在-vite-中设置不内联-svg"&gt;2. 在 Vite 中设置,不内联 svg
+&lt;/h3&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;span class="lnt"&gt;7
+&lt;/span&gt;&lt;span class="lnt"&gt;8
+&lt;/span&gt;&lt;span class="lnt"&gt;9
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-ts" data-lang="ts"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;// vite.config.ts
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nx"&gt;assetsInlineLimit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;filePath&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;content&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;//svg永远不内联
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;filePath&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;endsWith&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;.svg&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="kc"&gt;false&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// 小于 4kb 的文件转为 base64
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nx"&gt;content&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;length&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;1024&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;},&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;#EOF&lt;/p&gt;</description></item><item><title>谨慎使用react属性注入</title><link>https://queb.fun/p/86d911df/</link><pubDate>Mon, 18 Dec 2023 14:17:01 +0800</pubDate><guid>https://queb.fun/p/86d911df/</guid><description>&lt;img src="https://queb.fun/p/86d911df/cover.webp" alt="Featured image of post 谨慎使用react属性注入" /&gt;&lt;h3 id="跑题预警"&gt;跑题预警
+&lt;/h3&gt;&lt;p&gt;虽然这是一篇关于 &lt;code&gt;react cloneChildren&lt;/code&gt; 的文章,但我会插入&lt;strong&gt;大量&lt;/strong&gt;上下文来说明为什么我选择使用了这个功能, 又写了篇文章说明需要谨慎使用的原因. 实际上该主题占用全文篇幅约 &lt;strong&gt;10%&lt;/strong&gt;. 请酌情阅读~&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id="起因"&gt;起因
+&lt;/h3&gt;&lt;p&gt;最近在公司的项目中遇到了一个这样的场景: 需求编写一个无头的 tab 组件,其中作为 &lt;code&gt;tabItem&lt;/code&gt; 可以接受任意的 &lt;code&gt;Component&lt;/code&gt; 作为子项,参数又外部控制&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-jsx" data-lang="jsx"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;SomeTab&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nx"&gt;active&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;setActive&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;useState&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;TabList&lt;/span&gt; &lt;span class="na"&gt;active&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nx"&gt;active&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="na"&gt;setActive&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nx"&gt;setActive&lt;/span&gt;&lt;span class="p"&gt;}&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;TabItem&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;CustomComp&lt;/span&gt; &lt;span class="p"&gt;/&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;TabItem&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;TabItem&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;CustomComp&lt;/span&gt; &lt;span class="p"&gt;/&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;TabItem&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;TabItem&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;CustomComp&lt;/span&gt; &lt;span class="p"&gt;/&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;TabItem&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;TabList&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;然后在我的用例当中,实际上我不需要 item 组件有过高的业务复杂度,仅需要能根据状态切换显示就可以了. 于是我进行约定: 自定义组件可以接受某个 &amp;lsquo;active&amp;rsquo; 的我的第一版代码如下&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;span class="lnt"&gt;18
+&lt;/span&gt;&lt;span class="lnt"&gt;19
+&lt;/span&gt;&lt;span class="lnt"&gt;20
+&lt;/span&gt;&lt;span class="lnt"&gt;21
+&lt;/span&gt;&lt;span class="lnt"&gt;22
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-tsx" data-lang="tsx"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;//定义组件props类型 active 与 setActive 作为 context 传递, 剩余props 透传给内部 div 容器
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kr"&gt;interface&lt;/span&gt; &lt;span class="nx"&gt;ITabContext&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;T&lt;/span&gt; &lt;span class="na"&gt;extends&lt;/span&gt; &lt;span class="na"&gt;string&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt; &lt;span class="kr"&gt;extends&lt;/span&gt; &lt;span class="nx"&gt;HTMLAttributes&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;HTMLDivElement&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;active&lt;/span&gt;: &lt;span class="kt"&gt;T&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;setActive&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;active&lt;/span&gt;: &lt;span class="kt"&gt;T&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="k"&gt;void&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;TabContext&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;createContext&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;ITabContext&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;any&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;gt;({&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;active&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;setActive&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{},&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;})&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kr"&gt;export&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="nx"&gt;TabList&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;T&lt;/span&gt; &lt;span class="na"&gt;extends&lt;/span&gt; &lt;span class="na"&gt;string&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;props&lt;/span&gt;: &lt;span class="kt"&gt;PropsWithChildren&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;ITabContext&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;T&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="nx"&gt;children&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;active&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;setActive&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;...&lt;/span&gt;&lt;span class="nx"&gt;rest&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;props&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;value&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;useMemo&lt;/span&gt;&lt;span class="p"&gt;(()&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;({&lt;/span&gt; &lt;span class="nx"&gt;active&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;setActive&lt;/span&gt; &lt;span class="p"&gt;}),&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nx"&gt;active&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;setActive&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;TabContext.Provider&lt;/span&gt; &lt;span class="na"&gt;value&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nx"&gt;value&lt;/span&gt;&lt;span class="p"&gt;}&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="na"&gt;...rest&lt;/span&gt;&lt;span class="p"&gt;}&amp;gt;{&lt;/span&gt;&lt;span class="nx"&gt;children&lt;/span&gt;&lt;span class="p"&gt;}&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;TabContext.Provider&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这样容器组件就完成了, 接下来只需要在孩子组件当中响应选择事件就可以&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;span class="lnt"&gt;18
+&lt;/span&gt;&lt;span class="lnt"&gt;19
+&lt;/span&gt;&lt;span class="lnt"&gt;20
+&lt;/span&gt;&lt;span class="lnt"&gt;21
+&lt;/span&gt;&lt;span class="lnt"&gt;22
+&lt;/span&gt;&lt;span class="lnt"&gt;23
+&lt;/span&gt;&lt;span class="lnt"&gt;24
+&lt;/span&gt;&lt;span class="lnt"&gt;25
+&lt;/span&gt;&lt;span class="lnt"&gt;26
+&lt;/span&gt;&lt;span class="lnt"&gt;27
+&lt;/span&gt;&lt;span class="lnt"&gt;28
+&lt;/span&gt;&lt;span class="lnt"&gt;29
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-tsx" data-lang="tsx"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kr"&gt;interface&lt;/span&gt; &lt;span class="nx"&gt;ITabItemProps&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;value&lt;/span&gt;: &lt;span class="kt"&gt;string&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kr"&gt;export&lt;/span&gt; &lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;TabItem&lt;/span&gt;: &lt;span class="kt"&gt;React.FC&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;PropsWithChildren&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;ITabItemProps&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;({&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;children&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;value&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;})&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="nx"&gt;active&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;setActive&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;useContext&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;TabContext&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;id&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;useId&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;fid&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="sb"&gt;`tabItem-&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nx"&gt;id&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="sb"&gt;`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;isActive&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;active&lt;/span&gt; &lt;span class="o"&gt;===&lt;/span&gt; &lt;span class="nx"&gt;value&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;input&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="na"&gt;type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;radio&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="na"&gt;id&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nx"&gt;fid&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="na"&gt;hidden&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="na"&gt;onChange&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{()&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;setActive&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;value&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;}}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="na"&gt;checked&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nx"&gt;isActive&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;/&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;label&lt;/span&gt; &lt;span class="na"&gt;htmlFor&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nx"&gt;fid&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="na"&gt;data-active&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nx"&gt;active&lt;/span&gt;&lt;span class="p"&gt;}&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nx"&gt;children&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;label&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;一切都是那么的完美,现在只需要在 css 当中获取 &lt;code&gt;data-active&lt;/code&gt; 状态就可以了&amp;hellip;吗?&lt;/p&gt;
+&lt;p&gt;当时写下这段代码的我对于自己的 css 水平还是过于乐观了,在写完这段代码 3 分钟 之后才逐渐意识到问题所在.&lt;/p&gt;
+&lt;p&gt;首先我们需要知道, css 3 标准提供了一个名为 &lt;code&gt;属性选择器 (Attribute selectors)&lt;/code&gt; 的功能, 它让你可以以形如&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-css" data-lang="css"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;&amp;amp;[&lt;/span&gt;&lt;span class="nt"&gt;data-active&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;true&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;color&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="kc"&gt;red&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;的方式进行样式选择,这大大加强了在使用静态 css 进行样式控制的能力. 我们可以使用类似 &lt;code&gt;&amp;lt;div data-active={true}&amp;gt;Content!&amp;lt;/div&amp;gt;&lt;/code&gt; 的方式控制 css 样式而不需要使用 &lt;code&gt;css-in-js&lt;/code&gt; 的方式.&lt;/p&gt;
+&lt;p&gt;但这有一个问题, 这个选择器选择的是 &lt;code&gt;html 属性&lt;/code&gt;. 这意味着该属性实际上无法传递给子元素. 加之 css 本身并不支持父级选择器, 所以在动态传入孩子的用例中便无法使用这种方法. 那么有没有什么东西是可以传递给孩子(当然,还需要有作用域控制. 我可不想为起名字绞尽脑汁!)呢? 答案当然是有的&amp;ndash; 那就是 &lt;code&gt;css 变量 (css variables)&lt;/code&gt;. 再加上 &lt;code&gt;@container&lt;/code&gt; 查询, 一顿 Google 之后代码变成了这样&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-jsx" data-lang="jsx"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;//...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;label&lt;/span&gt; &lt;span class="na"&gt;htmlFor&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nx"&gt;fid&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="na"&gt;style&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{{&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;--active&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="p"&gt;}}&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nx"&gt;children&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;label&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-css" data-lang="css"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c"&gt;/* children.css*/&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;@&lt;/span&gt;&lt;span class="k"&gt;container&lt;/span&gt; &lt;span class="nt"&gt;style&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="nt"&gt;--active&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="nd"&gt;1&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c"&gt;/*activeCss*/&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;芜湖完美&lt;/strong&gt; &lt;del&gt;不过这个 &lt;code&gt;@container&lt;/code&gt; 怎么没听说过&lt;/del&gt;&lt;/p&gt;
+&lt;p&gt;以防万一还是确认一下兼容性&amp;hellip;&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://queb.fun/p/86d911df/caniuse.webp"
+width="594"
+height="458"
+srcset="https://queb.fun/p/86d911df/caniuse_hu_7dab90bb864ff63a.webp 480w, https://queb.fun/p/86d911df/caniuse_hu_cc4011362731d36e.webp 1024w"
+loading="lazy"
+alt="蛤?!"
+class="gallery-image"
+data-flex-grow="129"
+data-flex-basis="311px"
+&gt;&lt;/p&gt;
+&lt;p&gt;彳亍, 105 开始, 120 正式支持. 那这个指定用不上了. 那还想要达到这种效果只能考虑最传统的 &lt;code&gt;props inject&lt;/code&gt; 了. 简单搓一个&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-ts" data-lang="ts"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kr"&gt;import&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="nx"&gt;Children&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;ReactNode&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;cloneElement&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;ReactElement&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="kr"&gt;from&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;react&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kr"&gt;export&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="nx"&gt;injectChildrenProp&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;children&lt;/span&gt;: &lt;span class="kt"&gt;ReactNode&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="nx"&gt;ReactNode&lt;/span&gt;&lt;span class="p"&gt;[],&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;props&lt;/span&gt;: &lt;span class="kt"&gt;object&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nx"&gt;Children&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;map&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;children&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;child&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;typeof&lt;/span&gt; &lt;span class="nx"&gt;child&lt;/span&gt; &lt;span class="o"&gt;!==&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;object&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nx"&gt;child&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nx"&gt;cloneElement&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;child&lt;/span&gt; &lt;span class="kr"&gt;as&lt;/span&gt; &lt;span class="nx"&gt;React&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;ReactElement&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;object&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nb"&gt;Object&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;assign&lt;/span&gt;&lt;span class="p"&gt;({},&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;child&lt;/span&gt; &lt;span class="kr"&gt;as&lt;/span&gt; &lt;span class="nx"&gt;ReactElement&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;props&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;props&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;})&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id="正文-总结"&gt;&lt;del&gt;正文&lt;/del&gt; 总结
+&lt;/h3&gt;&lt;p&gt;纯粹的代码开发到这里就结束惹, 时候总结的时候我的想法是, 尽管这种写法省略了为孩子传参,看起来会优雅一些.但是隐藏 &lt;code&gt;prop&lt;/code&gt; 从长远来看是增加了后续维护的难度的.后续的改进思路是给 &lt;code&gt;TabItem&lt;/code&gt; 的 children 加上类型限定, 如果再次设计我也可能会选择闭包的形式 like:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-jsx" data-lang="jsx"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;TabList&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;TabItem&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;{(&lt;/span&gt;&lt;span class="nx"&gt;active&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;CustomElement&lt;/span&gt; &lt;span class="p"&gt;/&amp;gt;}&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;TabItem&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;TabList&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;但是这样就有点丑不是&amp;hellip;所以还是一个取舍问题.&lt;/p&gt;</description></item><item><title>React生态观察 2023年12月篇</title><link>https://queb.fun/p/a2d31c0e/</link><pubDate>Wed, 13 Dec 2023 17:15:52 +0800</pubDate><guid>https://queb.fun/p/a2d31c0e/</guid><description>&lt;h2 id="zod"&gt;zod
+&lt;/h2&gt;&lt;p&gt;&lt;a class="link" href="https://github.com/colinhacks/zod" target="_blank" rel="noopener"
+&gt;zod&lt;/a&gt; 是一个蛮有意思的类型检查库, 补全了 typescript 无法运行时检查的一些不足, 同时还提供了一些转换功能. 但目前来说对于 function 类型存在一些 args 推导方面的问题.&lt;/p&gt;
+&lt;h2 id="biome"&gt;Biome
+&lt;/h2&gt;&lt;p&gt;&lt;a class="link" href="https://github.com/biomejs/biome" target="_blank" rel="noopener"
+&gt;Biome&lt;/a&gt; 一个集成了类型检查 + 格式化的代码审查工具. 特色是用 rust 写的所以速度飞快. 但目前对规则的支持还不足以满足我项目的需求.
+观望中.&lt;/p&gt;
+&lt;h3 id="2023-12-18-更新"&gt;2023-12-18 更新
+&lt;/h3&gt;&lt;p&gt;最近发现了一个类似的工具 &lt;a class="link" href="https://github.com/oxc-project/oxc" target="_blank" rel="noopener"
+&gt;oxc&lt;/a&gt;. 同样加入关注列表.&lt;/p&gt;</description></item><item><title>摸鱼笔记 壱</title><link>https://queb.fun/p/e5d42f4f/</link><pubDate>Wed, 13 Dec 2023 16:50:51 +0800</pubDate><guid>https://queb.fun/p/e5d42f4f/</guid><description>&lt;img src="https://queb.fun/p/e5d42f4f/cover.webp" alt="Featured image of post 摸鱼笔记 壱" /&gt;&lt;p&gt;&lt;a class="link" href="https://www.pixiv.net/artworks/113301209" target="_blank" rel="noopener"
+&gt;沈める街&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;兴趣的丧失比想象中更快, 在尚未发现的某个时间.&lt;/p&gt;
+&lt;p&gt;最近谈不上在学习什么东西, 每天下班之后回到家也只是看一些视频.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;zod&lt;/code&gt; 是一个蛮有意思的类型检查库, 但对于 func type 的检查还是不够令人满意,目前还在研究中.&lt;/p&gt;
+&lt;p&gt;冬天到了,最近睡觉很难睡醒,感觉比夏天时候更加嗜睡了.&lt;/p&gt;</description></item><item><title>一次关于r3f异常缩放的排查</title><link>https://queb.fun/p/6c28e634/</link><pubDate>Tue, 12 Dec 2023 10:00:00 +0800</pubDate><guid>https://queb.fun/p/6c28e634/</guid><description>&lt;img src="https://queb.fun/p/6c28e634/cover.webp" alt="Featured image of post 一次关于r3f异常缩放的排查" /&gt;&lt;h2 id="前情提要"&gt;前情提要
+&lt;/h2&gt;&lt;p&gt;在开发某个 3d 相关的微服务项目的时候,我使用了&lt;code&gt;@react-three/fiber&lt;/code&gt;作为渲染引擎.在开发过程中,我发现了一个很奇怪的问题,就是在外层 dom 元素应用了 &lt;code&gt;CSS transform scale&lt;/code&gt; 之后,&lt;code&gt;f3c&lt;/code&gt;的渲染会再次应用一次缩放.&lt;/p&gt;
+&lt;h2 id="问题排查--解决"&gt;问题排查 &amp;amp; 解决
+&lt;/h2&gt;&lt;p&gt;通过查看 &lt;code&gt;f3c&lt;/code&gt; 文档可知,&lt;code&gt;f3c&lt;/code&gt; 会在渲染的时候,将 &lt;code&gt;canvas&lt;/code&gt; 的 &lt;code&gt;width&lt;/code&gt; 和 &lt;code&gt;height&lt;/code&gt; 设置为 &lt;code&gt;100%&lt;/code&gt;,然后通过读取外部容器的大小来确定 &lt;code&gt;canvas&lt;/code&gt; 的大小.这样做的目的是为了自适应外部容器的大小.&lt;/p&gt;
+&lt;p&gt;具体而言,&lt;code&gt;f3c&lt;/code&gt; 使用了 &lt;code&gt;react-use-measure&lt;/code&gt; 作为获取 dom 元素大小的库. 而问题则出在这里.&lt;/p&gt;
+&lt;p&gt;通过查看 &lt;code&gt;react-use-measure&lt;/code&gt; 的源码可以发现.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;span class="lnt"&gt;18
+&lt;/span&gt;&lt;span class="lnt"&gt;19
+&lt;/span&gt;&lt;span class="lnt"&gt;20
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-ts" data-lang="ts"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;// ...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="nx"&gt;left&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;top&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;width&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;height&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;bottom&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;right&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;y&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;state&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;current&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;element&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;getBoundingClientRect&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="kr"&gt;as&lt;/span&gt; &lt;span class="kt"&gt;unknown&lt;/span&gt; &lt;span class="kr"&gt;as&lt;/span&gt; &lt;span class="nx"&gt;RectReadOnly&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;size&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;left&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;top&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;width&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;height&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;bottom&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;right&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;y&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;state&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;current&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;element&lt;/span&gt; &lt;span class="k"&gt;instanceof&lt;/span&gt; &lt;span class="nx"&gt;HTMLElement&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="nx"&gt;offsetSize&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;size&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;height&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;state&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;current&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;element&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;offsetHeight&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;size&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;width&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;state&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;current&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;element&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;offsetWidth&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;// ...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;在默认行为当中, &lt;code&gt;react-use-measure&lt;/code&gt; 会默认使用 &lt;code&gt;getBoundingClientRect&lt;/code&gt; 来获取 dom 元素的大小.而 &lt;code&gt;getBoundingClientRect&lt;/code&gt; 获取到的大小是&lt;strong&gt;经过&lt;/strong&gt; &lt;code&gt;transform&lt;/code&gt; 之后的大小.这就导致了 &lt;code&gt;f3c&lt;/code&gt; 在渲染的时候,会再次应用一次缩放.&lt;/p&gt;
+&lt;p&gt;而解决这个问题也很简单,只需要传递一个 &lt;code&gt;offsetSize&lt;/code&gt; 参数,就可以让 &lt;code&gt;react-use-measure&lt;/code&gt; 使用 &lt;code&gt;offsetWidth&lt;/code&gt; 和 &lt;code&gt;offsetHeight&lt;/code&gt; 来获取 dom 元素的大小. &lt;code&gt;offsetWidth&lt;/code&gt; 本身并不会受 &lt;code&gt;transform&lt;/code&gt; 影响.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-tsx" data-lang="tsx"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;Canvas&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="na"&gt;resize&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// 解决css csale 造成的canvas大小不一致问题
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;offsetSize&lt;/span&gt;: &lt;span class="kt"&gt;true&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;}}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;Canvas&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id="碎碎念"&gt;碎碎念
+&lt;/h2&gt;&lt;p&gt;天知道这个问题到底掉了我多少头发&amp;hellip; 之前没有用过 &lt;code&gt;getBoundingClientRect&lt;/code&gt;, 完全不知道还有这种坑. css 中绝大部分属性都是不响应 &lt;code&gt;transform&lt;/code&gt; 的,但是 &lt;code&gt;getBoundingClientRect&lt;/code&gt; 却是响应的.这个真的是太难了.&lt;/p&gt;
+&lt;h2 id="参考链接"&gt;参考链接
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a class="link" href="https://github.com/pmndrs/react-use-measure/blob/8639e5a93d60930159dc83743780ce4787fe90bb/src/web/index.ts#L81-L109" target="_blank" rel="noopener"
+&gt;react-use-measure&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect" target="_blank" rel="noopener"
+&gt;MDN - Element.getBoundingClientRect()&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/offsetHeight" target="_blank" rel="noopener"
+&gt;MDN - HTMLElement.offsetHeight&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="https://www.pixiv.net/artworks/112687098" target="_blank" rel="noopener"
+&gt;Pixiv - ガケの国の隠れ家&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</description></item><item><title>Hello World</title><link>https://queb.fun/p/hello-world/</link><pubDate>Thu, 19 Oct 2023 00:00:00 +0000</pubDate><guid>https://queb.fun/p/hello-world/</guid><description>&lt;img src="https://queb.fun/p/hello-world/cover.jpg" alt="Featured image of post Hello World" /&gt;&lt;p&gt;啊&lt;/p&gt;
+&lt;p&gt;尽管是打算说明一下来着,但是真的很累&lt;/p&gt;
+&lt;p&gt;最近又阳了,身体不好.还用掉了宝贵的年假,真的是太难了&lt;/p&gt;
+&lt;p&gt;说起来已经是第三次了吧,这次的强度感觉和第一次差不多.直接高烧放倒&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;正在慢慢把之前博客的文章迁移过来,部分图片可能会失效,这个就没办法了.&lt;/p&gt;
+&lt;p&gt;希望大家都身体健康!&lt;/p&gt;
+&lt;p&gt;FS, 19 Oct 2023&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Photo by &lt;a class="link" href="https://unsplash.com/@pawel_czerwinski" target="_blank" rel="noopener"
+&gt;Pawel Czerwinski&lt;/a&gt; on &lt;a class="link" href="https://unsplash.com/" target="_blank" rel="noopener"
+&gt;Unsplash&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;</description></item><item><title>记录一下让自己显得很愚蠢的东西</title><link>https://queb.fun/p/3lweya3t/</link><pubDate>Mon, 11 Apr 2022 22:16:47 +0000</pubDate><guid>https://queb.fun/p/3lweya3t/</guid><description>&lt;p&gt;如果有朝一日我用上了,那我可真是个铁憨憨&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;span class="lnt"&gt;18
+&lt;/span&gt;&lt;span class="lnt"&gt;19
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;-----BEGIN PGP MESSAGE-----
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;hQEMAxStlBvpAgJMAQf9FWiGY9Ak8TRDnbQ31zasR4Ttc+CDy5fxieNbWrt18UjV
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;A4ib3Sj7QjyD4xFmoiuv7YzeoehpFoonCndrWqEduoefenZoF/agMzy9gtUf/uxZ
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;RPvbV6KTxUMy6tj2pWv9Hv+MdwF/VpqzTPxMFM3HQ5LQ3rdOxSzsrCOiV2IKa9yU
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;T2auig0fDhnwFOLuNlqs8WlJebLjtnD3Uszm8IDJiOs6s1DG1PlcTUGrflMfeCa2
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;1JvikLZKhIbTPIxjfF/Q2v5vEsvFBDj6s/cVTKRS02N1bRNePaTeez2z7qgt6z73
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Ft7ugqA2rRBi7wphhz0K3m1hKDanSwJ1XNL/hsqiK9TA8gEJAhBW4SDHsvbciJmv
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;RCCtYGO1/uCqBQO1otKCIsu3n3kWjRNkdxV3a07KXwDT7PhsLsj2Egmx6JurVUoc
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;he6M26Ke3ngbQDlYAwtc8hOSpQg5Ddgn1hNMtC/f3uWwShznl9HiAUe+X41h9AAg
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;lNIlXXSXvE7aik32+xewFVlNTENDbCezN48PQyI+z5I4s5RR/us+g2OTLQvGiGY9
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;DIrvokAi3SC4U6nc4+5FWlt1B9KzrWlIz5w6tk3+xqRnXh74sgmJR9hQv9h6vgVE
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Fs7Mn3tq51aY+oBINy01Tyq4Yybyby+dhtzqcpfrjwFaGx1kBjDgTb+NSUjdbRLg
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;OIIFVrcazjn12lBt+o+9I/+/NXb8BilmG4uDU+OnFA+pYi4kpIOd6uCAG02JFylE
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;mxk1l4+8WbL6xXmtUr5DTyIn/KGVlN+C1mO8wBwER1yEsqMeyufu6xs5CF1YQo+I
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Pn0hKVaDB4X7OIDopbdJYxKotBymPlTRtbBJ0NQMmPydg94j64R7NnJZj+P6bVQq
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;PN09grWXnqZy7C5TpIQYIyE7wrS3xj0oc9CWX5EGe0hXdOku
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;=Zgro
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;-----END PGP MESSAGE-----
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description></item><item><title>记重新安装windows下GPG踩到的坑</title><link>https://queb.fun/p/windows-gpg/</link><pubDate>Wed, 30 Mar 2022 23:19:45 +0000</pubDate><guid>https://queb.fun/p/windows-gpg/</guid><description>&lt;p&gt;前段时间在新环境上配置 gpg 时,下意识安装了 win4gpg.然后在从 Canokey 导入私钥的时候遇到了 gpg 行为十分怪异的情况.&lt;/p&gt;
+&lt;p&gt;检查之后发现是因为 windows git ,如果选择使用 git 捆绑的 openSSH 的话,他会自己带一个 gpg.导致和 win4gpg 互相干扰&lt;/p&gt;
+&lt;p&gt;卸载掉 win4gpg 之后,重新 fetch 卡片就解决了&lt;/p&gt;</description></item><item><title>Archives</title><link>https://queb.fun/archives/</link><pubDate>Sun, 06 Mar 2022 00:00:00 +0000</pubDate><guid>https://queb.fun/archives/</guid><description/></item><item><title>Valtio 笔记其一：正交的状态管理</title><link>https://queb.fun/p/valtio-%E7%AC%94%E8%AE%B0%E5%85%B6%E4%B8%80%E6%AD%A3%E4%BA%A4%E7%9A%84%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/</link><pubDate>Fri, 25 Feb 2022 03:01:35 +0000</pubDate><guid>https://queb.fun/p/valtio-%E7%AC%94%E8%AE%B0%E5%85%B6%E4%B8%80%E6%AD%A3%E4%BA%A4%E7%9A%84%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/</guid><description>&lt;img src="https://queb.fun/p/valtio-%E7%AC%94%E8%AE%B0%E5%85%B6%E4%B8%80%E6%AD%A3%E4%BA%A4%E7%9A%84%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/cover.webp" alt="Featured image of post Valtio 笔记其一：正交的状态管理" /&gt;&lt;p&gt;研究了两天，尝试用 Valtio 重构之前的一个项目，有了一些收获&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;span class="lnt"&gt;18
+&lt;/span&gt;&lt;span class="lnt"&gt;19
+&lt;/span&gt;&lt;span class="lnt"&gt;20
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-ts" data-lang="ts"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;//a.ts
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;stateA&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;proxy&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;id&lt;/span&gt;: &lt;span class="kt"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="kr"&gt;get&lt;/span&gt; &lt;span class="nx"&gt;activeID() {&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nx"&gt;state&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;id&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;},&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;active&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;id&lt;/span&gt;: &lt;span class="kt"&gt;number&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;state&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;id&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;id&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;},&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;})&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;//b.ts
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;stateB&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;proxy&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;fState&lt;/span&gt;: &lt;span class="kt"&gt;ref&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;stateA&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;testChange&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;console&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;log&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;其他的state可以互相引用修改&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;state&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;fState&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;active&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;},&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;})&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Valtio 好就好在可以用一个非常简单的模式完成 state 和 UI 的解耦，因为 state
+本身是可变的，所以可以尽情的利用原生 js 的特性操作。不会有 react 额外的噪音。对于 react 的使用，我选择把所有可能的操作都封装为 hooks ，这样就尽可能的保证了 UI 的逻辑无关&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;span class="lnt"&gt;18
+&lt;/span&gt;&lt;span class="lnt"&gt;19
+&lt;/span&gt;&lt;span class="lnt"&gt;20
+&lt;/span&gt;&lt;span class="lnt"&gt;21
+&lt;/span&gt;&lt;span class="lnt"&gt;22
+&lt;/span&gt;&lt;span class="lnt"&gt;23
+&lt;/span&gt;&lt;span class="lnt"&gt;24
+&lt;/span&gt;&lt;span class="lnt"&gt;25
+&lt;/span&gt;&lt;span class="lnt"&gt;26
+&lt;/span&gt;&lt;span class="lnt"&gt;27
+&lt;/span&gt;&lt;span class="lnt"&gt;28
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-ts" data-lang="ts"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;//a.ts
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;stateA&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;proxy&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;id&lt;/span&gt;: &lt;span class="kt"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="kr"&gt;get&lt;/span&gt; &lt;span class="nx"&gt;activeID() {&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nx"&gt;state&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;id&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;},&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;active&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;id&lt;/span&gt;: &lt;span class="kt"&gt;number&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;state&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;id&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;id&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;},&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;})&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kr"&gt;export&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="nx"&gt;useStateA() {&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;_state&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;useSnapshot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;stateA&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nx"&gt;_state&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;//需要的生命周期 Hooks 和state封装在一起
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kr"&gt;export&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="nx"&gt;useIDUpdate() {&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;_state&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;useSnapshot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;stateA&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;useEffect&lt;/span&gt;&lt;span class="p"&gt;(()&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;foo&lt;/span&gt;&lt;span class="p"&gt;().&lt;/span&gt;&lt;span class="nx"&gt;then&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nx"&gt;res&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;state&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;active&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;res&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;})&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;},&lt;/span&gt; &lt;span class="p"&gt;[])&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nx"&gt;state&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;activeID&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;非常干净，非常清爽，非常强大。&lt;/p&gt;</description></item><item><title>我中意的React解决方案</title><link>https://queb.fun/p/%E6%88%91%E4%B8%AD%E6%84%8F%E7%9A%84react%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/</link><pubDate>Mon, 21 Feb 2022 16:33:51 +0000</pubDate><guid>https://queb.fun/p/%E6%88%91%E4%B8%AD%E6%84%8F%E7%9A%84react%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/</guid><description>&lt;p&gt;&lt;img src="https://s6.jpg.cm/2022/02/21/LflaxW.md.jpg"
+loading="lazy"
+alt="LflaxW.md.jpg"
+&gt;&lt;/p&gt;
+&lt;p&gt;一些在我调查和实际生产中比较喜欢的解决方案&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;h2 id="状态管理"&gt;状态管理
+&lt;/h2&gt;&lt;h3 id="valtio"&gt;&lt;a class="link" href="https://github.com/pmndrs/valtio" target="_blank" rel="noopener"
+&gt;Valtio&lt;/a&gt;
+&lt;/h3&gt;&lt;p&gt;目前用的最多的解决方案. 用起来有些坑(主要是 &lt;code&gt;this&lt;/code&gt; 相关的部分)但整体来说很好.&lt;/p&gt;
+&lt;h3 id="helux"&gt;&lt;a class="link" href="https://github.com/heluxjs/helux" target="_blank" rel="noopener"
+&gt;Helux&lt;/a&gt;
+&lt;/h3&gt;&lt;p&gt;目前正在进行测试的方案. 优势在于属于 &lt;code&gt;AIO&lt;/code&gt; 方案, 所以对于各种奇奇怪怪的用例都有支持. 是否喜欢这种大而全的解决方案就见仁见智了.&lt;/p&gt;
+&lt;h3 id="mobx"&gt;&lt;a class="link" href="https://mobx.js.org/" target="_blank" rel="noopener"
+&gt;Mobx&lt;/a&gt;
+&lt;/h3&gt;&lt;p&gt;备用方案,和 valtio 差不太多。问题在于必须使用 observer 包裹组件，而且兼容性不强&lt;/p&gt;
+&lt;h2 id="路由"&gt;路由
+&lt;/h2&gt;&lt;h3 id="react-router"&gt;react-router
+&lt;/h3&gt;&lt;p&gt;不用多说，官方推荐。不是非常易用但是足够好用，也懒得折腾更多了，之前有段时间（大概是 5.0 左右？）对 hooks 的支持很差所以尝试了其他的解决方案，现在支持还不错就换回来了。&lt;/p&gt;
+&lt;h3 id="react-hook-router"&gt;&lt;a class="link" href="https://github.com/Paratron/hookrouter" target="_blank" rel="noopener"
+&gt;React Hook Router&lt;/a&gt;
+&lt;/h3&gt;&lt;p&gt;这就是当初用过的方案，现在&lt;strong&gt;不再推荐了&lt;/strong&gt;因为 &lt;code&gt;react-router&lt;/code&gt; 已经很好了，而且这个作者不喜欢 TS 所以这方面的支持也不太好，而且很久没更新了。但作为一个小型 router 的实现代码是值得学习的。&lt;/p&gt;
+&lt;h2 id="css"&gt;CSS
+&lt;/h2&gt;&lt;h3 id="emotionjs"&gt;emotionJS
+&lt;/h3&gt;&lt;p&gt;目前在用的，除了 &lt;code&gt;css props&lt;/code&gt; 我颇有微词以外，其他的部分都算完美，&lt;code&gt;css-in-js&lt;/code&gt;保证了样式的可控性（我知道大部分时候用不到，但是用得到的时候还是很爽的），使用完整的 CSS/SCSS 语法而不是什么&lt;code&gt;Tailwind&lt;/code&gt;黑科技。库很小而且泛用性很高。本质上这东西和&lt;code&gt;styled&lt;/code&gt;是一家子所以代码也很容易迁移。平台支持广：虽然理论上这东西支持 RN 但属实没必要。&lt;/p&gt;
+&lt;h3 id="react-spring"&gt;react-spring
+&lt;/h3&gt;&lt;p&gt;这东西我本来想单独分个动效来说的，但是讲道理好像和 CSS 重叠的部分还是很广的，也就一并讲了。&lt;/p&gt;
+&lt;p&gt;很好用，虽然新的 api 有点反直觉但是能 get 到他们的设计思路所以我保留意见。实际上这个弹性库并不一定是用来给 css 的，你可以给任何你想加上可控曲线效果的地方用上。同样支持 RN，但没研究过。&lt;/p&gt;
+&lt;h2 id="2d"&gt;2D
+&lt;/h2&gt;&lt;h3 id="pixi"&gt;Pixi
+&lt;/h3&gt;&lt;p&gt;新发现的玩具, 不同的地方在于使用了 &lt;code&gt;WebGL&lt;/code&gt; 渲染所以性能非常的彳亍. 还没怎么用过回头再研究一下&lt;/p&gt;
+&lt;h3 id="konva"&gt;Konva
+&lt;/h3&gt;&lt;p&gt;比较复杂，这东西其实是新建了一个 react 实例然后挂载在你的组件树上，所以会有一些奇妙的小问题。但总的来说还是足够好用。暂时找不到比它更方便的 canvas 库了，或者说更进一步的需求建议用 flutter。&lt;/p&gt;
+&lt;p&gt;先写这么多，想起来什么再补充。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;题图 &lt;a class="link" href="https://twitter.com/kirizieeel/status/1495523468657397762" target="_blank" rel="noopener"
+&gt;https://twitter.com/kirizieeel/status/1495523468657397762&lt;/a&gt;&lt;/p&gt;</description></item><item><title>React Hooks 是完美的解决方案吗</title><link>https://queb.fun/p/react-hooks-%E6%98%AF%E5%AE%8C%E7%BE%8E%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E5%90%97/</link><pubDate>Fri, 18 Feb 2022 15:00:09 +0000</pubDate><guid>https://queb.fun/p/react-hooks-%E6%98%AF%E5%AE%8C%E7%BE%8E%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E5%90%97/</guid><description>&lt;p&gt;不是。&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;p&gt;&amp;hellip;好吧 ┓( ´∀` )┏ 多说两句，为什么react hooks 在解决了大部分业务逻辑封装的问题之后仍然是不完美的，甚至于说是问题很大。&lt;/p&gt;
+&lt;h2 id="react本身的设计决定了它不是一个强大的状态生命周期系统"&gt;React本身的设计决定了它不是一个强大的状态/生命周期系统
+&lt;/h2&gt;&lt;p&gt;React的生命周期完全服务于UI渲染，也仅限于UI渲染。然而大部分的业务逻辑是在与UI形成一定耦合的情况下，还需要更多更灵活的操作。例如一些CS交互和复合的事件系统。React的选择是将这部分完全交给第三方解决方案来处理（比如Mobx，Redux，Immer等等）。但这又带来了一个额外的问题。即React自身的生命周期是非常封闭的，外部的系统在非侵入的情况下很难直接操纵React的渲染逻辑。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;UI=f(State)&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;是React的核心逻辑，但是这个State的位置却十分的微妙，受限于React的更新逻辑，无限制的使用 props 和 context 透传状态只会丧失精细控制渲染的能力。如果使用了Mobx等响应式的状态管理，又会和React自顶而下的数据流产生冲突。&lt;/p&gt;</description></item><item><title>为什么用了Gridea更新的更少了</title><link>https://queb.fun/p/%E4%B8%BA%E4%BB%80%E4%B9%88%E7%94%A8%E4%BA%86gridea%E6%9B%B4%E6%96%B0%E7%9A%84%E6%9B%B4%E5%B0%91%E4%BA%86/</link><pubDate>Wed, 16 Feb 2022 05:01:03 +0000</pubDate><guid>https://queb.fun/p/%E4%B8%BA%E4%BB%80%E4%B9%88%E7%94%A8%E4%BA%86gridea%E6%9B%B4%E6%96%B0%E7%9A%84%E6%9B%B4%E5%B0%91%E4%BA%86/</guid><description>&lt;!-- more --&gt;
+&lt;p&gt;为啥啊，&lt;del&gt;当然是因为我懒&lt;/del&gt; 因为 Gridea 这种静态博客工具一个难以解决的问题就是怎么备份自己的post。尤其是之前用了hexo更换之后大量的元数据出现了问题，进一步恶化了这件事情。&lt;/p&gt;
+&lt;p&gt;现在把整个post搬到了坚果云上，如果下次还记得这回事的话应该会稍微，好那么一点吧？&lt;/p&gt;</description></item><item><title>料理包评测记录</title><link>https://queb.fun/p/d87d3df2/</link><pubDate>Wed, 16 Feb 2022 04:51:45 +0000</pubDate><guid>https://queb.fun/p/d87d3df2/</guid><description>&lt;img src="https://queb.fun/p/d87d3df2/cover.webp" alt="Featured image of post 料理包评测记录" /&gt;&lt;p&gt;主要记一下自己吃过的口味还不错的料理包。煮饭什么的最麻烦了&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;h2 id="王小余"&gt;王小余
+&lt;/h2&gt;&lt;p&gt;总的来说这家料理包，油和调味用的不错。量比较少，盐中等&lt;/p&gt;
+&lt;h3 id="肉末外婆菜"&gt;肉末外婆菜
+&lt;/h3&gt;&lt;p&gt;垃圾，别吃。肉末显微镜下可能能看见吧，我视力不好别搞&lt;/p&gt;
+&lt;h3 id="香菇鸡丁"&gt;香菇鸡丁
+&lt;/h3&gt;&lt;p&gt;这个不错，口感和味道都不错&lt;/p&gt;
+&lt;h3 id="啤酒鸭"&gt;啤酒鸭
+&lt;/h3&gt;&lt;p&gt;究极垃圾，一股怪味。骨头还多。禽肉还是别料理包了，尤其是带骨头的&lt;/p&gt;
+&lt;h3 id="武冈香干炒肉"&gt;武冈香干炒肉
+&lt;/h3&gt;&lt;p&gt;实际上就是豆干炒豆干，肉不能说没有吧，但是别指望&lt;/p&gt;
+&lt;h3 id="巴西烤肉"&gt;巴西烤肉
+&lt;/h3&gt;&lt;p&gt;心中的 MVP，好吃就完事了。说起来都是调味料的味道但是都吃料理包了还要什么自行车&lt;/p&gt;
+&lt;h3 id="青豆炒肉"&gt;青豆炒肉
+&lt;/h3&gt;&lt;p&gt;还可以，炒肉=炒肉末，但好歹也是肉。青豆挺软的味道 ok&lt;/p&gt;
+&lt;p&gt;这家的调味都挺相似的，油分比较大，不过不是油腻的那种。3.5/5&lt;/p&gt;
+&lt;h3 id="卤肉"&gt;卤肉
+&lt;/h3&gt;&lt;p&gt;其实是卤肉馅，配图如下
+&lt;img src="https://imgs.aixifan.com/FqRusdCLr6hVXtGy1UT0PEPoYXrt"
+loading="lazy"
+alt="好多油.jpg"
+&gt;&lt;/p&gt;
+&lt;h3 id="梅菜扣肉"&gt;梅菜扣肉
+&lt;/h3&gt;&lt;p&gt;好吃，量大肉多。差点没吃完。秒了！&lt;/p&gt;
+&lt;h3 id="香辣土匪鸭"&gt;香辣土匪鸭
+&lt;/h3&gt;&lt;blockquote&gt;
+&lt;p&gt;禽肉还是别料理包了，尤其是带骨头的&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;虽然这个调味更重口了所以勉强压住了那种恶心的味道，但不行就是不行，别买&lt;/p&gt;
+&lt;h3 id="五香脆骨"&gt;五香脆骨
+&lt;/h3&gt;&lt;p&gt;脆骨口感不是很好，但是调味尚可。差强人意。&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://s6.jpg.cm/2022/02/22/LfFVdD.jpg"
+loading="lazy"
+&gt;&lt;/p&gt;
+&lt;h2 id="新美香"&gt;新美香
+&lt;/h2&gt;&lt;p&gt;在买上面那个王小余之前我买了挺久这家的。对比之后发现这家的口感很奇怪，像是加了不少增稠剂。但是用料上还是可以的，可能是我没有 get 到他的好。吃的挺多但是我记不大住了，就随便写几个&lt;/p&gt;
+&lt;h3 id="台式卤肉--香菇卤肉"&gt;台式卤肉 &amp;amp; 香菇卤肉
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;咸！&lt;/strong&gt; 这个卤肉某种意义上可以算作是浇头。当菜绝对是大材小用了。肉都是小丁丁而且偏肥。如果住了面之类的可以配一下，还不错&lt;/p&gt;
+&lt;h3 id="咖喱鸡肉"&gt;咖喱鸡肉
+&lt;/h3&gt;&lt;p&gt;除了那个奇怪的勾芡问题以外还可以，鸡肉的口感很松弛但是量还是够的。&lt;/p&gt;
+&lt;h3 id="鱼香肉丝"&gt;鱼香肉丝
+&lt;/h3&gt;&lt;p&gt;同上，味道还行勾芡怪怪的。&lt;/p&gt;
+&lt;h3 id="一些带骨肉的菜"&gt;一些带骨肉的菜
+&lt;/h3&gt;&lt;p&gt;统统不推荐，料理包不要买带骨头的，很蠢。&lt;/p&gt;
+&lt;h3 id="肉末茄子"&gt;肉末茄子
+&lt;/h3&gt;&lt;p&gt;还可以，茄子倒是很适合他这个勾芡。我喜欢。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;未完待续&lt;/p&gt;</description></item><item><title>博客迁移到Gridea</title><link>https://queb.fun/p/%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB%E5%88%B0gridea/</link><pubDate>Mon, 13 Jul 2020 14:35:29 +0000</pubDate><guid>https://queb.fun/p/%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB%E5%88%B0gridea/</guid><description>&lt;p&gt;Hexo很好,但是我不太懂它的模板语法,而且我懒,所以经过五分钟的调研我选择了 &lt;a class="link" href="https://github.com/getgridea/gridea" target="_blank" rel="noopener"
+&gt;Gridea&lt;/a&gt; 作为博客的框架,然后从里面找了个顺眼的主题&lt;/p&gt;
+&lt;p&gt;Gridea的快捷键还不是很到位,也不支持&lt;code&gt;Hot Reload&lt;/code&gt;,总的来说是能用,但是不算好用的,编辑器本身性能一般,不过我也不太介意,好看还是很好看的,重点是它的自动部署功能,不过我暂时没看到支持ssh,希望支持,否则就不太行了&lt;/p&gt;
+&lt;p&gt;自定义主题还是算了,有心无力,这一年仍然是饱尝无力感的一年,希望大家平安.&lt;/p&gt;</description></item><item><title>博客迁移到Gridea</title><link>https://queb.fun/p/44e94e99/</link><pubDate>Mon, 13 Jul 2020 14:35:29 +0000</pubDate><guid>https://queb.fun/p/44e94e99/</guid><description>&lt;p&gt;Hexo 很好,但是我不太懂它的模板语法,而且我懒,所以经过五分钟的调研我选择了 &lt;a class="link" href="https://github.com/getgridea/gridea" target="_blank" rel="noopener"
+&gt;Gridea&lt;/a&gt; 作为博客的框架,然后从里面找了个顺眼的主题&lt;/p&gt;
+&lt;p&gt;Gridea 的快捷键还不是很到位,也不支持&lt;code&gt;Hot Reload&lt;/code&gt;,总的来说是能用,但是不算好用的,编辑器本身性能一般,不过我也不太介意,好看还是很好看的,重点是它的自动部署功能,不过我暂时没看到支持 ssh,希望支持,否则就不太行了&lt;/p&gt;
+&lt;p&gt;自定义主题还是算了,有心无力,这一年仍然是饱尝无力感的一年,希望大家平安.&lt;/p&gt;</description></item><item><title>黑苹果安装经验谈</title><link>https://queb.fun/p/%E9%BB%91%E8%8B%B9%E6%9E%9C%E5%AE%89%E8%A3%85%E7%BB%8F%E9%AA%8C%E8%B0%88/</link><pubDate>Mon, 03 Dec 2018 21:11:19 +0000</pubDate><guid>https://queb.fun/p/%E9%BB%91%E8%8B%B9%E6%9E%9C%E5%AE%89%E8%A3%85%E7%BB%8F%E9%AA%8C%E8%B0%88/</guid><description>&lt;h2 id="写在开头"&gt;写在开头
+&lt;/h2&gt;&lt;p&gt;​ Justin He大佬写的&lt;a class="link" href="https://catty-house.blogspot.com/2018/10/hackintosh.html" target="_blank" rel="noopener"
+&gt;[Hackintosh]如何正确的黑苹果[原创]&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;​ 本来打算写一篇安装黑苹果的教程，可网络上优质的教程已经很多了，重复造轮子并没有什么意义。所以我想谈一谈从16年接触黑苹果到现在，我安装黑苹果并排除错误的一些心得。&lt;/p&gt;
+&lt;p&gt;​&lt;/p&gt;</description></item><item><title>通过NoVpaJpeg.kext解决 macOS Mojave(10.14)下预览jpg格式崩溃</title><link>https://queb.fun/p/%E9%80%9A%E8%BF%87novpajpeg.kext%E8%A7%A3%E5%86%B3-macos-mojave10.14%E4%B8%8B%E9%A2%84%E8%A7%88jpg%E6%A0%BC%E5%BC%8F%E5%B4%A9%E6%BA%83/</link><pubDate>Mon, 26 Nov 2018 19:02:17 +0000</pubDate><guid>https://queb.fun/p/%E9%80%9A%E8%BF%87novpajpeg.kext%E8%A7%A3%E5%86%B3-macos-mojave10.14%E4%B8%8B%E9%A2%84%E8%A7%88jpg%E6%A0%BC%E5%BC%8F%E5%B4%A9%E6%BA%83/</guid><description>&lt;p&gt;&lt;img src="https://i.loli.net/2018/12/02/5c03976c6e5e0.png"
+loading="lazy"
+alt="56493506_p0.png"
+&gt;&lt;/p&gt;
+&lt;p&gt;​ 黑苹果升级到Mojave(10.14)后，遇到了通过预览打开jpg格式的图片时，预览会崩溃/卡转圈的情况，经过一番摸索，发现原因是预览调用了集显来解码JPG格式，而我因为有独显并没有打开集显。&lt;/p&gt;
+&lt;p&gt;​ 除了通过修改为没有集显的机型SMBIOS 或者开启机器的集显，还有一种方法是在Clover中添加NoVPAJpeg.kext驱动来禁用集显解码。&lt;/p&gt;
+&lt;p&gt;​ 原帖和Github放在了文章下方。&lt;/p&gt;
+&lt;p&gt;​ 实测RX580工作正常。&lt;/p&gt;
+&lt;p&gt;更多……：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a class="link" href="https://www.insanelymac.com/forum/topic/334881-how-to-fix-quick-look-and-preview-issues-in-mojave/?page=8" target="_blank" rel="noopener"
+&gt;[HOW TO] Fix Quick Look and Preview issues in Mojave&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="https://github.com/vulgo/NoVPAJpeg" target="_blank" rel="noopener"
+&gt;NoVPAJpeg&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;题图：id=56493506&lt;/li&gt;
+&lt;/ul&gt;</description></item><item><title>黑苹果fix USB端口（适用于10.14.1)</title><link>https://queb.fun/p/%E9%BB%91%E8%8B%B9%E6%9E%9Cfix-usb%E7%AB%AF%E5%8F%A3%E9%80%82%E7%94%A8%E4%BA%8E10.14.1/</link><pubDate>Sat, 17 Nov 2018 21:39:54 +0000</pubDate><guid>https://queb.fun/p/%E9%BB%91%E8%8B%B9%E6%9E%9Cfix-usb%E7%AB%AF%E5%8F%A3%E9%80%82%E7%94%A8%E4%BA%8E10.14.1/</guid><description>&lt;blockquote&gt;
+&lt;p&gt;本文所述内容来源于 &lt;a class="link" href="https://www.insanelymac.com/forum/topic/335018-intel-fb-patcher-v165/" target="_blank" rel="noopener"
+&gt;https://www.insanelymac.com/forum/topic/335018-intel-fb-patcher-v165/&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;自macOS版本来到10.14.1之后，过去常用的通过USBInjectall.kext 来破解系统USB端口数来完成后续修补的办法已经部分失效，本文即是为了在新版本系统中修补USB端口而作，其中核心内容译自开头链接&lt;/p&gt;
+&lt;p&gt;所需工具：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;macOS（如果有低于10.14.1的系统，可以直接进行修补而不需要重复下面的步骤）&lt;/li&gt;
+&lt;li&gt;FB-Patcher （https://www.insanelymac.com/forum/topic/335018-intel-fb-patcher-v165/）&lt;/li&gt;
+&lt;li&gt;USBInjectall.kext （https://github.com/RehabMan/OS-X-USB-Inject-All）&lt;/li&gt;
+&lt;li&gt;Clover （文本编辑或者Clover Configurator）&lt;/li&gt;
+&lt;li&gt;一个可以使用的USB3.0设备&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="201945更新"&gt;===2019.4.5更新===
+&lt;/h3&gt;&lt;h3 id="步骤1"&gt;步骤1
+&lt;/h3&gt;&lt;p&gt;在Clover（/Clover/kexts/Other）中添加USBInjectall.kext，为了使其工作，在Clover-Acpi-DSDT中添加三个patch：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Rename XHC1 -&amp;gt; XHC&lt;/li&gt;
+&lt;li&gt;Rename EHC1 -&amp;gt; EH01&lt;/li&gt;
+&lt;li&gt;Rename EHC2 -&amp;gt; EH02&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src="https://i.loli.net/2018/12/06/5c0830114dc9d.png"
+loading="lazy"
+&gt;&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;h3 id="步骤2"&gt;步骤2
+&lt;/h3&gt;&lt;p&gt;在Clover-boot-customflag中添加&lt;code&gt;-uia_exclude_ss&lt;/code&gt;（屏蔽USB3.0控制器），重启电脑。&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://i.loli.net/2018/12/06/5c083081e85b2.png"
+loading="lazy"
+&gt;&lt;/p&gt;
+&lt;p&gt;此时你的电脑应该只有USB2.0控制器在工作。&lt;/p&gt;
+&lt;h3 id="步骤3"&gt;步骤3
+&lt;/h3&gt;&lt;p&gt;启动FB-Patcher，选择General-USB。&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://i.loli.net/2018/12/02/5c039f9f5c729.png"
+loading="lazy"
+&gt;&lt;/p&gt;
+&lt;p&gt;列表中绿色的项即是可以（正在）使用的USB2.0端口。此时你需要把电脑上&lt;strong&gt;每一个&lt;/strong&gt;USB接口都插一遍。最后显示的部分就是你得电脑上所有可用的USB2.0端口。请&lt;strong&gt;特别留意&lt;/strong&gt;你电脑的&lt;strong&gt;键盘/鼠标&lt;/strong&gt;所对应的hs端口编号（比如我的是&lt;code&gt;HS07&lt;/code&gt;与&lt;code&gt;HS08&lt;/code&gt;，稍后会用到。将所有没有使用的端口选中，点击左下方的删除，然后导出成USBports.kext保存，USB2.0部分完成。&lt;/p&gt;
+&lt;h3 id="步骤4"&gt;步骤4
+&lt;/h3&gt;&lt;p&gt;再次打开Clover，编辑bootflag将&lt;code&gt;-uia_exclude_ss&lt;/code&gt;替换为&lt;code&gt;-uia_exclude_hs&lt;/code&gt;;添加&lt;code&gt;uia_include=&amp;lt;font color=&amp;quot;blue&amp;quot;&amp;gt;x&amp;lt;/font&amp;gt;&lt;/code&gt;。此处的x为刚刚获取的键盘鼠标端口（意为排除对键盘鼠标端口的屏蔽），重启电脑。重复步骤3，记录下所有可工作的SS端口&lt;/p&gt;
+&lt;p&gt;注：一个USB3.0物理接口同时对应着USB2.0和USB3.0两个port，如果一个USB3.0接口只开启了SS port的话，它将不能识别USB2.0的设备，而USB2.0物理接口只对应一个hs port。&lt;/p&gt;
+&lt;p&gt;USB Connector 属性：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;0 为USB2.0 (480Mbps)；&lt;/li&gt;
+&lt;li&gt;3 为USB3.0 (5.0Gbps)；&lt;/li&gt;
+&lt;li&gt;255 为内建接口&lt;/li&gt;
+&lt;/ul&gt;</description></item><item><title>Clover DSDT 笔记</title><link>https://queb.fun/p/clover-dsdt-%E7%AC%94%E8%AE%B0/</link><pubDate>Tue, 30 Oct 2018 20:16:12 +0000</pubDate><guid>https://queb.fun/p/clover-dsdt-%E7%AC%94%E8%AE%B0/</guid><description>&lt;iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&amp;id=30148963&amp;auto=1&amp;height=66"&gt;&lt;/iframe&gt;
+&lt;p&gt;​ 本文是我在研究黑苹果DSDT期间所做的技术笔记，可读性会很差，建议善用搜索功能。&lt;/p&gt;
+&lt;p&gt;​ Clover修正DSDT的方式主要有两种：Patched 与 hotpatch。hotpatch主要是对原有的属性进行修正，而patched相当于为电脑添加了新的属性。故两者不能混淆。&lt;/p&gt;
+&lt;p&gt;​ Clover对DSDT热修补(hotpatch)的大致思路是将现有的需要修正的DSDT进行「重命名」，然后制作一个自定的DSDT文件（.aml)。将系统原生的DSDT访问指向自定的文件，然后就可以做到自定义指定DSDT的行为，此处举例：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Comment: Rename _DSM to XDSM
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Find: &amp;lt;5f44534d&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Replace: &amp;lt;5844534d&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;注：「_DSM」转为Hex写作&amp;lt;5f44534d&amp;gt;&lt;/p&gt;
+&lt;p&gt;将系统原生的 _DSM 访问重定向至 XDSM，配合/clover/acpi/hotpatch下的.aml文件就可以拦截处理指定的DSDT。&lt;/p&gt;
+&lt;p&gt;未完待续……&lt;/p&gt;</description></item><item><title>主题修改日志</title><link>https://queb.fun/p/%E4%B8%BB%E9%A2%98%E4%BF%AE%E6%94%B9%E6%97%A5%E5%BF%97/</link><pubDate>Sat, 25 Aug 2018 10:13:12 +0000</pubDate><guid>https://queb.fun/p/%E4%B8%BB%E9%A2%98%E4%BF%AE%E6%94%B9%E6%97%A5%E5%BF%97/</guid><description>&lt;p&gt;2018.8.25：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;暂时修改了部分按钮的颜色——因为根本看不清（&lt;del&gt;但还是很丑，会改的&lt;/del&gt;）&lt;/li&gt;
+&lt;li&gt;将毛玻璃的效果加入了配置文件&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;2018.8.25之前：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;修改了页面样式&lt;/li&gt;
+&lt;li&gt;删除了性能堪忧的过渡动画&lt;/li&gt;
+&lt;li&gt;一些不太记得的东西&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;TODO：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; 将之前的脏代码整理到合适的地方&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; 适配Chrome的毛玻璃效果（JS版）&lt;/li&gt;
+&lt;/ul&gt;</description></item><item><title>在hexo页面插入网易云播放器</title><link>https://queb.fun/p/%E5%9C%A8hexo%E9%A1%B5%E9%9D%A2%E6%8F%92%E5%85%A5%E7%BD%91%E6%98%93%E4%BA%91%E6%92%AD%E6%94%BE%E5%99%A8/</link><pubDate>Thu, 23 Aug 2018 08:49:33 +0000</pubDate><guid>https://queb.fun/p/%E5%9C%A8hexo%E9%A1%B5%E9%9D%A2%E6%8F%92%E5%85%A5%E7%BD%91%E6%98%93%E4%BA%91%E6%92%AD%E6%94%BE%E5%99%A8/</guid><description>&lt;p&gt;&lt;img src="https://s6.jpg.cm/2022/02/16/LBqbmt.png"
+loading="lazy"
+alt="LBqbmt.png"
+&gt;&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;p&gt;最近终于在百(shou)忙(lie)之余想起来还有个博客的事，最近几个月除了把博客搬迁到了gitpage就完全没有理睬这玩意，既然今天想起来了就干脆把之前魔改留下的坑稍微填一下……&lt;/p&gt;
+&lt;p&gt;为什么会有这篇文章呢，为了让博客看着稍微正常点，我找了关于如何在Md页面中插入HTML的教程，最后发现是原生支持的……那么问题就变成了要在页面上插入些什么东西才好，思前想后果然还是王道征途，音乐控件吧&lt;/p&gt;
+&lt;p&gt;那么就是惯例的Google，找到了如下的代码：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-html" data-lang="html"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;iframe&lt;/span&gt; &lt;span class="na"&gt;frameborder&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;no&amp;#34;&lt;/span&gt; &lt;span class="na"&gt;border&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;0&amp;#34;&lt;/span&gt; &lt;span class="na"&gt;marginwidth&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;0&amp;#34;&lt;/span&gt; &lt;span class="na"&gt;marginheight&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;0&amp;#34;&lt;/span&gt; &lt;span class="na"&gt;width&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;320&amp;#34;&lt;/span&gt; &lt;span class="na"&gt;height&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;330&amp;#34;&lt;/span&gt; &lt;span class="na"&gt;src&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;https://music.163.com/outchain/player?type=0&amp;amp;amp;id=24972133&amp;amp;amp;auto=0&amp;amp;amp;height=430&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;iframe&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;将这行代码直接放在需要的地方就可以实现如下效果的播放器：&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="320" height="330" src="https://music.163.com/outchain/player?type=0&amp;amp;id=24972133&amp;amp;auto=0&amp;amp;height=430"&gt;&lt;/iframe&gt;
+&lt;p&gt;&amp;lt;iframe&amp;gt;控件的参数可以从&lt;a class="link" href="http://www.w3school.com.cn/tags/tag_iframe.asp" target="_blank" rel="noopener"
+&gt;这里&lt;/a&gt;看到，可以借助参数来调整控件的外观。不过最重要的还是src部分的参数，将sec部分的‘type’和‘id’部分替换成自己的就可以了
+其中：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;type为0的时候对应的是歌单的id；&lt;/li&gt;
+&lt;li&gt;type为1的时候对应的是专辑的id；&lt;/li&gt;
+&lt;li&gt;type为2的时候对应的是单曲的id&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;网易云自带的外链设置：&lt;code&gt;https://music.163.com/#/outchain/_type/_id/m/use/html&lt;/code&gt;,将_type和_id改为需要的参数即可。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2018.9.4更新&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;最近将博客迁移到gitpages后发现此前的播放器不能正常显示，Google后发现是gitpage强制开启了https，而我之前的播放器src用了http……修改后解决&lt;/p&gt;
+&lt;p&gt;&lt;a class="link" href="http://saili.science/2017/05/30/music/" target="_blank" rel="noopener"
+&gt;参考链接&lt;/a&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;题图：Pixiv_PID:70217074&lt;/p&gt;
+&lt;p&gt;#EOF&lt;/p&gt;</description></item><item><title>Play Store更新APP卡在“正在下载”的解决方法</title><link>https://queb.fun/p/play-store%E6%9B%B4%E6%96%B0app%E5%8D%A1%E5%9C%A8%E6%AD%A3%E5%9C%A8%E4%B8%8B%E8%BD%BD%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</link><pubDate>Thu, 23 Aug 2018 05:01:22 +0000</pubDate><guid>https://queb.fun/p/play-store%E6%9B%B4%E6%96%B0app%E5%8D%A1%E5%9C%A8%E6%AD%A3%E5%9C%A8%E4%B8%8B%E8%BD%BD%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</guid><description>&lt;p&gt;最近几个月遇到了Play Store更新/下载应用时长时间卡在“正在下载…”的情况，然后过了几分钟之后突然开始下载的情况。一开始以为是网络的问题，但是反复检查没有头绪，于是搜索了一下，发现这个现象从去年开始就有相关的资料了（有理由怀疑是Google在搞什么动作）&lt;/p&gt;
+&lt;p&gt;解决方法也很简单，强行退出Play Store之后，清空Play Store的数据，重新打开就恢复了。&lt;/p&gt;</description></item><item><title>Nginx从入门到入土#1——配置文件初探</title><link>https://queb.fun/p/nginx%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E5%85%A5%E5%9C%9F%231%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%88%9D%E6%8E%A2/</link><pubDate>Fri, 13 Apr 2018 19:06:22 +0000</pubDate><guid>https://queb.fun/p/nginx%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E5%85%A5%E5%9C%9F%231%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%88%9D%E6%8E%A2/</guid><description>&lt;p&gt;本文意在简要说明Nginx配置文件以尽快上手，诸多进阶配置项不在本文的介绍范围内，请自行Google :)&lt;/p&gt;
+&lt;h3 id="nginx-文件树"&gt;Nginx 文件树
+&lt;/h3&gt;&lt;p&gt;Nginx的配置文件主要分为两类——Nginx自身的配置（即/etc/nginx/nginx.conf）和vHost配置文件（/etc/nginx/sites-available内文件）&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://i.loli.net/2018/04/13/5ad0932aba39d.png"
+loading="lazy"
+&gt;
+（图为/etc/nginx文件夹一览）&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;p&gt;关于Nginx.conf文件，一般情况下不需要调整就可以正常工作，所以本文暂不展开讲解。但是值得注意的是，决定使用哪个vHost配置文件的相关内容位于Nginx.conf文件内：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;span class="lnt"&gt;7
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;./nginx.conf
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;##
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;# Virtual Host Configs
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;##
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;include /etc/nginx/conf.d/*.conf;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;include /etc/nginx/sites-enabled/*;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;可以通过更改include字段来选择启用的vHost配置文件&lt;/p&gt;
+&lt;h3 id="vhost配置"&gt;vHost配置
+&lt;/h3&gt;&lt;p&gt;由上例可知，实际中Nginx使用的是./sites-enabled/下的配置文件，然而一般情况下，我们选择将配置文件放到./sites-available/文件夹下，然后将要应用的配置文件软链接到sites-enabled文件夹下来使用。&lt;/p&gt;
+&lt;p&gt;如果你是通过apt或yum安装的Nginx，./sites-available/文件夹下应该会有一个default配置（也有可能同时存在它的备份），这就是nginx的默认配置文件。如果只是简单的端口转发/同时运行多个站点，只要在default的基础上进行修改即可。&lt;/p&gt;
+&lt;p&gt;以下是一个default文件的例子：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-gdscript3" data-lang="gdscript3"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;server&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;listen&lt;/span&gt; &lt;span class="mi"&gt;80&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;server_name&lt;/span&gt; &lt;span class="n"&gt;localhost&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;root&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="k"&gt;var&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;www&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;index&lt;/span&gt; &lt;span class="n"&gt;index&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;html&lt;/span&gt; &lt;span class="n"&gt;index&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;htm&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;access_log&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="k"&gt;var&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="nb"&gt;log&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;nginx&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;access&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;log&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;error_log&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="k"&gt;var&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="nb"&gt;log&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;nginx&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;error&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;log&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;location&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="mi"&gt;301&lt;/span&gt; &lt;span class="n"&gt;https&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;//$&lt;/span&gt;&lt;span class="n"&gt;host&lt;/span&gt;&lt;span class="o"&gt;$&lt;/span&gt;&lt;span class="n"&gt;request_uri&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;其中：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;server{}代表了一个服务端，理论上每个不同的服务对应着一个server；&lt;/li&gt;
+&lt;li&gt;listen指你要监听的端口；&lt;/li&gt;
+&lt;li&gt;server_name 指响应的域名
+&lt;ul&gt;
+&lt;li&gt;详见 &lt;a class="link" href="https://www.jianshu.com/p/2d6f16a32b37" target="_blank" rel="noopener"
+&gt;https://www.jianshu.com/p/2d6f16a32b37&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;root 指网站的根目录&lt;/li&gt;
+&lt;li&gt;index指你网站的起始页面&lt;/li&gt;
+&lt;li&gt;location{}是该服务所响应的路径（即你的域名/IP后面的部分）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;下面我们详细说明一下location&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-gdscript3" data-lang="gdscript3"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;location&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;blog&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;stub_status&lt;/span&gt; &lt;span class="n"&gt;on&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;access_log&lt;/span&gt; &lt;span class="n"&gt;off&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;root&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="k"&gt;var&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;www&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;index&lt;/span&gt; &lt;span class="n"&gt;index&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;html&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;location后面跟的“/”就是其响应的路径，其中“/”指的是响应所有路径。即形如“yourdomain.name/*** ”的URL都会被响应。如果location后面跟的是“/blog”，那么形如 “ yourdomain.name/blog ”的URL就会被响应。&lt;/p&gt;
+&lt;p&gt;是的，同一个server可以有多个location。
+同时在location内，server中的一些数据可以被覆盖，比如 root。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;修改日志：&lt;/p&gt;
+&lt;p&gt;2018-04-16：稍作修改；&lt;/p&gt;
+&lt;p&gt;2018-04-13：初版；&lt;/p&gt;
+&lt;p&gt;#EOF&lt;/p&gt;</description></item><item><title>黑苹果升级10.13.4——显卡篇</title><link>https://queb.fun/p/%E9%BB%91%E8%8B%B9%E6%9E%9C%E5%8D%87%E7%BA%A710.13.4%E6%98%BE%E5%8D%A1%E7%AF%87/</link><pubDate>Sat, 31 Mar 2018 11:53:12 +0000</pubDate><guid>https://queb.fun/p/%E9%BB%91%E8%8B%B9%E6%9E%9C%E5%8D%87%E7%BA%A710.13.4%E6%98%BE%E5%8D%A1%E7%AF%87/</guid><description>&lt;p&gt;&lt;img src="https://i.loli.net/2018/04/13/5ad080a90ad84.jpg"
+loading="lazy"
+&gt;&lt;/p&gt;
+&lt;p&gt;###2018.8.23更新：
+显卡驱动换为WhateverGreen，在错觉程度的水平上提升了性能表现……&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;今日apple推送了macOS 10.13.4 新增了对eGPU的支持，实测在配合 NvidiaGraphicsFixup 时，可以显著提升MacOS的图形性能。&lt;/p&gt;
+&lt;p&gt;需要将 NvidiaGraphicsFixup 升级至1.2.5版本，WebDriver升级到387.10.10.10.30.103（即13.4最新版驱动）&lt;/p&gt;
+&lt;p&gt;升级过程应该不用我多讲了。。。大家一试便知&lt;/p&gt;
+&lt;p&gt;·附上 NvidiaGraphicsFixup 项目地址 &lt;a class="link" href="https://github.com/lvs1974/NvidiaGraphicsFixup" target="_blank" rel="noopener"
+&gt;https://github.com/lvs1974/NvidiaGraphicsFixup&lt;/a&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;题图: &lt;a class="link" href="http://adnmb1.com/t/6621569" target="_blank" rel="noopener"
+&gt;http://adnmb1.com/t/6621569&lt;/a&gt;&lt;/p&gt;</description></item><item><title>沉沉浮浮的千木岛</title><link>https://queb.fun/p/%E6%B2%89%E6%B2%89%E6%B5%AE%E6%B5%AE%E7%9A%84%E5%8D%83%E6%9C%A8%E5%B2%9B/</link><pubDate>Tue, 20 Mar 2018 19:13:48 +0000</pubDate><guid>https://queb.fun/p/%E6%B2%89%E6%B2%89%E6%B5%AE%E6%B5%AE%E7%9A%84%E5%8D%83%E6%9C%A8%E5%B2%9B/</guid><description>&lt;p&gt;距离上一次试图浮岛大概过去了两年，期间断断续续写过很多字。&lt;/p&gt;
+&lt;p&gt;然而如同往常一样，内心始终是对创作抱有抵触情绪的；又觉得矫情的无病呻吟实在是不适合放到外面引人发笑，加之腾讯云的学生政策变更导致我的学生主机莫名被取消了资格，便放弃了再自建博客的想法。&lt;/p&gt;
+&lt;p&gt;但在这两年，尤其是2017年，在网络上遇见了许多年轻有为的人，在深深的羡慕同时，也萌发了留下一些东西的想法。虽然这些文字只能勉强称得上是经验之谈，但是相信如果有人能因为我的经验少掉一些头发，便也是令我心满意足的生存价值。&lt;/p&gt;
+&lt;p&gt;我依旧是不擅长表达想法的，所以对于看完了这些无聊文字的你，请接受我对你献上的祝愿。&lt;/p&gt;
+&lt;p&gt;愿属于你的自由终将来临。&lt;/p&gt;</description></item><item><title>Links</title><link>https://queb.fun/links/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://queb.fun/links/</guid><description>&lt;p&gt;To use this feature, add &lt;code&gt;links&lt;/code&gt; section to frontmatter.&lt;/p&gt;
+&lt;p&gt;This page&amp;rsquo;s frontmatter:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;span class="lnt"&gt;7
+&lt;/span&gt;&lt;span class="lnt"&gt;8
+&lt;/span&gt;&lt;span class="lnt"&gt;9
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nt"&gt;links&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;- &lt;span class="nt"&gt;title&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l"&gt;GitHub&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;description&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l"&gt;GitHub is the world&amp;#39;s largest software development platform.&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;website&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l"&gt;https://github.com&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;image&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l"&gt;https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;- &lt;span class="nt"&gt;title&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l"&gt;TypeScript&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;description&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l"&gt;TypeScript is a typed superset of JavaScript that compiles to plain JavaScript.&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;website&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l"&gt;https://www.typescriptlang.org&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;image&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l"&gt;ts-logo-128.jpg&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;code&gt;image&lt;/code&gt; field accepts both local and external images.&lt;/p&gt;</description></item><item><title>Search</title><link>https://queb.fun/search/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://queb.fun/search/</guid><description/></item></channel></rss>

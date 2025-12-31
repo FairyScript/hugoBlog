@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>DSDT on 千木岛</title><link>https://queb.fun/tags/dsdt/</link><description>Recent content in DSDT on 千木岛</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Tue, 30 Oct 2018 20:16:12 +0000</lastBuildDate><atom:link href="https://queb.fun/tags/dsdt/index.xml" rel="self" type="application/rss+xml"/><item><title>Clover DSDT 笔记</title><link>https://queb.fun/p/clover-dsdt-%E7%AC%94%E8%AE%B0/</link><pubDate>Tue, 30 Oct 2018 20:16:12 +0000</pubDate><guid>https://queb.fun/p/clover-dsdt-%E7%AC%94%E8%AE%B0/</guid><description>&lt;iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&amp;id=30148963&amp;auto=1&amp;height=66"&gt;&lt;/iframe&gt;
+&lt;p&gt;​ 本文是我在研究黑苹果DSDT期间所做的技术笔记，可读性会很差，建议善用搜索功能。&lt;/p&gt;
+&lt;p&gt;​ Clover修正DSDT的方式主要有两种：Patched 与 hotpatch。hotpatch主要是对原有的属性进行修正，而patched相当于为电脑添加了新的属性。故两者不能混淆。&lt;/p&gt;
+&lt;p&gt;​ Clover对DSDT热修补(hotpatch)的大致思路是将现有的需要修正的DSDT进行「重命名」，然后制作一个自定的DSDT文件（.aml)。将系统原生的DSDT访问指向自定的文件，然后就可以做到自定义指定DSDT的行为，此处举例：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Comment: Rename _DSM to XDSM
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Find: &amp;lt;5f44534d&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Replace: &amp;lt;5844534d&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;注：「_DSM」转为Hex写作&amp;lt;5f44534d&amp;gt;&lt;/p&gt;
+&lt;p&gt;将系统原生的 _DSM 访问重定向至 XDSM，配合/clover/acpi/hotpatch下的.aml文件就可以拦截处理指定的DSDT。&lt;/p&gt;
+&lt;p&gt;未完待续……&lt;/p&gt;</description></item></channel></rss>

@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>技术笔记 on 千木岛</title><link>https://queb.fun/tags/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/</link><description>Recent content in 技术笔记 on 千木岛</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Tue, 20 Feb 2024 16:37:51 +0000</lastBuildDate><atom:link href="https://queb.fun/tags/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/index.xml" rel="self" type="application/rss+xml"/><item><title>我中意的React解决方案</title><link>https://queb.fun/p/%E6%88%91%E4%B8%AD%E6%84%8F%E7%9A%84react%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/</link><pubDate>Mon, 21 Feb 2022 16:33:51 +0000</pubDate><guid>https://queb.fun/p/%E6%88%91%E4%B8%AD%E6%84%8F%E7%9A%84react%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/</guid><description>&lt;p&gt;&lt;img src="https://s6.jpg.cm/2022/02/21/LflaxW.md.jpg"
+loading="lazy"
+alt="LflaxW.md.jpg"
+&gt;&lt;/p&gt;
+&lt;p&gt;一些在我调查和实际生产中比较喜欢的解决方案&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;h2 id="状态管理"&gt;状态管理
+&lt;/h2&gt;&lt;h3 id="valtio"&gt;&lt;a class="link" href="https://github.com/pmndrs/valtio" target="_blank" rel="noopener"
+&gt;Valtio&lt;/a&gt;
+&lt;/h3&gt;&lt;p&gt;目前用的最多的解决方案. 用起来有些坑(主要是 &lt;code&gt;this&lt;/code&gt; 相关的部分)但整体来说很好.&lt;/p&gt;
+&lt;h3 id="helux"&gt;&lt;a class="link" href="https://github.com/heluxjs/helux" target="_blank" rel="noopener"
+&gt;Helux&lt;/a&gt;
+&lt;/h3&gt;&lt;p&gt;目前正在进行测试的方案. 优势在于属于 &lt;code&gt;AIO&lt;/code&gt; 方案, 所以对于各种奇奇怪怪的用例都有支持. 是否喜欢这种大而全的解决方案就见仁见智了.&lt;/p&gt;
+&lt;h3 id="mobx"&gt;&lt;a class="link" href="https://mobx.js.org/" target="_blank" rel="noopener"
+&gt;Mobx&lt;/a&gt;
+&lt;/h3&gt;&lt;p&gt;备用方案,和 valtio 差不太多。问题在于必须使用 observer 包裹组件，而且兼容性不强&lt;/p&gt;
+&lt;h2 id="路由"&gt;路由
+&lt;/h2&gt;&lt;h3 id="react-router"&gt;react-router
+&lt;/h3&gt;&lt;p&gt;不用多说，官方推荐。不是非常易用但是足够好用，也懒得折腾更多了，之前有段时间（大概是 5.0 左右？）对 hooks 的支持很差所以尝试了其他的解决方案，现在支持还不错就换回来了。&lt;/p&gt;
+&lt;h3 id="react-hook-router"&gt;&lt;a class="link" href="https://github.com/Paratron/hookrouter" target="_blank" rel="noopener"
+&gt;React Hook Router&lt;/a&gt;
+&lt;/h3&gt;&lt;p&gt;这就是当初用过的方案，现在&lt;strong&gt;不再推荐了&lt;/strong&gt;因为 &lt;code&gt;react-router&lt;/code&gt; 已经很好了，而且这个作者不喜欢 TS 所以这方面的支持也不太好，而且很久没更新了。但作为一个小型 router 的实现代码是值得学习的。&lt;/p&gt;
+&lt;h2 id="css"&gt;CSS
+&lt;/h2&gt;&lt;h3 id="emotionjs"&gt;emotionJS
+&lt;/h3&gt;&lt;p&gt;目前在用的，除了 &lt;code&gt;css props&lt;/code&gt; 我颇有微词以外，其他的部分都算完美，&lt;code&gt;css-in-js&lt;/code&gt;保证了样式的可控性（我知道大部分时候用不到，但是用得到的时候还是很爽的），使用完整的 CSS/SCSS 语法而不是什么&lt;code&gt;Tailwind&lt;/code&gt;黑科技。库很小而且泛用性很高。本质上这东西和&lt;code&gt;styled&lt;/code&gt;是一家子所以代码也很容易迁移。平台支持广：虽然理论上这东西支持 RN 但属实没必要。&lt;/p&gt;
+&lt;h3 id="react-spring"&gt;react-spring
+&lt;/h3&gt;&lt;p&gt;这东西我本来想单独分个动效来说的，但是讲道理好像和 CSS 重叠的部分还是很广的，也就一并讲了。&lt;/p&gt;
+&lt;p&gt;很好用，虽然新的 api 有点反直觉但是能 get 到他们的设计思路所以我保留意见。实际上这个弹性库并不一定是用来给 css 的，你可以给任何你想加上可控曲线效果的地方用上。同样支持 RN，但没研究过。&lt;/p&gt;
+&lt;h2 id="2d"&gt;2D
+&lt;/h2&gt;&lt;h3 id="pixi"&gt;Pixi
+&lt;/h3&gt;&lt;p&gt;新发现的玩具, 不同的地方在于使用了 &lt;code&gt;WebGL&lt;/code&gt; 渲染所以性能非常的彳亍. 还没怎么用过回头再研究一下&lt;/p&gt;
+&lt;h3 id="konva"&gt;Konva
+&lt;/h3&gt;&lt;p&gt;比较复杂，这东西其实是新建了一个 react 实例然后挂载在你的组件树上，所以会有一些奇妙的小问题。但总的来说还是足够好用。暂时找不到比它更方便的 canvas 库了，或者说更进一步的需求建议用 flutter。&lt;/p&gt;
+&lt;p&gt;先写这么多，想起来什么再补充。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;题图 &lt;a class="link" href="https://twitter.com/kirizieeel/status/1495523468657397762" target="_blank" rel="noopener"
+&gt;https://twitter.com/kirizieeel/status/1495523468657397762&lt;/a&gt;&lt;/p&gt;</description></item><item><title>黑苹果安装经验谈</title><link>https://queb.fun/p/%E9%BB%91%E8%8B%B9%E6%9E%9C%E5%AE%89%E8%A3%85%E7%BB%8F%E9%AA%8C%E8%B0%88/</link><pubDate>Mon, 03 Dec 2018 21:11:19 +0000</pubDate><guid>https://queb.fun/p/%E9%BB%91%E8%8B%B9%E6%9E%9C%E5%AE%89%E8%A3%85%E7%BB%8F%E9%AA%8C%E8%B0%88/</guid><description>&lt;h2 id="写在开头"&gt;写在开头
+&lt;/h2&gt;&lt;p&gt;​ Justin He大佬写的&lt;a class="link" href="https://catty-house.blogspot.com/2018/10/hackintosh.html" target="_blank" rel="noopener"
+&gt;[Hackintosh]如何正确的黑苹果[原创]&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;​ 本来打算写一篇安装黑苹果的教程，可网络上优质的教程已经很多了，重复造轮子并没有什么意义。所以我想谈一谈从16年接触黑苹果到现在，我安装黑苹果并排除错误的一些心得。&lt;/p&gt;
+&lt;p&gt;​&lt;/p&gt;</description></item><item><title>通过NoVpaJpeg.kext解决 macOS Mojave(10.14)下预览jpg格式崩溃</title><link>https://queb.fun/p/%E9%80%9A%E8%BF%87novpajpeg.kext%E8%A7%A3%E5%86%B3-macos-mojave10.14%E4%B8%8B%E9%A2%84%E8%A7%88jpg%E6%A0%BC%E5%BC%8F%E5%B4%A9%E6%BA%83/</link><pubDate>Mon, 26 Nov 2018 19:02:17 +0000</pubDate><guid>https://queb.fun/p/%E9%80%9A%E8%BF%87novpajpeg.kext%E8%A7%A3%E5%86%B3-macos-mojave10.14%E4%B8%8B%E9%A2%84%E8%A7%88jpg%E6%A0%BC%E5%BC%8F%E5%B4%A9%E6%BA%83/</guid><description>&lt;p&gt;&lt;img src="https://i.loli.net/2018/12/02/5c03976c6e5e0.png"
+loading="lazy"
+alt="56493506_p0.png"
+&gt;&lt;/p&gt;
+&lt;p&gt;​ 黑苹果升级到Mojave(10.14)后，遇到了通过预览打开jpg格式的图片时，预览会崩溃/卡转圈的情况，经过一番摸索，发现原因是预览调用了集显来解码JPG格式，而我因为有独显并没有打开集显。&lt;/p&gt;
+&lt;p&gt;​ 除了通过修改为没有集显的机型SMBIOS 或者开启机器的集显，还有一种方法是在Clover中添加NoVPAJpeg.kext驱动来禁用集显解码。&lt;/p&gt;
+&lt;p&gt;​ 原帖和Github放在了文章下方。&lt;/p&gt;
+&lt;p&gt;​ 实测RX580工作正常。&lt;/p&gt;
+&lt;p&gt;更多……：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a class="link" href="https://www.insanelymac.com/forum/topic/334881-how-to-fix-quick-look-and-preview-issues-in-mojave/?page=8" target="_blank" rel="noopener"
+&gt;[HOW TO] Fix Quick Look and Preview issues in Mojave&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="https://github.com/vulgo/NoVPAJpeg" target="_blank" rel="noopener"
+&gt;NoVPAJpeg&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;题图：id=56493506&lt;/li&gt;
+&lt;/ul&gt;</description></item><item><title>黑苹果fix USB端口（适用于10.14.1)</title><link>https://queb.fun/p/%E9%BB%91%E8%8B%B9%E6%9E%9Cfix-usb%E7%AB%AF%E5%8F%A3%E9%80%82%E7%94%A8%E4%BA%8E10.14.1/</link><pubDate>Sat, 17 Nov 2018 21:39:54 +0000</pubDate><guid>https://queb.fun/p/%E9%BB%91%E8%8B%B9%E6%9E%9Cfix-usb%E7%AB%AF%E5%8F%A3%E9%80%82%E7%94%A8%E4%BA%8E10.14.1/</guid><description>&lt;blockquote&gt;
+&lt;p&gt;本文所述内容来源于 &lt;a class="link" href="https://www.insanelymac.com/forum/topic/335018-intel-fb-patcher-v165/" target="_blank" rel="noopener"
+&gt;https://www.insanelymac.com/forum/topic/335018-intel-fb-patcher-v165/&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;自macOS版本来到10.14.1之后，过去常用的通过USBInjectall.kext 来破解系统USB端口数来完成后续修补的办法已经部分失效，本文即是为了在新版本系统中修补USB端口而作，其中核心内容译自开头链接&lt;/p&gt;
+&lt;p&gt;所需工具：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;macOS（如果有低于10.14.1的系统，可以直接进行修补而不需要重复下面的步骤）&lt;/li&gt;
+&lt;li&gt;FB-Patcher （https://www.insanelymac.com/forum/topic/335018-intel-fb-patcher-v165/）&lt;/li&gt;
+&lt;li&gt;USBInjectall.kext （https://github.com/RehabMan/OS-X-USB-Inject-All）&lt;/li&gt;
+&lt;li&gt;Clover （文本编辑或者Clover Configurator）&lt;/li&gt;
+&lt;li&gt;一个可以使用的USB3.0设备&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="201945更新"&gt;===2019.4.5更新===
+&lt;/h3&gt;&lt;h3 id="步骤1"&gt;步骤1
+&lt;/h3&gt;&lt;p&gt;在Clover（/Clover/kexts/Other）中添加USBInjectall.kext，为了使其工作，在Clover-Acpi-DSDT中添加三个patch：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Rename XHC1 -&amp;gt; XHC&lt;/li&gt;
+&lt;li&gt;Rename EHC1 -&amp;gt; EH01&lt;/li&gt;
+&lt;li&gt;Rename EHC2 -&amp;gt; EH02&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src="https://i.loli.net/2018/12/06/5c0830114dc9d.png"
+loading="lazy"
+&gt;&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;h3 id="步骤2"&gt;步骤2
+&lt;/h3&gt;&lt;p&gt;在Clover-boot-customflag中添加&lt;code&gt;-uia_exclude_ss&lt;/code&gt;（屏蔽USB3.0控制器），重启电脑。&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://i.loli.net/2018/12/06/5c083081e85b2.png"
+loading="lazy"
+&gt;&lt;/p&gt;
+&lt;p&gt;此时你的电脑应该只有USB2.0控制器在工作。&lt;/p&gt;
+&lt;h3 id="步骤3"&gt;步骤3
+&lt;/h3&gt;&lt;p&gt;启动FB-Patcher，选择General-USB。&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://i.loli.net/2018/12/02/5c039f9f5c729.png"
+loading="lazy"
+&gt;&lt;/p&gt;
+&lt;p&gt;列表中绿色的项即是可以（正在）使用的USB2.0端口。此时你需要把电脑上&lt;strong&gt;每一个&lt;/strong&gt;USB接口都插一遍。最后显示的部分就是你得电脑上所有可用的USB2.0端口。请&lt;strong&gt;特别留意&lt;/strong&gt;你电脑的&lt;strong&gt;键盘/鼠标&lt;/strong&gt;所对应的hs端口编号（比如我的是&lt;code&gt;HS07&lt;/code&gt;与&lt;code&gt;HS08&lt;/code&gt;，稍后会用到。将所有没有使用的端口选中，点击左下方的删除，然后导出成USBports.kext保存，USB2.0部分完成。&lt;/p&gt;
+&lt;h3 id="步骤4"&gt;步骤4
+&lt;/h3&gt;&lt;p&gt;再次打开Clover，编辑bootflag将&lt;code&gt;-uia_exclude_ss&lt;/code&gt;替换为&lt;code&gt;-uia_exclude_hs&lt;/code&gt;;添加&lt;code&gt;uia_include=&amp;lt;font color=&amp;quot;blue&amp;quot;&amp;gt;x&amp;lt;/font&amp;gt;&lt;/code&gt;。此处的x为刚刚获取的键盘鼠标端口（意为排除对键盘鼠标端口的屏蔽），重启电脑。重复步骤3，记录下所有可工作的SS端口&lt;/p&gt;
+&lt;p&gt;注：一个USB3.0物理接口同时对应着USB2.0和USB3.0两个port，如果一个USB3.0接口只开启了SS port的话，它将不能识别USB2.0的设备，而USB2.0物理接口只对应一个hs port。&lt;/p&gt;
+&lt;p&gt;USB Connector 属性：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;0 为USB2.0 (480Mbps)；&lt;/li&gt;
+&lt;li&gt;3 为USB3.0 (5.0Gbps)；&lt;/li&gt;
+&lt;li&gt;255 为内建接口&lt;/li&gt;
+&lt;/ul&gt;</description></item><item><title>Clover DSDT 笔记</title><link>https://queb.fun/p/clover-dsdt-%E7%AC%94%E8%AE%B0/</link><pubDate>Tue, 30 Oct 2018 20:16:12 +0000</pubDate><guid>https://queb.fun/p/clover-dsdt-%E7%AC%94%E8%AE%B0/</guid><description>&lt;iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&amp;id=30148963&amp;auto=1&amp;height=66"&gt;&lt;/iframe&gt;
+&lt;p&gt;​ 本文是我在研究黑苹果DSDT期间所做的技术笔记，可读性会很差，建议善用搜索功能。&lt;/p&gt;
+&lt;p&gt;​ Clover修正DSDT的方式主要有两种：Patched 与 hotpatch。hotpatch主要是对原有的属性进行修正，而patched相当于为电脑添加了新的属性。故两者不能混淆。&lt;/p&gt;
+&lt;p&gt;​ Clover对DSDT热修补(hotpatch)的大致思路是将现有的需要修正的DSDT进行「重命名」，然后制作一个自定的DSDT文件（.aml)。将系统原生的DSDT访问指向自定的文件，然后就可以做到自定义指定DSDT的行为，此处举例：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Comment: Rename _DSM to XDSM
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Find: &amp;lt;5f44534d&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Replace: &amp;lt;5844534d&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;注：「_DSM」转为Hex写作&amp;lt;5f44534d&amp;gt;&lt;/p&gt;
+&lt;p&gt;将系统原生的 _DSM 访问重定向至 XDSM，配合/clover/acpi/hotpatch下的.aml文件就可以拦截处理指定的DSDT。&lt;/p&gt;
+&lt;p&gt;未完待续……&lt;/p&gt;</description></item><item><title>在hexo页面插入网易云播放器</title><link>https://queb.fun/p/%E5%9C%A8hexo%E9%A1%B5%E9%9D%A2%E6%8F%92%E5%85%A5%E7%BD%91%E6%98%93%E4%BA%91%E6%92%AD%E6%94%BE%E5%99%A8/</link><pubDate>Thu, 23 Aug 2018 08:49:33 +0000</pubDate><guid>https://queb.fun/p/%E5%9C%A8hexo%E9%A1%B5%E9%9D%A2%E6%8F%92%E5%85%A5%E7%BD%91%E6%98%93%E4%BA%91%E6%92%AD%E6%94%BE%E5%99%A8/</guid><description>&lt;p&gt;&lt;img src="https://s6.jpg.cm/2022/02/16/LBqbmt.png"
+loading="lazy"
+alt="LBqbmt.png"
+&gt;&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;p&gt;最近终于在百(shou)忙(lie)之余想起来还有个博客的事，最近几个月除了把博客搬迁到了gitpage就完全没有理睬这玩意，既然今天想起来了就干脆把之前魔改留下的坑稍微填一下……&lt;/p&gt;
+&lt;p&gt;为什么会有这篇文章呢，为了让博客看着稍微正常点，我找了关于如何在Md页面中插入HTML的教程，最后发现是原生支持的……那么问题就变成了要在页面上插入些什么东西才好，思前想后果然还是王道征途，音乐控件吧&lt;/p&gt;
+&lt;p&gt;那么就是惯例的Google，找到了如下的代码：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-html" data-lang="html"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;iframe&lt;/span&gt; &lt;span class="na"&gt;frameborder&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;no&amp;#34;&lt;/span&gt; &lt;span class="na"&gt;border&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;0&amp;#34;&lt;/span&gt; &lt;span class="na"&gt;marginwidth&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;0&amp;#34;&lt;/span&gt; &lt;span class="na"&gt;marginheight&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;0&amp;#34;&lt;/span&gt; &lt;span class="na"&gt;width&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;320&amp;#34;&lt;/span&gt; &lt;span class="na"&gt;height&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;330&amp;#34;&lt;/span&gt; &lt;span class="na"&gt;src&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;https://music.163.com/outchain/player?type=0&amp;amp;amp;id=24972133&amp;amp;amp;auto=0&amp;amp;amp;height=430&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;iframe&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;将这行代码直接放在需要的地方就可以实现如下效果的播放器：&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="320" height="330" src="https://music.163.com/outchain/player?type=0&amp;amp;id=24972133&amp;amp;auto=0&amp;amp;height=430"&gt;&lt;/iframe&gt;
+&lt;p&gt;&amp;lt;iframe&amp;gt;控件的参数可以从&lt;a class="link" href="http://www.w3school.com.cn/tags/tag_iframe.asp" target="_blank" rel="noopener"
+&gt;这里&lt;/a&gt;看到，可以借助参数来调整控件的外观。不过最重要的还是src部分的参数，将sec部分的‘type’和‘id’部分替换成自己的就可以了
+其中：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;type为0的时候对应的是歌单的id；&lt;/li&gt;
+&lt;li&gt;type为1的时候对应的是专辑的id；&lt;/li&gt;
+&lt;li&gt;type为2的时候对应的是单曲的id&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;网易云自带的外链设置：&lt;code&gt;https://music.163.com/#/outchain/_type/_id/m/use/html&lt;/code&gt;,将_type和_id改为需要的参数即可。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2018.9.4更新&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;最近将博客迁移到gitpages后发现此前的播放器不能正常显示，Google后发现是gitpage强制开启了https，而我之前的播放器src用了http……修改后解决&lt;/p&gt;
+&lt;p&gt;&lt;a class="link" href="http://saili.science/2017/05/30/music/" target="_blank" rel="noopener"
+&gt;参考链接&lt;/a&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;题图：Pixiv_PID:70217074&lt;/p&gt;
+&lt;p&gt;#EOF&lt;/p&gt;</description></item><item><title>Play Store更新APP卡在“正在下载”的解决方法</title><link>https://queb.fun/p/play-store%E6%9B%B4%E6%96%B0app%E5%8D%A1%E5%9C%A8%E6%AD%A3%E5%9C%A8%E4%B8%8B%E8%BD%BD%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</link><pubDate>Thu, 23 Aug 2018 05:01:22 +0000</pubDate><guid>https://queb.fun/p/play-store%E6%9B%B4%E6%96%B0app%E5%8D%A1%E5%9C%A8%E6%AD%A3%E5%9C%A8%E4%B8%8B%E8%BD%BD%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</guid><description>&lt;p&gt;最近几个月遇到了Play Store更新/下载应用时长时间卡在“正在下载…”的情况，然后过了几分钟之后突然开始下载的情况。一开始以为是网络的问题，但是反复检查没有头绪，于是搜索了一下，发现这个现象从去年开始就有相关的资料了（有理由怀疑是Google在搞什么动作）&lt;/p&gt;
+&lt;p&gt;解决方法也很简单，强行退出Play Store之后，清空Play Store的数据，重新打开就恢复了。&lt;/p&gt;</description></item><item><title>Nginx从入门到入土#1——配置文件初探</title><link>https://queb.fun/p/nginx%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E5%85%A5%E5%9C%9F%231%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%88%9D%E6%8E%A2/</link><pubDate>Fri, 13 Apr 2018 19:06:22 +0000</pubDate><guid>https://queb.fun/p/nginx%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E5%85%A5%E5%9C%9F%231%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%88%9D%E6%8E%A2/</guid><description>&lt;p&gt;本文意在简要说明Nginx配置文件以尽快上手，诸多进阶配置项不在本文的介绍范围内，请自行Google :)&lt;/p&gt;
+&lt;h3 id="nginx-文件树"&gt;Nginx 文件树
+&lt;/h3&gt;&lt;p&gt;Nginx的配置文件主要分为两类——Nginx自身的配置（即/etc/nginx/nginx.conf）和vHost配置文件（/etc/nginx/sites-available内文件）&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://i.loli.net/2018/04/13/5ad0932aba39d.png"
+loading="lazy"
+&gt;
+（图为/etc/nginx文件夹一览）&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;p&gt;关于Nginx.conf文件，一般情况下不需要调整就可以正常工作，所以本文暂不展开讲解。但是值得注意的是，决定使用哪个vHost配置文件的相关内容位于Nginx.conf文件内：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;span class="lnt"&gt;7
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;./nginx.conf
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;##
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;# Virtual Host Configs
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;##
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;include /etc/nginx/conf.d/*.conf;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;include /etc/nginx/sites-enabled/*;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;可以通过更改include字段来选择启用的vHost配置文件&lt;/p&gt;
+&lt;h3 id="vhost配置"&gt;vHost配置
+&lt;/h3&gt;&lt;p&gt;由上例可知，实际中Nginx使用的是./sites-enabled/下的配置文件，然而一般情况下，我们选择将配置文件放到./sites-available/文件夹下，然后将要应用的配置文件软链接到sites-enabled文件夹下来使用。&lt;/p&gt;
+&lt;p&gt;如果你是通过apt或yum安装的Nginx，./sites-available/文件夹下应该会有一个default配置（也有可能同时存在它的备份），这就是nginx的默认配置文件。如果只是简单的端口转发/同时运行多个站点，只要在default的基础上进行修改即可。&lt;/p&gt;
+&lt;p&gt;以下是一个default文件的例子：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-gdscript3" data-lang="gdscript3"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;server&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;listen&lt;/span&gt; &lt;span class="mi"&gt;80&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;server_name&lt;/span&gt; &lt;span class="n"&gt;localhost&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;root&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="k"&gt;var&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;www&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;index&lt;/span&gt; &lt;span class="n"&gt;index&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;html&lt;/span&gt; &lt;span class="n"&gt;index&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;htm&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;access_log&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="k"&gt;var&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="nb"&gt;log&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;nginx&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;access&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;log&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;error_log&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="k"&gt;var&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="nb"&gt;log&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;nginx&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;error&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;log&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;location&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="mi"&gt;301&lt;/span&gt; &lt;span class="n"&gt;https&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;//$&lt;/span&gt;&lt;span class="n"&gt;host&lt;/span&gt;&lt;span class="o"&gt;$&lt;/span&gt;&lt;span class="n"&gt;request_uri&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;其中：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;server{}代表了一个服务端，理论上每个不同的服务对应着一个server；&lt;/li&gt;
+&lt;li&gt;listen指你要监听的端口；&lt;/li&gt;
+&lt;li&gt;server_name 指响应的域名
+&lt;ul&gt;
+&lt;li&gt;详见 &lt;a class="link" href="https://www.jianshu.com/p/2d6f16a32b37" target="_blank" rel="noopener"
+&gt;https://www.jianshu.com/p/2d6f16a32b37&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;root 指网站的根目录&lt;/li&gt;
+&lt;li&gt;index指你网站的起始页面&lt;/li&gt;
+&lt;li&gt;location{}是该服务所响应的路径（即你的域名/IP后面的部分）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;下面我们详细说明一下location&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-gdscript3" data-lang="gdscript3"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;location&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;blog&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;stub_status&lt;/span&gt; &lt;span class="n"&gt;on&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;access_log&lt;/span&gt; &lt;span class="n"&gt;off&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;root&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="k"&gt;var&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;www&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;index&lt;/span&gt; &lt;span class="n"&gt;index&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;html&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;location后面跟的“/”就是其响应的路径，其中“/”指的是响应所有路径。即形如“yourdomain.name/*** ”的URL都会被响应。如果location后面跟的是“/blog”，那么形如 “ yourdomain.name/blog ”的URL就会被响应。&lt;/p&gt;
+&lt;p&gt;是的，同一个server可以有多个location。
+同时在location内，server中的一些数据可以被覆盖，比如 root。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;修改日志：&lt;/p&gt;
+&lt;p&gt;2018-04-16：稍作修改；&lt;/p&gt;
+&lt;p&gt;2018-04-13：初版；&lt;/p&gt;
+&lt;p&gt;#EOF&lt;/p&gt;</description></item><item><title>黑苹果升级10.13.4——显卡篇</title><link>https://queb.fun/p/%E9%BB%91%E8%8B%B9%E6%9E%9C%E5%8D%87%E7%BA%A710.13.4%E6%98%BE%E5%8D%A1%E7%AF%87/</link><pubDate>Sat, 31 Mar 2018 11:53:12 +0000</pubDate><guid>https://queb.fun/p/%E9%BB%91%E8%8B%B9%E6%9E%9C%E5%8D%87%E7%BA%A710.13.4%E6%98%BE%E5%8D%A1%E7%AF%87/</guid><description>&lt;p&gt;&lt;img src="https://i.loli.net/2018/04/13/5ad080a90ad84.jpg"
+loading="lazy"
+&gt;&lt;/p&gt;
+&lt;p&gt;###2018.8.23更新：
+显卡驱动换为WhateverGreen，在错觉程度的水平上提升了性能表现……&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;今日apple推送了macOS 10.13.4 新增了对eGPU的支持，实测在配合 NvidiaGraphicsFixup 时，可以显著提升MacOS的图形性能。&lt;/p&gt;
+&lt;p&gt;需要将 NvidiaGraphicsFixup 升级至1.2.5版本，WebDriver升级到387.10.10.10.30.103（即13.4最新版驱动）&lt;/p&gt;
+&lt;p&gt;升级过程应该不用我多讲了。。。大家一试便知&lt;/p&gt;
+&lt;p&gt;·附上 NvidiaGraphicsFixup 项目地址 &lt;a class="link" href="https://github.com/lvs1974/NvidiaGraphicsFixup" target="_blank" rel="noopener"
+&gt;https://github.com/lvs1974/NvidiaGraphicsFixup&lt;/a&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;题图: &lt;a class="link" href="http://adnmb1.com/t/6621569" target="_blank" rel="noopener"
+&gt;http://adnmb1.com/t/6621569&lt;/a&gt;&lt;/p&gt;</description></item></channel></rss>

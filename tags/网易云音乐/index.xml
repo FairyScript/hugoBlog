@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>网易云音乐 on 千木岛</title><link>https://queb.fun/tags/%E7%BD%91%E6%98%93%E4%BA%91%E9%9F%B3%E4%B9%90/</link><description>Recent content in 网易云音乐 on 千木岛</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Thu, 23 Aug 2018 08:49:33 +0000</lastBuildDate><atom:link href="https://queb.fun/tags/%E7%BD%91%E6%98%93%E4%BA%91%E9%9F%B3%E4%B9%90/index.xml" rel="self" type="application/rss+xml"/><item><title>在hexo页面插入网易云播放器</title><link>https://queb.fun/p/%E5%9C%A8hexo%E9%A1%B5%E9%9D%A2%E6%8F%92%E5%85%A5%E7%BD%91%E6%98%93%E4%BA%91%E6%92%AD%E6%94%BE%E5%99%A8/</link><pubDate>Thu, 23 Aug 2018 08:49:33 +0000</pubDate><guid>https://queb.fun/p/%E5%9C%A8hexo%E9%A1%B5%E9%9D%A2%E6%8F%92%E5%85%A5%E7%BD%91%E6%98%93%E4%BA%91%E6%92%AD%E6%94%BE%E5%99%A8/</guid><description>&lt;p&gt;&lt;img src="https://s6.jpg.cm/2022/02/16/LBqbmt.png"
+loading="lazy"
+alt="LBqbmt.png"
+&gt;&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;p&gt;最近终于在百(shou)忙(lie)之余想起来还有个博客的事，最近几个月除了把博客搬迁到了gitpage就完全没有理睬这玩意，既然今天想起来了就干脆把之前魔改留下的坑稍微填一下……&lt;/p&gt;
+&lt;p&gt;为什么会有这篇文章呢，为了让博客看着稍微正常点，我找了关于如何在Md页面中插入HTML的教程，最后发现是原生支持的……那么问题就变成了要在页面上插入些什么东西才好，思前想后果然还是王道征途，音乐控件吧&lt;/p&gt;
+&lt;p&gt;那么就是惯例的Google，找到了如下的代码：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-html" data-lang="html"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;iframe&lt;/span&gt; &lt;span class="na"&gt;frameborder&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;no&amp;#34;&lt;/span&gt; &lt;span class="na"&gt;border&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;0&amp;#34;&lt;/span&gt; &lt;span class="na"&gt;marginwidth&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;0&amp;#34;&lt;/span&gt; &lt;span class="na"&gt;marginheight&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;0&amp;#34;&lt;/span&gt; &lt;span class="na"&gt;width&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;320&amp;#34;&lt;/span&gt; &lt;span class="na"&gt;height&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;330&amp;#34;&lt;/span&gt; &lt;span class="na"&gt;src&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;https://music.163.com/outchain/player?type=0&amp;amp;amp;id=24972133&amp;amp;amp;auto=0&amp;amp;amp;height=430&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;iframe&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;将这行代码直接放在需要的地方就可以实现如下效果的播放器：&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="320" height="330" src="https://music.163.com/outchain/player?type=0&amp;amp;id=24972133&amp;amp;auto=0&amp;amp;height=430"&gt;&lt;/iframe&gt;
+&lt;p&gt;&amp;lt;iframe&amp;gt;控件的参数可以从&lt;a class="link" href="http://www.w3school.com.cn/tags/tag_iframe.asp" target="_blank" rel="noopener"
+&gt;这里&lt;/a&gt;看到，可以借助参数来调整控件的外观。不过最重要的还是src部分的参数，将sec部分的‘type’和‘id’部分替换成自己的就可以了
+其中：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;type为0的时候对应的是歌单的id；&lt;/li&gt;
+&lt;li&gt;type为1的时候对应的是专辑的id；&lt;/li&gt;
+&lt;li&gt;type为2的时候对应的是单曲的id&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;网易云自带的外链设置：&lt;code&gt;https://music.163.com/#/outchain/_type/_id/m/use/html&lt;/code&gt;,将_type和_id改为需要的参数即可。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2018.9.4更新&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;最近将博客迁移到gitpages后发现此前的播放器不能正常显示，Google后发现是gitpage强制开启了https，而我之前的播放器src用了http……修改后解决&lt;/p&gt;
+&lt;p&gt;&lt;a class="link" href="http://saili.science/2017/05/30/music/" target="_blank" rel="noopener"
+&gt;参考链接&lt;/a&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;题图：Pixiv_PID:70217074&lt;/p&gt;
+&lt;p&gt;#EOF&lt;/p&gt;</description></item></channel></rss>

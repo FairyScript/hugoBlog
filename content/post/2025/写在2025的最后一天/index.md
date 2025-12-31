@@ -1,16 +1,13 @@
+---
 title: "写在2025的最后一天"
 date: 2025-12-31T18:41:00+08:00
-draft: false
 image: cover.webp
 slug: "last-day-of-2025"
 description: "2025年终总结与回顾"
 categories:
-	- 杂谈
+  - chat
 tags:
-	- 2025
-	- 总结
-	- 回顾
-
+  - 杂谈
 ---
 
 2025年的最后一天，我在江阴。
